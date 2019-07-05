@@ -1,0 +1,39 @@
+<ion-card no-padding style="width: 90%;">
+    <ion-card-content>
+        
+        <form role="form" [formGroup]="chartForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <ion-list>
+                    <ion-list-header>
+                        <ion-label>날짜설정</ion-label>
+                        </ion-list-header>
+                    <ion-item>
+                        <ion-label>시작일</ion-label>
+                        <ion-datetime display-format="MMM DD, YYYY"
+                            monthShortNames="1월, 2월, 3월, 4월, 5월, 6월, 7월, 8월, 9월, 10월, 11월, 12월"
+                            formControlName="start"
+                            [value]="yesterday"
+                            placeholder="월/일/년" done-text="선택" cancel-text="취소"
+                        ></ion-datetime>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>끝일</ion-label>
+                        <ion-datetime display-format="MMM DD, YYYY"
+                            monthShortNames="1월, 2월, 3월, 4월, 5월, 6월, 7월, 8월, 9월, 10월, 11월, 12월"  
+                            formControlName="end"
+                            [value]="today"
+                            placeholder="월/일/년" done-text="선택" cancel-text="취소"
+                        ></ion-datetime>
+                    </ion-item>
+                </ion-list>
+                <ion-button expand="full" type="submit" [disabled]="!chartForm.valid">확인</ion-button>
+            </div>
+        </form>
+    </ion-card-content>
+</ion-card>
+<br />
+<div *ngIf="value.length != 0" echarts [options]="optionValue" class="sensor-chart" [merge]="updateOption"></div>
+<div [hidden]="value.length != 0" echarts [options]="optionValue" class="sensor-chart" [merge]="updateOption"></div>
+<div *ngIf="value_temp.length != 0" echarts [options]="optionTemp" class="sensor-chart" [merge]="updateOptionTemp"></div>
+<div [hidden]="value_temp.length != 0" echarts [options]="optionTemp" class="sensor-chart" [merge]="updateOptionTemp"></div>
+

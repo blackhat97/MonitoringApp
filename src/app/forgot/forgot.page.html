@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+        <ion-buttons slot="start">
+          <ion-button [routerDirection]="'root'" [routerLink]="['/login']">
+            닫기
+          </ion-button>
+        </ion-buttons>
+    </ion-buttons>
+    <ion-title>계정찾기</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+    <form [formGroup]="forgotForm" (ngSubmit)="onSubmit()" novalidate>
+        <ion-item>
+            <ion-input type="email" formControlName="email" placeholder="이메일" required></ion-input>
+          </ion-item>
+        <ion-row responsive-sm>
+          <ion-col>
+            <ion-button type="submit" expand="block">완료</ion-button>
+          </ion-col>
+        </ion-row>
+      </form>
+      
+</ion-content>
+

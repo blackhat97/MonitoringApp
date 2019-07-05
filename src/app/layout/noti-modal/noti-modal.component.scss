@@ -1,0 +1,24 @@
+ion-title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    //padding: 0 90px 1px;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+  }
+
+$categories: (
+  state: #fed035,
+  range: #6600cc,
+  network: #ac282b,
+  calendar: var(--ion-color-primary),
+);
+
+
+@each $track, $value in map-remove($categories) {
+    ion-item-sliding[track='#{$track}'] ion-label {
+      border-left: 2px solid $value;
+      padding-left: 10px;
+    }
+}

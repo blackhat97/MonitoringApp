@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>패스워드 재설정</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+      <!-- LOGIN FORM -->
+    <form [formGroup]="resetForm" (ngSubmit)="onSubmit()">
+      <ion-item>
+          <ion-label position="floating">새로운 패스워드</ion-label>
+          <ion-input type="password" formControlName="newpass"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">패스워드 확인</ion-label>
+          <ion-input type="password" formControlName="passchk"></ion-input>
+        </ion-item>
+        <br />
+      <ion-button expand="full" type="submit" [disabled]="!resetForm.valid">업데이트 완료</ion-button> 
+    </form>
+
+</ion-content>

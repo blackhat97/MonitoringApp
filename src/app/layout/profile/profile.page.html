@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>프로필</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <div padding-top text-center>
+        <img src="https://www.gravatar.com/avatar?d=mm&s=140" alt="avatar">
+    
+        <!--
+        <ion-item-divider lines="none"></ion-item-divider>
+        -->
+
+        <ion-list *ngFor="let profile of profiles" inset>
+          <ion-item>
+            <ion-icon name="contact"></ion-icon>
+            <ion-label>{{ profile.username }}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="briefcase"></ion-icon>
+            <ion-label>{{ profile.company }}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="mail"></ion-icon>
+            <ion-label>{{ profile.email }}</ion-label>
+          </ion-item>
+        </ion-list>
+        <ion-item-divider lines="none"></ion-item-divider>
+        <ion-list>
+          <ion-item [routerLink]="['/profile/push-setting']" routerDirection="forward" detail>
+            <ion-icon name="notifications"></ion-icon>
+            알림
+          </ion-item>
+          <ion-item (click)="changePassword()" detail>
+            <ion-icon name="create"></ion-icon>
+            비밀번호 변경
+          </ion-item>
+        </ion-list>
+        <ion-item-divider lines="none"></ion-item-divider>
+        <ion-item button (click)="onLoggedout()">
+            <ion-label>로그아웃</ion-label>
+        </ion-item>
+
+    </div>
+</ion-content>

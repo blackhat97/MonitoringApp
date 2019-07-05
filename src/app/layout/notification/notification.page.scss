@@ -1,0 +1,14 @@
+$categories: (
+  state: #fed035,
+  range: #6600cc,
+  network: #ac282b,
+  calendar: var(--ion-color-primary),
+);
+
+
+@each $track, $value in map-remove($categories) {
+    ion-item-sliding[track='#{$track}'] ion-label {
+      border-left: 2px solid $value;
+      padding-left: 10px;
+    }
+  }

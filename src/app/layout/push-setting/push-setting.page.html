@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-back-button defaultHref="/profile"></ion-back-button>
+      </ion-buttons>
+    <ion-title>알림설정</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-list inset>
+
+        <ion-item-divider>
+          <ion-label>새 메시지 알림</ion-label>
+        </ion-item-divider>
+        <ion-item>
+          <ion-label>
+            메시지 푸시알림
+          </ion-label>
+          <ion-toggle [(ngModel)]="onoff" (ionChange)="changeToggle('onoff', onoff);"></ion-toggle>
+        </ion-item>
+        <ion-item-group>
+          <ion-item-divider>
+            <ion-label>알림 표시</ion-label>
+          </ion-item-divider>
+          <ion-item [disabled]="!onoff">
+              <ion-label>
+                센서·계측기 상태
+              </ion-label>
+              <ion-toggle [(ngModel)]="state" (ionChange)="changeToggle('state', state);" color="success"></ion-toggle>
+            </ion-item>
+          <ion-item [disabled]="!onoff">
+            <ion-label>
+              정상측정 범위 이탈
+            </ion-label>
+            <ion-toggle [(ngModel)]="limits" (ionChange)="changeToggle('limits', limits);" color="success"></ion-toggle>
+          </ion-item>
+          <ion-item [disabled]="!onoff">
+            <ion-label>
+              일자 정보
+            </ion-label>
+            <ion-toggle [(ngModel)]="schedule" (ionChange)="changeToggle('schedule', schedule);" color="success"></ion-toggle>
+          </ion-item>
+        </ion-item-group>
+
+      </ion-list>
+</ion-content>

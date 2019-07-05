@@ -1,0 +1,35 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-button [routerLink]="['/home']" routerDirection="root">취소</ion-button>
+      </ion-buttons>
+  
+      <ion-title>
+        채널선택
+      </ion-title>
+  
+      <ion-buttons slot="end">
+        <ion-button (click)="applyFilters()" routerDirection="root" strong>완료</ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content class="outer-content">
+  
+    <ion-list>
+      <ion-list-header>채널</ion-list-header>
+      <ion-item *ngFor="let channel of channels" [attr.track]="channel.name">
+        <span slot="start" class="dot"></span>
+        <ion-label>{{ channel.name }}</ion-label>
+        <ion-toggle [(ngModel)]="channel.isChecked" color="success"></ion-toggle>
+      </ion-item>
+    </ion-list>
+  
+    <ion-list>
+      <ion-item (click)="resetFilters()" detail="false" class="reset-filters">
+        모든 채널 초기화
+      </ion-item>
+    </ion-list>
+  
+  </ion-content>
+  

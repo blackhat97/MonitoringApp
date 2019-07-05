@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button [routerDirection]="'root'" [routerLink]="['/login']"></ion-back-button>
+    </ion-buttons>
+    <ion-title>계정만들기</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <ion-item>
+            <ion-label position="floating">아이디</ion-label>
+            <ion-input type="text" formControlName="username"></ion-input>
+          </ion-item>
+       
+          <ion-item>
+            <ion-label position="floating">비밀번호(6자이상)</ion-label>
+            <ion-input type="password" formControlName="password"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">비밀번호 재입력</ion-label>
+            <ion-input type="password" formControlName="passchk"></ion-input>
+            </ion-item>
+
+          <ion-item>
+              <ion-label position="floating">이메일</ion-label>
+              <ion-input type="email" formControlName="email"></ion-input>
+          </ion-item>
+       
+          <ion-item>
+              <ion-label position="floating">소속기관/회사</ion-label>
+              <ion-input type="text" formControlName="company"></ion-input>
+            
+          </ion-item>
+          <br />
+          <ion-button shape="round" expand="full" type="submit" [disabled]="!registerForm.valid">가입하기</ion-button>
+          
+    </form>
+
+</ion-content>

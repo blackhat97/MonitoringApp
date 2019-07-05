@@ -1,0 +1,91 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+        <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>알림</ion-title>
+  </ion-toolbar>
+  
+  <ion-toolbar color="primary">
+      <ion-searchbar [(ngModel)]="queryText" (keyup)="updateList($event)" show-cancel="true" placeholder="찾기"></ion-searchbar>
+  </ion-toolbar>
+  
+</ion-header>
+
+<ion-content padding>
+  
+    <ion-list-header [hidden]="groups">
+      <ion-item lines="none">  
+        <ion-icon name="megaphone"></ion-icon>
+        <ion-label>새로운 알림이 없습니다.</ion-label>
+      </ion-item>
+    </ion-list-header>
+
+    <ion-list>
+      <ion-item-group *ngFor="let group of groups | groupBy:'date'">
+        <ion-item-divider sticky>
+          <ion-label>
+            {{group.key}}
+          </ion-label>
+        </ion-item-divider>
+
+        <ion-item-sliding #slidingItem [attr.track]="session.category" *ngFor="let session of group.value" [hidden]="session.hide">
+          <ion-item [disabled]="session.disabled">
+            <ion-label>
+              <ng-container [ngSwitch]="session.state" *ngIf="session.state">
+                  <div *ngSwitchCase="00">
+                      <p>{{MSG_OK}}</p>
+                  </div>
+                  <div *ngSwitchCase="02">
+                      <p>{{MSG_NETWORK_ERROR}}</p>
+                  </div>
+                  <div *ngSwitchCase="03">
+                      <p>{{MSG_CORRECTION}}</p>
+                  </div>
+                  <div *ngSwitchCase="04">
+                      <p>{{MSG_REPLACE}}</p>
+                  </div>
+                  <div *ngSwitchCase="06">
+                      <p>{{MSG_TROUBLE}}</p>
+                  </div>
+                  <div *ngSwitchCase="07">
+                      <p>{{MSG_CLEAN}}</p>
+                  </div>
+              </ng-container>
+              <ng-container *ngIf="session.value">
+                <div>
+                  <p>{{MSG_RANGE_OFF}} (현재값: {{session.value}}{{session.unit}})</p>
+                </div>
+              </ng-container>
+              <p>{{session.name_tag}}</p>
+            </ion-label>
+            
+            <ion-note slot="end">
+              {{session.time}}
+            </ion-note>
+          </ion-item>
+
+          
+          <ion-item-options>
+              <button ion-button expandable (click)="session.disabled=true;eventPrompt(slidingItem)">조치</button>            
+          </ion-item-options>
+          
+
+        </ion-item-sliding>
+
+      </ion-item-group>
+    </ion-list>
+
+
+    <!--
+    <ion-item lines="none" [hidden]="!isEmptyObject(groups)">
+    -->
+    
+
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="추가 불러오기 중...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+</ion-content>
