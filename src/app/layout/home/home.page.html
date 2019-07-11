@@ -7,15 +7,6 @@
         {{title}}
         </ion-title>
         <ion-buttons slot="end">
-            <!--
-            <ion-button [routerLink]="['/channel-select']">
-            -->
-            <ion-button (click)="presentFilter()">
-                <ion-icon slot="icon-only" name="options"></ion-icon>
-            </ion-button>
-            <!--
-            <ion-button [routerLink]="['/notification']">
-            -->
             <ion-button (click)="presentNoti()">
                 <ion-icon name="notifications"></ion-icon>
                 <ion-badge id="notifications-badge" color="danger" [hidden]="badgeNumber == 0">{{badgeNumber}}</ion-badge>
@@ -24,7 +15,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="outer-content">
+<ion-content class="outer-content" padding>
     <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="새로고침 중"
             refreshingSpinner="crescent">
@@ -32,18 +23,17 @@
     </ion-refresher>
     <ion-list>
 
-        <ion-slides #slider (ionSlideWillChange)="moveButton($event)">
+        <ion-slides #slider>
             <ion-slide *ngFor="let channel of channels">
             <ion-grid fixed>
-                <ion-item>
+                <ion-row>
                     <ion-label>{{channel.ch_name}}</ion-label>
-                </ion-item>
+                </ion-row>
                 <ion-row align-items-stretch>
-                    <ion-col no-padding size="12" size-md="6" *ngFor="let sensor of sensors; let i = index">   
-                        <ion-card no-padding *ngIf="sensor.channel_id == channel.id" class="gauge-card" (click)="test(i)" [hidden]="!fucks[i]">
+                    <ion-col no-padding size="12" size-md="6" *ngFor="let sensor of sensors; let i = index">      
+                        <ion-card no-padding *ngIf="(sensor.channel_id == channel.id) && (modes[i] == 0)" class="gauge-card" (click)="changeMode(i, 1)">
                             <ion-card-content>
-                                
-                                <ion-list style="background-color: yellow;">
+                                <ion-list>
                                     <ion-list-header>
                                         <ion-label item-start text-left color="dark">{{ sensor.name_tag }}</ion-label>
                                         <ion-label item-end text-right>{{sensor.temp}}°C</ion-label>
@@ -83,17 +73,100 @@
                                 </ion-list>
                             </ion-card-content>
                         </ion-card>
-
-                        <ion-card [hidden]="fucks[i]" *ngIf="sensor.channel_id == channel.id" class="gauge-card">
-                            <ion-item text-center>
-                                <ion-button>아날로그<br />표시창</ion-button>
-                                <ion-button>트렌드<br />보기</ion-button>
-                                <ion-button>자료<br />보기</ion-button>
-                                <ion-button>설정</ion-button>
-                                <ion-button (click)="test(i)">메인<br />화면</ion-button>
+                        
+                        <ion-card *ngIf="(sensor.channel_id == channel.id) && (modes[i] == 1)" class="gauge-card">
+                            <br />
+                            <ion-item lines="none">
+                                <ion-buttons slot="start">
+                                    <ion-button fill="outline" expand="block" (click)="changeMode(i, 2)">아날로그<br />표시창</ion-button>
+                                    <ion-button fill="outline" expand="block" (click)="changeMode(i, 3)">트렌드<br />보기</ion-button>
+                                    <ion-button fill="outline" expand="block" routerLink="/view-source/trend/{{sensor.id}}">자료<br />보기</ion-button>
+                                    <ion-button fill="outline" expand="block" routerLink="/settings/{{sensor.id}}">설정</ion-button>
+                                    <ion-button fill="outline" expand="block" (click)="changeMode(i, 0)">메인<br />화면</ion-button>
+                                </ion-buttons>
                             </ion-item>
+                            <br />
                         </ion-card>
                         
+                        <ion-card *ngIf="(sensor.channel_id == channel.id) && (modes[i] == 2)" class="gauge-card" (click)="changeMode(i, 1)">
+
+                            <ion-card-content>
+                                <ion-list>
+                                    <ion-list-header>
+                                        <ion-label item-start text-left color="dark">{{ sensor.name_tag }}</ion-label>
+                                        <ion-label item-end text-right>{{sensor.temp}}°C</ion-label>
+                                    </ion-list-header>
+                                    
+                                    <ion-row>
+                                        <ion-col align-self-end>
+                                            <ion-row>
+                                                <linear-gauge #linear_gauge aria-readonly="true"
+                                                width="150"
+                                                height="50"
+                                                minor-ticks="4"
+                                                stroke-ticks="true"
+                                                color-plate="#fff"
+                                                border-shadow-width="0"
+                                                font-numbers-size="40"
+                                                borders="false"
+                                                bar-begin-circle="false"
+                                                tick-side="left"
+                                                number-side="left"
+                                                needle-side="left"
+                                                needle-type="line"
+                                                ticks-width="50"
+                                                ticks-width-minor="15"
+                                                needle-width="10"
+                                                color-needle="#888888"
+                                                color-needle-end="#888888"
+                                                bar-width="20"
+                                                value="{{sensor.value}}"
+                                                >
+                                                </linear-gauge>
+                                            </ion-row>
+                                            <ion-row>
+                                                <ng-container [ngSwitch]="sensor.state">
+                                                    <div *ngSwitchCase="00">
+                                                        <ion-label color="dark" style="font-size: 14px;">{{MSG_OK}}</ion-label>
+                                                    </div>
+                                                    <div *ngSwitchCase="02">
+                                                        <ion-label color="dark" style="font-size: 14px;">{{MSG_NETWORK_ERROR}}</ion-label>
+                                                    </div>
+                                                    <div *ngSwitchCase="03">
+                                                        <ion-label color="dark" style="font-size: 14px;">{{MSG_CORRECTION}}</ion-label>
+                                                    </div>
+                                                    <div *ngSwitchCase="04">
+                                                        <ion-label color="dark" style="font-size: 14px;">{{MSG_REPLACE}}</ion-label>
+                                                    </div>
+                                                    <div *ngSwitchCase="06">
+                                                        <ion-label color="dark" style="font-size: 14px;">{{MSG_TROUBLE}}</ion-label>
+                                                    </div>
+                                                    <div *ngSwitchCase="07">
+                                                        <ion-label color="dark" style="font-size: 14px;">{{MSG_CLEAN}}</ion-label>
+                                                    </div>
+                                                    <div *ngSwitchDefault>
+                                                        <ion-label></ion-label>
+                                                    </div>
+                                                </ng-container>
+                                            </ion-row>
+                                        </ion-col>
+                                        <ion-col>
+                                            <ion-label text-right color="dark" class="sensor-value">{{ sensor.value }}</ion-label>
+                                            &nbsp;{{ sensor.unit }}
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-list>
+                            </ion-card-content>     
+                        </ion-card>
+
+                        <ion-card *ngIf="(sensor.channel_id == channel.id) && (modes[i] == 3)" class="gauge-card" (click)="changeMode(i, 1)">
+                            <ion-card-content>
+                                <br />
+                                개발예정
+                                <br />
+                            </ion-card-content>
+                        </ion-card>
+
                     </ion-col>
                 </ion-row>
             </ion-grid>

@@ -1,0 +1,219 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons>
+        <ion-back-button defaultHref="/home"></ion-back-button>
+        <ion-title>설정</ion-title>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-card>
+        <ion-item>
+          <ion-buttons slot="end">
+              <ion-button fill="outline" expand="block">알림<br />확인</ion-button>
+              <ion-button fill="outline" expand="block" routerLink="/home">메인<br />화면</ion-button>
+          </ion-buttons>
+        </ion-item>
+    </ion-card>
+    <ion-card>
+
+        <div padding class="form-group" *ngFor="let info of infos">
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  채널명
+                </ion-col>
+                <ion-col>
+                  <ion-input [value]="info.ch_name"></ion-input>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  측정명
+                </ion-col>
+                <ion-col>
+                  <ion-input [value]="info.name_tag"></ion-input>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  측정단위
+                </ion-col>
+                <ion-col>
+                  <ion-input [value]="info.unit"></ion-input>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  온도표시
+                </ion-col>
+                <ion-col>
+                  <ion-select (ionChange)="onChangeSchedule($event, 1)" value="{{ schedule?.rep_term }}" placeholder="선택" ok-text="선택" cancel-text="취소">
+                    <ion-select-option value="1">사용함</ion-select-option>
+                    <ion-select-option value="0">사용안함</ion-select-option>
+                  </ion-select>
+                </ion-col>
+                <ion-col>
+                  온도단위
+                </ion-col>
+                <ion-col>
+                  <ion-select (ionChange)="onChangeSchedule($event, 1)" value="{{ schedule?.rep_term }}" placeholder="선택" ok-text="선택" cancel-text="취소">
+                    <ion-select-option value="c">°C</ion-select-option>
+                    <ion-select-option value="f">°F</ion-select-option>
+                  </ion-select>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  저장주기
+                </ion-col>
+                <ion-col>
+                  <ion-select (ionChange)="onChangeSchedule($event, 1)" value="{{ schedule?.rep_term }}" placeholder="선택" ok-text="선택" cancel-text="취소">
+                    <ion-select-option *ngFor="let minute of stIntervals">{{minute}}분</ion-select-option>
+                  </ion-select>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  저장기간
+                </ion-col>
+                <ion-col>
+                  <ion-input></ion-input>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <!--
+                <ion-col size="4" align-self-center>
+                  -->
+                <ion-col size="3">
+                  최대알람
+                </ion-col>
+                <ion-col size="5">
+                    <ion-item class="input-font" lines="none">
+                        <ion-input type="number" [value]="limit.value_max"></ion-input>
+                        <span>{{info.unit}}</span>
+                    </ion-item>
+                </ion-col>
+                <ion-col size="4" text-right>
+                  <ion-select (ionChange)="onChangeSchedule($event, 1)" value="{{ schedule?.rep_term }}" placeholder="선택" ok-text="선택" cancel-text="취소">
+                    <ion-select-option value="1">사용함</ion-select-option>
+                    <ion-select-option value="3">사용안함</ion-select-option>
+                  </ion-select>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="3">
+                  <span>최소알람</span>
+                </ion-col>
+                <ion-col size="5">
+                    <ion-item class="input-font" lines="none">
+                        <ion-input type="number" [value]="limit.value_min"></ion-input>
+                        <span>{{info.unit}}</span>
+                    </ion-item>
+                </ion-col>
+                <ion-col size="4" text-right>
+                  <ion-select (ionChange)="onChangeSchedule($event, 1)" value="{{ schedule?.rep_term }}" placeholder="선택" ok-text="선택" cancel-text="취소">
+                    <ion-select-option value="1">사용함</ion-select-option>
+                    <ion-select-option value="3">사용안함</ion-select-option>
+                  </ion-select>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="4">
+                  <span>센서교체주기</span>
+                </ion-col>
+                <ion-col size="4">
+                    <ion-item class="input-font" lines="none">
+                      <ion-input type="number" [value]="schedule.rep_term"></ion-input>
+                      <span>개월</span>
+                    </ion-item>
+                </ion-col>
+                <ion-col size="4" text-right>
+                  <ion-select (ionChange)="onChangeSchedule($event, 1)" value="{{ schedule?.rep_term }}" placeholder="선택" ok-text="선택" cancel-text="취소">
+                    <ion-select-option value="1">사용함</ion-select-option>
+                    <ion-select-option value="3">사용안함</ion-select-option>
+                  </ion-select>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="4">
+                  <span>센서교정주기</span>
+                </ion-col>
+                <ion-col size="4">
+                  <ion-item class="input-font" lines="none">
+                    <ion-input type="number" [value]="schedule.cor_term"></ion-input>
+                    <span>개월</span>
+                  </ion-item>
+                </ion-col>
+                <ion-col size="4" text-right>
+                  <ion-select (ionChange)="onChangeSchedule($event, 1)" value="{{ schedule?.rep_term }}" placeholder="선택" ok-text="선택" cancel-text="취소">
+                    <ion-select-option value="1">사용함</ion-select-option>
+                    <ion-select-option value="3">사용안함</ion-select-option>
+                  </ion-select>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="4">
+                  <span>센서점검주기</span>
+                </ion-col>
+                <ion-col size="4">
+                    <ion-input type="number"></ion-input>
+                </ion-col>
+                <ion-col size="4" text-right>
+                  <ion-select (ionChange)="onChangeSchedule($event, 1)" value="{{ schedule?.rep_term }}" placeholder="선택" ok-text="선택" cancel-text="취소">
+                    <ion-select-option value="1">사용함</ion-select-option>
+                    <ion-select-option value="3">사용안함</ion-select-option>
+                  </ion-select>
+                </ion-col>
+              </ion-row>
+              <p align="right">
+                <ion-button fill="outline" type="submit">등록</ion-button> 
+              </p>
+            </ion-grid>
+        </div>
+    </ion-card>
+
+    <ion-card>
+        <div padding class="form-group">
+          <ion-label>채널 공용 설정</ion-label>
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                  채널수량
+              </ion-col>
+              <ion-col>
+                <ion-select (ionChange)="onChangeSchedule($event, 1)" value="{{ schedule?.rep_term }}" placeholder="선택" ok-text="선택" cancel-text="취소">
+                  <ion-select-option *ngFor="let num of selectNums">CH{{num}}</ion-select-option>
+                </ion-select>
+              </ion-col>
+            </ion-row>
+            <p align="right">
+              <ion-button fill="outline" type="submit">등록</ion-button> 
+            </p> 
+          </ion-grid>
+        </div>
+    </ion-card>
+
+    <ion-card>
+        <div padding class="form-group">
+          <ion-label>스테이지 공용 설정</ion-label>
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                  스테이지수량
+              </ion-col>
+              <ion-col>
+                <ion-select (ionChange)="onChangeSchedule($event, 1)" value="{{ schedule?.rep_term }}" placeholder="선택" ok-text="선택" cancel-text="취소">
+                  <ion-select-option *ngFor="let num of selectNums">{{num}}</ion-select-option>
+                </ion-select>
+              </ion-col>
+            </ion-row>
+              <p align="right">
+                <ion-button (click)="showAlert()" fill="outline" type="submit">등록</ion-button>           
+              </p>
+          </ion-grid>
+        </div>
+    </ion-card>
+
+</ion-content>

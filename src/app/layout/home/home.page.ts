@@ -1,4 +1,3 @@
-import { ChannelFilterComponent } from './../channel-filter/channel-filter.component';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { GetApiService } from './../../shared/services/get-api.service';
 import { environment } from './../../../environments/environment.prod';
@@ -30,8 +29,7 @@ export class HomePage implements AfterViewInit{
   sensors: any[] = [];
   limits: any[] = [];
 
-  fuck: boolean = true;
-  fucks = [];
+  modes = [];
 
   USER_NAME = environment.username;
   COMPANY_ID = environment.company_id;
@@ -57,14 +55,6 @@ export class HomePage implements AfterViewInit{
     private localNotifications: LocalNotifications,
   ) {
 
-    /*
-    this.activateroute.params.subscribe((data: any) => {
-      if(data.channels != undefined) {
-        this.updateChannel(data.channels);
-      }
-    });
-    */
-
   }
 
   ionViewDidEnter() {
@@ -73,33 +63,22 @@ export class HomePage implements AfterViewInit{
     this.getChannel();
     this.getRealtime();
   }
-
   
   ngAfterViewInit() {
 
+    /*
     this.interval = setInterval(() => {
       this.getRealtime();
       this.getCount();
       
     }, 60*1000);  
-    
+    */
+
   }
   
 
   ionViewWillLeave(){
     clearInterval(this.interval);
-  }
-
-
-  scheduleNotification() {
-    this.localNotifications.schedule({
-      id: 1,
-      title: 'Attention',
-      text: 'Simons Notification',
-      data: { mydata: 'My hidden message this is' },
-      trigger: {at: new Date(new Date().getTime())},
-      foreground: true // Show the notification while app is open
-    });
   }
 
   getCount() {
@@ -110,18 +89,6 @@ export class HomePage implements AfterViewInit{
         });
       });
     });
-  }
-
-  async presentFilter() {
-    const modal = await this.modalCtrl.create({
-      component: ChannelFilterComponent,
-    });
-    await modal.present();
-
-    const { data } = await modal.onWillDismiss();
-    if(data) {
-      this.updateChannel(data);
-    } 
   }
 
   async presentNoti() {
@@ -143,17 +110,8 @@ export class HomePage implements AfterViewInit{
 
   getChannel() {
     this.storage.get(this.COMPANY_ID).then(companyId => {
-      this.storage.get(this.CHANNEL_TOGGLES).then(channelIds => {
-
-        if(channelIds != null) {
-          this.getapi.getSelectedChannel(companyId, channelIds).subscribe((res: any) => {  
-            this.channels = res;
-          });
-        } else {
-          this.getapi.getChannel(companyId).subscribe((res: any) => {  
-            this.channels = res;
-          });
-        }
+      this.getapi.getChannel(companyId).subscribe((res: any) => {  
+        this.channels = res;
       });
     });
   }
@@ -162,77 +120,31 @@ export class HomePage implements AfterViewInit{
   getRealtime(){
 
     this.storage.get(this.COMPANY_ID).then(companyId => {
-      this.storage.get(this.CHANNEL_TOGGLES).then(channelIds => {
 
-        if(channelIds != null) {
-          this.getapi.getSelectedRealtime(companyId, channelIds).subscribe((res: any) => {  
-            this.sensors = res;
-            this.fucks = Array(res.length).fill(true);
-            
-            this.linearGauge.changes.subscribe(list => {
-                
-                list.forEach((gauge,index) => {     
-                  //console.log(index);
-                  let range_avg = (res[index].range_min + res[index].range_max)/2;
-                  gauge.update({
-                    minValue: res[index].range_min,
-                    maxValue: res[index].range_max,
-                    majorTicks: `${res[index].range_min}, ${range_avg}, ${res[index].range_max}`
-                  });
-                });
-            });
+        this.getapi.getRealtime(companyId).subscribe((res: any) => {
+          this.sensors = res;
+          this.modes = Array(res.length).fill(0);
 
-
-          });
-        } else {
-          this.getapi.getRealtime(companyId).subscribe((res: any) => {
-            this.sensors = res;
-            this.fucks = Array(res.length).fill(true);
-
-            this.linearGauge.changes.subscribe(list => {
-                
-              list.forEach((gauge,index) => {     
-                //console.log(index);
-                let range_avg = (res[index].range_min + res[index].range_max)/2;
-                gauge.update({
-                  minValue: res[index].range_min,
-                  maxValue: res[index].range_max,
-                  majorTicks: `${res[index].range_min}, ${range_avg}, ${res[index].range_max}`
-                });
-              }); 
-          });
-            
-          });
-        }
-
+          this.linearGauge.changes.subscribe(list => {
+              
+            list.forEach((gauge,index) => {     
+              let range_avg = (res[index].range_min + res[index].range_max)/2;
+              gauge.update({
+                minValue: res[index].range_min,
+                maxValue: res[index].range_max,
+                majorTicks: `${res[index].range_min}, ${range_avg}, ${res[index].range_max}`
+              });
+            }); 
+        });
+        
         this.storage.get(this.USER_ID).then(userId => {
           this.getapi.getAllLimits(userId).subscribe((limit: any) => { 
             this.limits = limit;
-          
           });
         });
-
       });
     });
 
-  }
-
-  updateChannel(channel_ids) {
-    this.storage.get(this.COMPANY_ID).then(companyId => {
-      this.getapi.getSelectedChannel(companyId, channel_ids).subscribe((res: any) => {  
-        this.channels = res;
-      });
-      this.getapi.getSelectedRealtime(companyId, channel_ids).subscribe((res: any) => {
-        this.sensors = res;
-        this.fucks = Array(res.length).fill(true);
-
-      });
-    });
-  }
-
-  moveDetail(id) {
-    this.router.navigateByUrl('/detail/${id}');
-    //this.navCtrl.navigateForward(`/detail/${id}`);
   }
 
   doRefresh(event) {
@@ -242,18 +154,10 @@ export class HomePage implements AfterViewInit{
     }, 1000);
   }
 
+  changeMode(num, mode) {
+    this.modes[num] = mode;
+  }  
 
-  selectedTab(ind){
-    this.slider.slideTo(ind);
-  }
 
-  moveButton($event) {
-    this.segment = $event.target.swiper.activeIndex.toString();
-  }
-
-  test(num) {
-    //this.fuck = !this.fuck;
-    this.fucks[num] = !this.fucks[num];
-  }
 
 }

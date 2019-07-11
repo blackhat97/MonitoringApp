@@ -27,6 +27,7 @@ export class GetApiService {
         .set('Authorization', 'Bearer ' + token);
       }
     });
+
   }
 
   getCompany(company_id) {
@@ -248,6 +249,38 @@ export class GetApiService {
 
   getPushSetting(userid) {
     return this.http.get(`${this.url}/push-setting/${userid}` , { headers: this.headers }).pipe(
+      map((res: any) => {
+        return res;
+      }),
+      catchError(e => {
+        throw new Error(e);
+      })
+    );
+  }
+
+
+  getViewText(sensorId, userId, start, end) {
+    const params = new HttpParams()
+                  .set('user_id', userId)
+                  .set('start', start)
+                  .set('end', end);
+    return this.http.get(`${this.url}/view-text/${sensorId}`, { headers: this.headers, params: params }).pipe(
+      map((res: any) => {
+        return res;
+      }),
+      catchError(e => {
+        throw new Error(e);
+      })
+    );
+  }
+
+  getViewSourceStorage(sensorId, companyId, userId, start, end) {
+    const params = new HttpParams()
+                  .set('company_id', companyId)
+                  .set('user_id', userId)
+                  .set('start', start)
+                  .set('end', end);
+    return this.http.get(`${this.url}/view-source/storage/${sensorId}`, { headers: this.headers, params: params }).pipe(
       map((res: any) => {
         return res;
       }),

@@ -73,8 +73,8 @@ export class AuthenticationService {
         this.storage.set(this.USER_ID, res['user_id']);
         
         this.authenticationState.next(true);
-        //this.router.navigate(['/home']);
-        this.navCtrl.navigateRoot('/home');
+        this.router.navigate(['/home']);
+        //this.navCtrl.navigateRoot('/home');
 
       }),
       catchError(e => {
@@ -88,8 +88,8 @@ export class AuthenticationService {
     this.storage.clear();
     this.storage.remove(this.TOKEN_NAME).then(() => {
       this.authenticationState.next(false);
-      //this.router.navigateByUrl('/login');
-      this.navCtrl.navigateRoot('/login');
+      this.router.navigateByUrl('/login');
+      //this.navCtrl.navigateRoot('/login');
     });
   }
 
@@ -97,7 +97,8 @@ export class AuthenticationService {
     return this.http.post(`${this.url}/auth/forgot`, email)
     .pipe(
       tap(res => {
-        this.navCtrl.navigateRoot('/login');
+        this.router.navigate(['/login']);
+        //this.navCtrl.navigateRoot('/login');
       }),
       catchError(e => {
         this.showAlert("오류가 생겼습니다.");
@@ -110,9 +111,10 @@ export class AuthenticationService {
     return this.http.post(`${this.url}/auth/reset/${token}`, value)
     .pipe(
       tap(res => {
-        console.log(res);
         this.showAlert("비밀번호를 재설정 했습니다.");
-        this.navCtrl.navigateRoot('/login');
+        this.router.navigate(['/login']);
+        //this.navCtrl.navigateRoot('/login');
+
       }),
       catchError(e => {
         console.log(e);

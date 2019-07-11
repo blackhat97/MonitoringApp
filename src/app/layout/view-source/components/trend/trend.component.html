@@ -1,0 +1,48 @@
+<ion-card class="gauge-card">
+    <ion-card-content>
+        <ion-label>{{ch_name}}</ion-label>
+        <form role="form" [formGroup]="chartForm" (ngSubmit)="onSubmit()">
+            <ion-item lines="none">
+              <ion-buttons slot="start">
+                  <ion-button fill="outline" expand="block" routerLink="/view-source/trend/{{sensorId}}">트랜드<br />보기</ion-button>
+                  <ion-button fill="outline" expand="block" routerLink="/view-source/view-text/{{sensorId}}">텍스트<br />보기</ion-button>
+                  <ion-button fill="outline" expand="block" routerLink="/view-source/storage/{{sensorId}}">스토리지</ion-button>
+                  <ion-button fill="outline" expand="block" type="submit" [disabled]="!chartForm.valid">자료<br />호출</ion-button>
+                  <ion-button fill="outline" expand="block" routerLink="/home">메인<br />화면</ion-button>
+              </ion-buttons>
+            </ion-item>
+            <div class="form-group">
+                <ion-list>
+                    <ion-label>{{title}}</ion-label>
+                    <ion-item>
+                        <ion-label>시작일</ion-label>
+                        <ion-datetime display-format="MMM DD, YYYY"
+                            monthShortNames="1월, 2월, 3월, 4월, 5월, 6월, 7월, 8월, 9월, 10월, 11월, 12월"
+                            formControlName="start"
+                            [value]="yesterday"
+                            placeholder="월/일/년" done-text="선택" cancel-text="취소"
+                        ></ion-datetime>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>끝일</ion-label>
+                        <ion-datetime display-format="MMM DD, YYYY"
+                            monthShortNames="1월, 2월, 3월, 4월, 5월, 6월, 7월, 8월, 9월, 10월, 11월, 12월"  
+                            formControlName="end"
+                            [value]="today"
+                            placeholder="월/일/년" done-text="선택" cancel-text="취소"
+                        ></ion-datetime>
+                    </ion-item>
+                </ion-list>
+            </div>
+        </form>
+    </ion-card-content>
+</ion-card>
+<div *ngIf="value.length != 0" echarts [options]="optionValue" class="sensor-chart" [merge]="updateOption"></div>
+<div [hidden]="value.length != 0" echarts [options]="optionValue" class="sensor-chart" [merge]="updateOption"></div>
+<ion-list>
+    <ion-text style="font-size:13px;">
+      최대 측정치 {{max}} {{unit}}<br />
+      평균 측정치 {{avg}} {{unit}}<br />
+      최소 측정치 {{min}} {{unit}}
+    </ion-text>
+</ion-list>

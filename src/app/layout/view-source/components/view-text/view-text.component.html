@@ -1,0 +1,78 @@
+<ion-card class="gauge-card">
+    <ion-card-content>
+        <ion-label>{{ch_name}}</ion-label>
+        <form role="form" [formGroup]="loggerForm" (ngSubmit)="onSubmit()">
+          <ion-item lines="none">
+            <ion-buttons slot="start">
+                <ion-button fill="outline" expand="block" routerLink="/view-source/trend/{{sensorId}}">트랜드<br />보기</ion-button>
+                <ion-button fill="outline" expand="block" routerLink="/view-source/view-text/{{sensorId}}">텍스트<br />보기</ion-button>
+                <ion-button fill="outline" expand="block" routerLink="/view-source/storage/{{sensorId}}">스토리지</ion-button>
+                <ion-button fill="outline" expand="block" type="submit" [disabled]="!loggerForm.valid">자료<br />호출</ion-button>
+                <ion-button fill="outline" expand="block" routerLink="/home">메인<br />화면</ion-button>
+            </ion-buttons>
+          </ion-item>
+
+          <div class="form-group">
+              <ion-list>
+                  <ion-label>{{title}}</ion-label>
+                  <ion-item>
+                      <ion-label>시작일</ion-label>
+                      <ion-datetime display-format="MMM DD, YYYY"
+                          monthShortNames="1월, 2월, 3월, 4월, 5월, 6월, 7월, 8월, 9월, 10월, 11월, 12월"
+                          formControlName="start"
+                          placeholder="월/일/년" done-text="선택" cancel-text="취소"
+                      ></ion-datetime>
+                  </ion-item>
+                  <ion-item>
+                      <ion-label>끝일</ion-label>
+                      <ion-datetime display-format="MMM DD, YYYY"
+                          monthShortNames="1월, 2월, 3월, 4월, 5월, 6월, 7월, 8월, 9월, 10월, 11월, 12월"  
+                          formControlName="end"
+                          placeholder="월/일/년" done-text="선택" cancel-text="취소"
+                      ></ion-datetime>
+                  </ion-item>
+                  <br /><br />
+              </ion-list>
+          </div>
+        </form>
+    </ion-card-content>
+  </ion-card>
+  <ngx-datatable
+    [messages]="table_messages"
+    class="bootstrap table-striped"
+    style="height: 400px;"
+    [columnMode]="'standard'"
+    [rows]="rows"
+    [rowClass]="getRowClass"
+    [scrollbarV]="true"
+    [scrollbarH]="true">
+    <ngx-datatable-column name="날짜시간" prop="timestamp" width="170">
+        <ng-template ngx-datatable-cell-template let-value="value">            
+          {{value}}
+        </ng-template>
+    </ngx-datatable-column>
+    
+    <ngx-datatable-column width="70">
+      <ng-template ngx-datatable-header-template>
+        <span>값</span>
+      </ng-template>
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{row.value}}{{row.unit}}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="온도" prop="temp" width="70">
+      <ng-template ngx-datatable-cell-template let-value="value">
+        {{value}}°C
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button>
+        <ion-icon name="share"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-list side="top">
+        <ion-fab-button (click)="shareCsv()"><ion-icon name="share"></ion-icon></ion-fab-button>
+        <ion-fab-button (click)="shareEmail()"><ion-icon name="mail"></ion-icon></ion-fab-button>
+      </ion-fab-list>    
+  </ion-fab>

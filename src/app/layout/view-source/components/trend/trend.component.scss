@@ -1,0 +1,23 @@
+
+@media screen and (orientation: portrait) {
+    .sensor-chart {
+        width: 100vw;
+        height: 42vh;
+
+    }
+}
+  
+@media screen and (orientation: landscape) {
+  .sensor-chart {
+    width: 100vw;
+    height: 68vh;
+  }
+}
+
+.gauge-card {
+    margin-top: 0px  !important;
+    margin-bottom: 0px !important;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    border-radius: 0px 0px 0px 0px;
+}

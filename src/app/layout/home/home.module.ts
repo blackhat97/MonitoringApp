@@ -1,4 +1,3 @@
-import { ChannelFilterComponent } from './../channel-filter/channel-filter.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -25,11 +24,9 @@ import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
   ],
   declarations: [
     HomePage,
-    ChannelFilterComponent,
-    NotiModalComponent
+    NotiModalComponent,
   ],
   entryComponents: [
-    ChannelFilterComponent,
     NotiModalComponent
   ],
 })
