@@ -49,7 +49,7 @@
                   온도표시
                 </ion-col>
                 <ion-col>
-                  <ion-select (ionChange)="onChangeSchedule($event, 1)" value="{{ schedule?.rep_term }}" placeholder="선택" ok-text="선택" cancel-text="취소">
+                  <ion-select value="1" placeholder="선택" ok-text="선택" cancel-text="취소">
                     <ion-select-option value="1">사용함</ion-select-option>
                     <ion-select-option value="0">사용안함</ion-select-option>
                   </ion-select>
@@ -58,7 +58,7 @@
                   온도단위
                 </ion-col>
                 <ion-col>
-                  <ion-select (ionChange)="onChangeSchedule($event, 1)" value="{{ schedule?.rep_term }}" placeholder="선택" ok-text="선택" cancel-text="취소">
+                  <ion-select value="c" placeholder="선택" ok-text="선택" cancel-text="취소">
                     <ion-select-option value="c">°C</ion-select-option>
                     <ion-select-option value="f">°F</ion-select-option>
                   </ion-select>
@@ -69,7 +69,7 @@
                   저장주기
                 </ion-col>
                 <ion-col>
-                  <ion-select (ionChange)="onChangeSchedule($event, 1)" value="{{ schedule?.rep_term }}" placeholder="선택" ok-text="선택" cancel-text="취소">
+                  <ion-select value="5" placeholder="선택" ok-text="선택" cancel-text="취소">
                     <ion-select-option *ngFor="let minute of stIntervals">{{minute}}분</ion-select-option>
                   </ion-select>
                 </ion-col>
@@ -79,7 +79,10 @@
                   저장기간
                 </ion-col>
                 <ion-col>
-                  <ion-input></ion-input>
+                  <ion-item class="input-font" lines="none">
+                    <ion-input type="number"></ion-input>
+                    <span>일</span>
+                </ion-item>
                 </ion-col>
               </ion-row>
               <ion-row>
@@ -130,9 +133,9 @@
                     </ion-item>
                 </ion-col>
                 <ion-col size="4" text-right>
-                  <ion-select (ionChange)="onChangeSchedule($event, 1)" value="{{ schedule?.rep_term }}" placeholder="선택" ok-text="선택" cancel-text="취소">
+                  <ion-select value="1" placeholder="선택" ok-text="선택" cancel-text="취소">
                     <ion-select-option value="1">사용함</ion-select-option>
-                    <ion-select-option value="3">사용안함</ion-select-option>
+                    <ion-select-option value="0">사용안함</ion-select-option>
                   </ion-select>
                 </ion-col>
               </ion-row>
@@ -147,9 +150,9 @@
                   </ion-item>
                 </ion-col>
                 <ion-col size="4" text-right>
-                  <ion-select (ionChange)="onChangeSchedule($event, 1)" value="{{ schedule?.rep_term }}" placeholder="선택" ok-text="선택" cancel-text="취소">
+                  <ion-select value="1" placeholder="선택" ok-text="선택" cancel-text="취소">
                     <ion-select-option value="1">사용함</ion-select-option>
-                    <ion-select-option value="3">사용안함</ion-select-option>
+                    <ion-select-option value="0">사용안함</ion-select-option>
                   </ion-select>
                 </ion-col>
               </ion-row>
@@ -161,9 +164,9 @@
                     <ion-input type="number"></ion-input>
                 </ion-col>
                 <ion-col size="4" text-right>
-                  <ion-select (ionChange)="onChangeSchedule($event, 1)" value="{{ schedule?.rep_term }}" placeholder="선택" ok-text="선택" cancel-text="취소">
+                  <ion-select value="1" placeholder="선택" ok-text="선택" cancel-text="취소">
                     <ion-select-option value="1">사용함</ion-select-option>
-                    <ion-select-option value="3">사용안함</ion-select-option>
+                    <ion-select-option value="0">사용안함</ion-select-option>
                   </ion-select>
                 </ion-col>
               </ion-row>
