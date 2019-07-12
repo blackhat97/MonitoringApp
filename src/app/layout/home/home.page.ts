@@ -122,6 +122,7 @@ export class HomePage implements AfterViewInit{
     this.storage.get(this.COMPANY_ID).then(companyId => {
 
         this.getapi.getRealtime(companyId).subscribe((res: any) => {
+          
           this.sensors = res;
           this.modes = Array(res.length).fill(0);
 

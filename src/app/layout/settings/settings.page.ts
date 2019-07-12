@@ -80,9 +80,9 @@ export class SettingsPage {
             } else {
               switch (num) {
                 case 0:
+                  console.log('h');
                   break;
                 case 1:
-
                   break;
                 case 2:
 
