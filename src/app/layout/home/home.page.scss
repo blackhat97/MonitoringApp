@@ -63,3 +63,19 @@ ion-label {
   border-radius: 100%;
 }
 
+
+$categories: (
+  '00': #ffffff,
+  '02': #DC143C,
+  '03': #fed035,
+  '04': #fed035,
+  '05': #fed035,
+  '06': #fed035,
+  '07': #fed035
+);
+
+@each $track, $value in map-remove($categories) {
+  ion-list[track='#{$track}']{
+    background-image: linear-gradient($value, white);
+  }
+}

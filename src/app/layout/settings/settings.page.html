@@ -21,26 +21,26 @@
         <div padding class="form-group" *ngFor="let info of infos">
             <ion-grid>
               <ion-row>
-                <ion-col>
+                <ion-col size="4">
                   채널명
                 </ion-col>
-                <ion-col>
+                <ion-col size="8">
                   <ion-input [value]="info.ch_name"></ion-input>
                 </ion-col>
               </ion-row>
               <ion-row>
-                <ion-col>
+                <ion-col size="4">
                   측정명
                 </ion-col>
-                <ion-col>
+                <ion-col size="8">
                   <ion-input [value]="info.name_tag"></ion-input>
                 </ion-col>
               </ion-row>
               <ion-row>
-                <ion-col>
+                <ion-col size="4">
                   측정단위
                 </ion-col>
-                <ion-col>
+                <ion-col size="8">
                   <ion-input [value]="info.unit"></ion-input>
                 </ion-col>
               </ion-row>
@@ -70,7 +70,7 @@
                 </ion-col>
                 <ion-col>
                   <ion-select value="5" placeholder="선택" ok-text="선택" cancel-text="취소">
-                    <ion-select-option *ngFor="let minute of stIntervals">{{minute}}분</ion-select-option>
+                    <ion-select-option *ngFor="let minute of stIntervals" value="{{minute}}">{{minute}}분</ion-select-option>
                   </ion-select>
                 </ion-col>
               </ion-row>
@@ -90,7 +90,7 @@
                 <ion-col size="4" align-self-center>
                   -->
                 <ion-col size="3">
-                  최대알람
+                  <span>최대알람</span>
                 </ion-col>
                 <ion-col size="5">
                     <ion-item class="input-font" lines="none">
@@ -99,9 +99,9 @@
                     </ion-item>
                 </ion-col>
                 <ion-col size="4" text-right>
-                  <ion-select (ionChange)="onChangeSchedule($event, 1)" value="{{ schedule?.rep_term }}" placeholder="선택" ok-text="선택" cancel-text="취소">
+                  <ion-select value="{{ limit?.bool_max }}" placeholder="선택" ok-text="선택" cancel-text="취소">
                     <ion-select-option value="1">사용함</ion-select-option>
-                    <ion-select-option value="3">사용안함</ion-select-option>
+                    <ion-select-option value="0">사용안함</ion-select-option>
                   </ion-select>
                 </ion-col>
               </ion-row>
@@ -116,9 +116,9 @@
                     </ion-item>
                 </ion-col>
                 <ion-col size="4" text-right>
-                  <ion-select (ionChange)="onChangeSchedule($event, 1)" value="{{ schedule?.rep_term }}" placeholder="선택" ok-text="선택" cancel-text="취소">
+                  <ion-select value="{{ limit?.bool_min }}" placeholder="선택" ok-text="선택" cancel-text="취소">
                     <ion-select-option value="1">사용함</ion-select-option>
-                    <ion-select-option value="3">사용안함</ion-select-option>
+                    <ion-select-option value="0">사용안함</ion-select-option>
                   </ion-select>
                 </ion-col>
               </ion-row>
@@ -171,7 +171,7 @@
                 </ion-col>
               </ion-row>
               <p align="right">
-                <ion-button fill="outline" type="submit">등록</ion-button> 
+                <ion-button (click)="verifyPass(0)" fill="outline" type="submit">등록</ion-button> 
               </p>
             </ion-grid>
         </div>
@@ -186,13 +186,13 @@
                   채널수량
               </ion-col>
               <ion-col>
-                <ion-select (ionChange)="onChangeSchedule($event, 1)" value="{{ schedule?.rep_term }}" placeholder="선택" ok-text="선택" cancel-text="취소">
+                <ion-select value="{{ schedule?.rep_term }}" placeholder="선택" ok-text="선택" cancel-text="취소">
                   <ion-select-option *ngFor="let num of selectNums">CH{{num}}</ion-select-option>
                 </ion-select>
               </ion-col>
             </ion-row>
             <p align="right">
-              <ion-button fill="outline" type="submit">등록</ion-button> 
+              <ion-button (click)="verifyPass(1)" fill="outline" type="submit">등록</ion-button> 
             </p> 
           </ion-grid>
         </div>
@@ -207,13 +207,13 @@
                   스테이지수량
               </ion-col>
               <ion-col>
-                <ion-select (ionChange)="onChangeSchedule($event, 1)" value="{{ schedule?.rep_term }}" placeholder="선택" ok-text="선택" cancel-text="취소">
+                <ion-select value="{{ schedule?.rep_term }}" placeholder="선택" ok-text="선택" cancel-text="취소">
                   <ion-select-option *ngFor="let num of selectNums">{{num}}</ion-select-option>
                 </ion-select>
               </ion-col>
             </ion-row>
               <p align="right">
-                <ion-button (click)="showAlert()" fill="outline" type="submit">등록</ion-button>           
+                <ion-button (click)="verifyPass(2)" fill="outline" type="submit">등록</ion-button>           
               </p>
           </ion-grid>
         </div>

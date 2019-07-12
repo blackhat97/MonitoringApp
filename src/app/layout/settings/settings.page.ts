@@ -43,7 +43,6 @@ export class SettingsPage {
         });
         this.getapi.getInfoLimits(this.sensorId, userId).subscribe((res: any) => {
           this.limit = res[0];
-
         });
       });
     });
@@ -55,7 +54,10 @@ export class SettingsPage {
   }
 
 
-  showAlert() {
+
+
+
+  verifyPass(num) {
     let alert = this.alertCtrl.create({
       header: '암호를 입력하세요!',
       message: '암호 입력',
@@ -67,13 +69,38 @@ export class SettingsPage {
         },
       ],
       buttons: [{
+        text: '취소',
+        role: 'cancel',
+      },{
           text: '확인',
           role: 'submit',
           handler: (data) => {
-            console.log(data.pass);
+            if(data.pass != '1234') {
+              this.wrongAlert('비밀번호가 일치하지 않습니다.');
+            } else {
+              switch (num) {
+                case 0:
+                  break;
+                case 1:
 
+                  break;
+                case 2:
+
+                  break;
+              }
+            }
+          
           }
         }]
+    });
+    alert.then(alert => alert.present());
+  }
+
+  wrongAlert(msg) {
+    let alert = this.alertCtrl.create({
+      message: msg,
+      header: '알림',
+      buttons: ['OK']
     });
     alert.then(alert => alert.present());
   }

@@ -29,11 +29,13 @@
                 <ion-row>
                     <ion-label>{{channel.ch_name}}</ion-label>
                 </ion-row>
-                <ion-row align-items-stretch>
+                <ion-row>
                     <ion-col no-padding size="12" size-md="6" *ngFor="let sensor of sensors; let i = index">      
                         <ion-card no-padding *ngIf="(sensor.channel_id == channel.id) && (modes[i] == 0)" class="gauge-card" (click)="changeMode(i, 1)">
-                            <ion-card-content>
-                                <ion-list>
+                                <!--
+                            <ion-list style="background-color: palegoldenrod;">
+                                -->
+                                <ion-list class="hello" [attr.track]="sensor.state">
                                     <ion-list-header>
                                         <ion-label item-start text-left color="dark">{{ sensor.name_tag }}</ion-label>
                                         <ion-label item-end text-right>{{sensor.temp}}°C</ion-label>
@@ -71,7 +73,6 @@
                                         </ion-col>
                                     </ion-row>
                                 </ion-list>
-                            </ion-card-content>
                         </ion-card>
                         
                         <ion-card *ngIf="(sensor.channel_id == channel.id) && (modes[i] == 1)" class="gauge-card">
@@ -161,9 +162,9 @@
 
                         <ion-card *ngIf="(sensor.channel_id == channel.id) && (modes[i] == 3)" class="gauge-card" (click)="changeMode(i, 1)">
                             <ion-card-content>
-                                <br />
+                                <br /><br />
                                 개발예정
-                                <br />
+                                <br /><br />
                             </ion-card-content>
                         </ion-card>
 
