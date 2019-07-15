@@ -11,11 +11,12 @@
 
 <ion-content padding>
     <p *ngFor="let alert of alerts">
-        <ion-item *ngIf="showInstallBtn">
-          <ion-label>{{alert.message}}</ion-label>
-          <ion-button (click)="showInstallBanner()" color="primary">앱으로 보기</ion-button>
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <ion-icon name="close-circle" item-right (click)="closeAlert()"></ion-icon>
+        <ion-item *ngIf="showInstallBtn" lines="none">
+          <ion-buttons slot="end">
+            <ion-button color="dark" (click)="showInstallBanner()" color="primary">{{alert.message}}</ion-button>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <ion-icon name="close-circle" item-right (click)="closeAlert()"></ion-icon>
+          </ion-buttons>
         </ion-item>
     </p>
 

@@ -30,7 +30,7 @@ export class LoginPage implements OnInit {
     });
 
     this.alerts.push({
-      message: '홈화면 다운로드',
+      message: '홈화면 추가',
     });
 
   }
