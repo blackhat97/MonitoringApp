@@ -1,5 +1,5 @@
 import { AuthenticationService } from './../shared/services/authentication.service';
-import { NavController } from '@ionic/angular';
+import { NavController, AlertController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -16,13 +16,14 @@ export class LoginPage implements OnInit {
   showInstallBtn: boolean = true;
   alerts: Array<any> = [];
 
-
   constructor(
     private formBuilder: FormBuilder,
     public router: Router,
     private authService: AuthenticationService,
     public navCtrl: NavController,
-  ) { 
+    public alertCtrl: AlertController
+
+  ) {
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       this.deferredPrompt = e;
@@ -34,6 +35,7 @@ export class LoginPage implements OnInit {
     });
 
   }
+
 
   ngOnInit() {
     this.credentialsForm = this.formBuilder.group({
@@ -75,6 +77,8 @@ export class LoginPage implements OnInit {
   public closeAlert(alert: any) {
     const index: number = this.alerts.indexOf(alert);
     this.alerts.splice(index, 1);
-}
+  }
+
+
 
 }

@@ -140,7 +140,7 @@ export class PostApiService {
     let alert = this.alertController.create({
       message: msg,
       header: '알림',
-      buttons: ['OK']
+      buttons: ['확인']
     });
     alert.then(alert => alert.present());
   }

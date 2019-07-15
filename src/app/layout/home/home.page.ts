@@ -15,12 +15,11 @@ import { NotiModalComponent } from '../noti-modal/noti-modal.component';
   styleUrls: ['home.page.scss'],
 
 })
-export class HomePage implements AfterViewInit{
+export class HomePage {
 
   @ViewChild('slider') slider: IonSlides;
 
   @ViewChildren('linear_gauge') linearGauge: QueryList<LinearGauge>;
-  private interval = null;
   segment = "0";
   badgeNumber: number;
 
@@ -52,34 +51,17 @@ export class HomePage implements AfterViewInit{
     public alertCtrl: AlertController,
     public activateroute: ActivatedRoute,
     public router: Router,
-    private localNotifications: LocalNotifications,
   ) {
 
   }
 
-  ionViewDidEnter() {
+  ionViewWillEnter() {
     this.getTitle();
     this.getCount();
     this.getChannel();
     this.getRealtime();
   }
   
-  ngAfterViewInit() {
-
-    /*
-    this.interval = setInterval(() => {
-      this.getRealtime();
-      this.getCount();
-      
-    }, 60*1000);  
-    */
-
-  }
-  
-
-  ionViewWillLeave(){
-    clearInterval(this.interval);
-  }
 
   getCount() {
     this.storage.get(this.COMPANY_ID).then(companyId => {
@@ -157,7 +139,15 @@ export class HomePage implements AfterViewInit{
 
   changeMode(num, mode) {
     this.modes[num] = mode;
-  }  
+  }
+
+  moveViewSource(url) {
+    this.router.navigateByUrl(`/view-source/trend/${url}`);
+  }
+
+  moveSettings(url) {
+    this.router.navigateByUrl(`/settings/${url}`);
+  }
 
 
 

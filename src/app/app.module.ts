@@ -16,7 +16,6 @@ import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer/ng
 import { RouteReuseStrategy } from '@angular/router';
 import localeKO from '@angular/common/locales/ko';
 import { registerLocaleData } from '@angular/common';
-import { Network } from '@ionic-native/network/ngx';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
@@ -26,6 +25,7 @@ import { FCM } from '@ionic-native/fcm/ngx';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { StorageService } from './shared/storage/storage.service';
+import { Network } from '@ionic-native/network/ngx';
 
 registerLocaleData(localeKO);
 
@@ -63,13 +63,13 @@ export function createTranslateLoader(http: HttpClient) {
     SplashScreen, 
     StatusBar,
     StorageService,
-    Network,
     File,
     FileTransfer,
     FileTransferObject,
     SocialSharing,
     LocalNotifications,
     FCM,
+    Network,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: LOCALE_ID, useValue: 'ko-KR' }
   ],

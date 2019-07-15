@@ -1,13 +1,13 @@
-import { Component, OnInit, QueryList, ViewChildren, ViewEncapsulation } from '@angular/core';
+import { Component, QueryList, ViewChildren, ViewEncapsulation, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { Platform, AlertController, IonRouterOutlet, ToastController, Config } from '@ionic/angular';
 import { AuthenticationService } from './shared/services/authentication.service';
-import { Network } from '@ionic-native/network/ngx';
 import { TranslateService } from '@ngx-translate/core';
 import { StorageService } from './shared/storage/storage.service';
+import { NetworkService, ConnectionStatus } from './shared/services/network.service';
 
 @Component({
   selector: 'app-root',
@@ -18,9 +18,10 @@ import { StorageService } from './shared/storage/storage.service';
 export class AppComponent {
 
   @ViewChildren(IonRouterOutlet) routerOutlets: QueryList<IonRouterOutlet>;
+  @ViewChild(IonRouterOutlet) routerOutlet: IonRouterOutlet;
+
   lastBack: number;
   allowClose: boolean;
-
 
   constructor(
     private platform: Platform,
@@ -29,12 +30,13 @@ export class AppComponent {
     private statusBar: StatusBar,
     private authService: AuthenticationService,
     public alertCtrl: AlertController,
-    private network: Network,
     private toastCtrl: ToastController,
     private translate: TranslateService,
     private config: Config,
     private storage: StorageService,
+    private networkService: NetworkService 
   ) {
+
     this.initTranslate();
     this.initializeApp();
   }
@@ -44,15 +46,23 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
       this.checkToken();
-    });
 
-    this.network.onDisconnect().subscribe(() => {
-      this.networkAlert();
-      setInterval(() => {
-        navigator['app'].exitApp();
-      }, 2000);
-    });
+      if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+        this.showAlert('네트워크 연결 확인 바랍니다.');
+        setInterval(() => {
+          navigator['app'].exitApp();
+        }, 2000);
+      }
 
+      /*
+      this.disconnected = this.network.onDisconnect().subscribe(() => {
+        this.showAlert('네트워크 연결 확인 바랍니다.');
+        setInterval(() => {
+          navigator['app'].exitApp();
+        }, 2000);
+      });
+      */
+    });
   }
 
   initTranslate() {
@@ -67,39 +77,17 @@ export class AppComponent {
         this.backButtonEvent();
         this.config.set('backButtonText', values.BACK_BUTTON_TEXT);
       });
-      //this.backButtonEvent();
     });
-  }
-
-  async displayNetworkUpdate(connectionState: string){
-    let networkType = this.network.type;
-    const toast = await this.toastCtrl.create({
-      message: `You are now ${connectionState} via ${networkType}`,
-      position: 'bottom',
-      duration: 2000
-    });
-    toast.present();
-  }
-
-  async networkAlert() {
-    const alert = await this.alertCtrl.create({
-      header: '알림',
-      message: '네트워크 연결 확인 바랍니다.',
-      buttons: ['확인']
-    });
-    await alert.present();
   }
 
   checkToken() {
     this.authService.checkToken();
   }
 
-  // active hardware back button
   backButtonEvent() {
-    
+    /*
     const closeDelay = 2000;
     const spamDelay = 500;
-
     this.platform.backButton.subscribe(async () => {
       this.routerOutlets.forEach((outlet: IonRouterOutlet) => {
         //if (this.router.url === '/home' || this.router.url === '/login' || this.router.url === '/') {
@@ -118,6 +106,19 @@ export class AppComponent {
 
       });
     });
+    */
+
+    this.platform.backButton.subscribeWithPriority(0, () => {
+      if (this.router.url === '/home') {
+        navigator['app'].exitApp();
+      } else if (this.router.url === '/login') {
+        navigator['app'].exitApp();
+      } else if (this.routerOutlet && this.routerOutlet.canGoBack()) {
+        this.routerOutlet.pop();
+      } else {
+        this.presentToast(this.router.url, 2000);
+      }
+    });
     
   }
 
@@ -131,6 +132,15 @@ export class AppComponent {
 			this.allowClose = false;
     });
     toast.present();
+  }
+
+  showAlert(msg) {
+    let alert = this.alertCtrl.create({
+      message: msg,
+      header: '알림',
+      buttons: ['OK']
+    });
+    alert.then(alert => alert.present());
   }
   
 }

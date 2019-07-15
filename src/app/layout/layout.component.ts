@@ -30,6 +30,7 @@ export class LayoutComponent {
    }
 
   ionViewDidEnter(){
+   
     this.storage.ready().then(() => {
     
       this.storage.get(this.USERNAME).then(username => {

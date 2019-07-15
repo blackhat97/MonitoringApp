@@ -88,8 +88,8 @@ export class AuthenticationService {
     this.storage.clear();
     this.storage.remove(this.TOKEN_NAME).then(() => {
       this.authenticationState.next(false);
-      this.router.navigateByUrl('/login');
-      //this.navCtrl.navigateRoot('/login');
+      //this.router.navigateByUrl('/login');
+      this.navCtrl.navigateRoot('/login');
     });
   }
 

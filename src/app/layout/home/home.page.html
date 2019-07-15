@@ -21,8 +21,9 @@
             refreshingSpinner="crescent">
         </ion-refresher-content>
     </ion-refresher>
-    <ion-list>
 
+
+    <ion-list>
         <ion-slides #slider>
             <ion-slide *ngFor="let channel of channels">
             <ion-grid fixed>
@@ -32,9 +33,7 @@
                 <ion-row>
                     <ion-col no-padding size="12" size-md="6" *ngFor="let sensor of sensors; let i = index">      
                         <ion-card no-padding *ngIf="(sensor.channel_id == channel.id) && (modes[i] == 0)" class="gauge-card" (click)="changeMode(i, 1)">
-                                <!--
-                            <ion-list style="background-color: palegoldenrod;">
-                                -->
+                                
                                 <ion-list class="hello" [attr.track]="sensor.state">
                                     <ion-list-header>
                                         <ion-label item-start text-left color="dark">{{ sensor.name_tag }}</ion-label>
@@ -81,8 +80,8 @@
                                 <ion-buttons slot="start">
                                     <ion-button fill="outline" expand="block" (click)="changeMode(i, 2)">아날로그<br />표시창</ion-button>
                                     <ion-button fill="outline" expand="block" (click)="changeMode(i, 3)">트렌드<br />보기</ion-button>
-                                    <ion-button fill="outline" expand="block" routerLink="/view-source/trend/{{sensor.id}}">자료<br />보기</ion-button>
-                                    <ion-button fill="outline" expand="block" routerLink="/settings/{{sensor.id}}">설정</ion-button>
+                                    <ion-button fill="outline" expand="block" (click)="moveViewSource(sensor.id)">자료<br />보기</ion-button>
+                                    <ion-button fill="outline" expand="block" (click)="moveSettings(sensor.id)">설정</ion-button>
                                     <ion-button fill="outline" expand="block" (click)="changeMode(i, 0)">메인<br />화면</ion-button>
                                 </ion-buttons>
                             </ion-item>
@@ -174,5 +173,5 @@
             </ion-slide>
         </ion-slides>
     </ion-list>
-
+    
 </ion-content>
