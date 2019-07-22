@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
 
-  url: 'http://iot.dymeter.com:3000/api',
+  url: 'http://app.dymeter.com:3000/api',
   username: 'username',
   jwt_token: 'jwt_token',
   company_id: 'company_id',
