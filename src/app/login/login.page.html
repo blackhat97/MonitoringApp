@@ -31,14 +31,14 @@
           </ion-item>
           <ion-item>
             <ion-label position="floating">패스워드</ion-label>
-            <ion-input type="password" formControlName="password"></ion-input>
+            <ion-input type="password" formControlName="password" (keyup.enter)="onLogin()"></ion-input>
           </ion-item>
           <br /><br />
             <ion-button shape="round" outline expand="full" type="submit" [disabled]="!credentialsForm.valid">로그인</ion-button>
 
     </form>
     <ion-item lines="none">
-        <ion-label button class="ion-text-center" [routerLink]="['/forgot']" routerDirection="forward" clear>계정찾기</ion-label>
+        <ion-text style="width: 100%; text-align: center;" [routerLink]="['/forgot']" routerDirection="forward" clear>계정찾기</ion-text>
     </ion-item>
   </ion-content>
   <ion-footer>

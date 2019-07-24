@@ -1,3 +1,4 @@
+import { ChannelFilterComponent } from './../channel-filter/channel-filter.component';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { GetApiService } from './../../shared/services/get-api.service';
 import { environment } from './../../../environments/environment.prod';
@@ -8,6 +9,7 @@ import { LinearGauge } from 'ng-canvas-gauges';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NotiModalComponent } from '../noti-modal/noti-modal.component';
 
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-home',
@@ -42,6 +44,32 @@ export class HomePage {
   MSG_TROUBLE = environment.msg_trouble;
   MSG_CLEAN = environment.msg_clean;
 
+
+  updateOption: any[] = [];
+
+  optionValue = {
+    color: ['#80ccff'],
+    title: [{
+      left: 'center',
+    }],
+    xAxis: [
+      {
+        type: 'category',
+        boundaryGap : false,
+        scale: true,
+      }
+    ],
+    yAxis: [
+      {
+        type: 'value',
+        splitArea: {
+          show: true
+        },
+      }
+    ],
+  };
+
+      
   
   constructor (
     private storage: Storage,
@@ -52,23 +80,26 @@ export class HomePage {
     public activateroute: ActivatedRoute,
     public router: Router,
   ) {
-
   }
 
-  ionViewWillEnter() {
+  ionViewDidEnter(){
     this.getTitle();
     this.getCount();
     this.getChannel();
     this.getRealtime();
+
   }
   
 
   getCount() {
     this.storage.get(this.COMPANY_ID).then(companyId => {
       this.storage.get(this.USER_ID).then(userId => {
+        /*
         this.getapi.getNotiCount(companyId, userId).subscribe((res: any) => { 
           this.badgeNumber = res[0].count;
         });
+        */
+       this.badgeNumber = 1;
       });
     });
   }
@@ -78,6 +109,18 @@ export class HomePage {
       component: NotiModalComponent,
     });
     await modal.present();
+  }
+
+  async presentFilter() {
+    const modal = await this.modalCtrl.create({
+      component: ChannelFilterComponent,
+    });
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if(data) {
+      //this.updateChannel(data);
+    } 
   }
 
   getTitle(){
@@ -107,25 +150,14 @@ export class HomePage {
           
           this.sensors = res;
           this.modes = Array(res.length).fill(0);
-
-          this.linearGauge.changes.subscribe(list => {
-              
-            list.forEach((gauge,index) => {     
-              let range_avg = (res[index].range_min + res[index].range_max)/2;
-              gauge.update({
-                minValue: res[index].range_min,
-                maxValue: res[index].range_max,
-                majorTicks: `${res[index].range_min}, ${range_avg}, ${res[index].range_max}`
-              });
-            }); 
-        });
         
-        this.storage.get(this.USER_ID).then(userId => {
-          this.getapi.getAllLimits(userId).subscribe((limit: any) => { 
-            this.limits = limit;
+          
+          this.storage.get(this.USER_ID).then(userId => {
+            this.getapi.getAllLimits(userId).subscribe((limit: any) => { 
+              this.limits = limit;
+            });
           });
         });
-      });
     });
 
   }
@@ -137,7 +169,69 @@ export class HomePage {
     }, 1000);
   }
 
-  changeMode(num, mode) {
+  changeMode(num, mode, id?: any) {
+    if(mode === 2) {
+
+      let range_min = this.sensors[num].range_min;
+      let range_max = this.sensors[num].range_max;
+      let range_avg = (range_min + range_max)/2;
+      
+
+      this.linearGauge.changes.subscribe((gauges: any) => {
+        console.log(gauges[1]);
+        /*
+        for(let i=0; i<gauges.length; i++) {
+          console.log(gauges[i]);
+        }
+        */
+        gauges.forEach((gauge: any) => {
+            
+            //console.log(gauge);
+            /*
+            gauge.update({
+              minValue: range_min,
+              maxValue: range_max,
+              majorTicks: `${range_min}, ${range_avg}, ${range_max}`
+            });
+            */
+        });
+      });
+      
+
+    } else if(mode === 3) {
+
+      let value : any = [];
+      let timestamp : any = [];
+
+      this.getapi.getHomeChart(id).subscribe((data: any) => {
+        
+        for(let i=0; i<data.length; i++) {
+          let dateString = moment.unix(data[i].timestamp).format("HH:mm");
+          timestamp.push(dateString);
+          value.push(data[i].value);
+        }
+
+        this.updateOption[num] = {     
+          
+          series: [
+            {
+              type: 'line',
+              barWidth: '60%',
+              symbol: 'none',
+              data: value,
+            }
+          ],
+          xAxis: [
+            {
+              data: timestamp
+            }
+          ]
+        }
+
+      
+      });
+
+    }
     this.modes[num] = mode;
   }
 
@@ -148,7 +242,6 @@ export class HomePage {
   moveSettings(url) {
     this.router.navigateByUrl(`/settings/${url}`);
   }
-
 
 
 }

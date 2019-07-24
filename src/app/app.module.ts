@@ -48,7 +48,10 @@ export function createTranslateLoader(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
-    IonicModule.forRoot(),
+    IonicModule.forRoot({
+      scrollAssist: true,
+      
+    }),
     IonicStorageModule.forRoot({
       name: '__dysdb',
       driverOrder: ['indexeddb', 'sqlite', 'websql']

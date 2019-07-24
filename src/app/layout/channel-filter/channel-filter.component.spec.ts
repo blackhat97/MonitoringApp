@@ -1,22 +1,22 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NotificationPage } from './notification.page';
+import { ChannelFilterComponent } from './channel-filter.component';
 
-describe('NotificationPage', () => {
-  let component: NotificationPage;
-  let fixture: ComponentFixture<NotificationPage>;
+describe('ChannelFilterComponent', () => {
+  let component: ChannelFilterComponent;
+  let fixture: ComponentFixture<ChannelFilterComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NotificationPage ],
+      declarations: [ ChannelFilterComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NotificationPage);
+    fixture = TestBed.createComponent(ChannelFilterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

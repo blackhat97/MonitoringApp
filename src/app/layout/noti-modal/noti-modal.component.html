@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-toolbar color="primary">
+    <ion-toolbar>
       <ion-buttons slot="start">
           <ion-button (click)="dismiss()">뒤로가기</ion-button>
       </ion-buttons>
@@ -11,14 +11,8 @@
   </ion-header>
   
   <ion-content padding>
-      <ion-list-header [hidden]="groups">
-        <ion-item lines="none">  
-          <ion-icon name="megaphone"></ion-icon>
-          <ion-label>새로운 알림이 없습니다.</ion-label>
-        </ion-item>
-      </ion-list-header>
       <ion-list>
-        <ion-item-group *ngFor="let group of groups | groupBy:'date'">
+        <ion-item-group *ngFor="let group of (groups | groupBy:'date')">
           <ion-item-divider sticky>
             <ion-label>
               {{group.key}}
@@ -70,11 +64,5 @@
       <!--
       <ion-item lines="none" [hidden]="!isEmptyObject(groups)">
       -->
-      <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
-        <ion-infinite-scroll-content
-          loadingSpinner="bubbles"
-          loadingText="추가 불러오기 중...">
-        </ion-infinite-scroll-content>
-      </ion-infinite-scroll>
   </ion-content>
   

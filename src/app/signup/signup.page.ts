@@ -28,7 +28,7 @@ export class SignupPage implements OnInit {
 
     this.registerForm = this.formBuilder.group({
       username: ['', [Validators.required]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required]],
       passchk: ['', [Validators.required]],
       email: ['', Validators.required],
       company: ['', Validators.required],

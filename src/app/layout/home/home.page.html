@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -7,6 +7,9 @@
         {{title}}
         </ion-title>
         <ion-buttons slot="end">
+            <ion-button (click)="presentFilter()">
+                <ion-icon slot="icon-only" name="options"></ion-icon>
+            </ion-button>
             <ion-button (click)="presentNoti()">
                 <ion-icon name="notifications"></ion-icon>
                 <ion-badge id="notifications-badge" color="danger" [hidden]="badgeNumber == 0">{{badgeNumber}}</ion-badge>
@@ -15,26 +18,26 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="outer-content" padding>
+<ion-content>
     <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="새로고침 중"
             refreshingSpinner="crescent">
         </ion-refresher-content>
     </ion-refresher>
 
-
     <ion-list>
         <ion-slides #slider>
             <ion-slide *ngFor="let channel of channels">
-            <ion-grid fixed>
+            <ion-grid>
                 <ion-row>
-                    <ion-label>{{channel.ch_name}}</ion-label>
+                    <ion-text class="channel__text">{{channel.ch_name}}</ion-text>
                 </ion-row>
                 <ion-row>
-                    <ion-col no-padding size="12" size-md="6" *ngFor="let sensor of sensors; let i = index">      
+                    <ion-col no-padding size="12" size-md="6" *ngFor="let sensor of sensors; let i = index"> 
+
                         <ion-card no-padding *ngIf="(sensor.channel_id == channel.id) && (modes[i] == 0)" class="gauge-card" (click)="changeMode(i, 1)">
                                 
-                                <ion-list class="hello" [attr.track]="sensor.state">
+                                <ion-list [attr.track]="sensor.state">
                                     <ion-list-header>
                                         <ion-label item-start text-left color="dark">{{ sensor.name_tag }}</ion-label>
                                         <ion-label item-end text-right>{{sensor.temp}}°C</ion-label>
@@ -74,33 +77,31 @@
                                 </ion-list>
                         </ion-card>
                         
-                        <ion-card *ngIf="(sensor.channel_id == channel.id) && (modes[i] == 1)" class="gauge-card">
-                            <br />
-                            <ion-item lines="none">
-                                <ion-buttons slot="start">
+                        <ion-card *ngIf="(sensor.channel_id == channel.id) && (modes[i] == 1)" class="button-card">
+                            <ion-card-content style="top: 25%;">
+                                <ion-buttons>
                                     <ion-button fill="outline" expand="block" (click)="changeMode(i, 2)">아날로그<br />표시창</ion-button>
-                                    <ion-button fill="outline" expand="block" (click)="changeMode(i, 3)">트렌드<br />보기</ion-button>
+                                    <ion-button fill="outline" expand="block" (click)="changeMode(i, 3, sensor.id)">트렌드<br />보기</ion-button>
                                     <ion-button fill="outline" expand="block" (click)="moveViewSource(sensor.id)">자료<br />보기</ion-button>
                                     <ion-button fill="outline" expand="block" (click)="moveSettings(sensor.id)">설정</ion-button>
                                     <ion-button fill="outline" expand="block" (click)="changeMode(i, 0)">메인<br />화면</ion-button>
                                 </ion-buttons>
-                            </ion-item>
-                            <br />
+                            </ion-card-content>
                         </ion-card>
                         
-                        <ion-card *ngIf="(sensor.channel_id == channel.id) && (modes[i] == 2)" class="gauge-card" (click)="changeMode(i, 1)">
+                        <ion-card *ngIf="((sensor.channel_id == channel.id) && (modes[i] == 2))" class="button-card" (click)="changeMode(i, 1)">
 
                             <ion-card-content>
-                                <ion-list>
+                                    <!--
                                     <ion-list-header>
                                         <ion-label item-start text-left color="dark">{{ sensor.name_tag }}</ion-label>
                                         <ion-label item-end text-right>{{sensor.temp}}°C</ion-label>
                                     </ion-list-header>
-                                    
+                                    -->
                                     <ion-row>
                                         <ion-col align-self-end>
                                             <ion-row>
-                                                <linear-gauge #linear_gauge aria-readonly="true"
+                                                <linear-gauge #linear_gauge
                                                 width="150"
                                                 height="50"
                                                 minor-ticks="4"
@@ -155,20 +156,26 @@
                                             &nbsp;{{ sensor.unit }}
                                         </ion-col>
                                     </ion-row>
-                                </ion-list>
                             </ion-card-content>     
                         </ion-card>
 
-                        <ion-card *ngIf="(sensor.channel_id == channel.id) && (modes[i] == 3)" class="gauge-card" (click)="changeMode(i, 1)">
+                        <ion-card *ngIf="(sensor.channel_id == channel.id) && (modes[i] == 3)" class="button-card" (click)="changeMode(i, 1)">
+                            
                             <ion-card-content>
-                                <br /><br />
-                                개발예정
-                                <br /><br />
+                                <ion-row>
+                                    <ion-col align-self-end>
+                                        <div echarts class="class-chart" [options]="optionValue" [merge]="updateOption[i]"></div>
+                                    </ion-col>
+                                    <ion-col>
+                                        <ion-label text-right color="dark" class="sensor-value">{{ sensor.value }}</ion-label>
+                                        &nbsp;{{ sensor.unit }}
+                                    </ion-col>
+                                </ion-row>
                             </ion-card-content>
                         </ion-card>
-
                     </ion-col>
                 </ion-row>
+                
             </ion-grid>
             </ion-slide>
         </ion-slides>

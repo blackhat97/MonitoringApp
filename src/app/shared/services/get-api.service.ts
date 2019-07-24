@@ -125,6 +125,17 @@ export class GetApiService {
       })
     );
   }
+
+  getHomeChart(sensorId) {
+    return this.http.get(`${this.url}/homechart/${sensorId}`, { headers: this.headers }).pipe(
+      map((res: any) => {
+        return res;
+      }),
+      catchError(e => {
+        throw new Error(e);
+      })
+    );
+  }
   
   getChart(sensorId, userId, today, yesterday) {
     const params = new HttpParams()

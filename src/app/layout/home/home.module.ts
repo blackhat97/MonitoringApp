@@ -1,3 +1,4 @@
+import { NgxEchartsModule } from 'ngx-echarts';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -7,6 +8,7 @@ import {GaugesModule} from 'ng-canvas-gauges';
 import { HomePage } from './home.page';
 import { NotiModalComponent } from '../noti-modal/noti-modal.component';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
+import { ChannelFilterComponent } from '../channel-filter/channel-filter.component';
 
 @NgModule({
   imports: [
@@ -15,6 +17,7 @@ import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
     IonicModule,
     GaugesModule,
     SharedPipesModule,
+    NgxEchartsModule,
     RouterModule.forChild([
       {
         path: '',
@@ -25,9 +28,11 @@ import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
   declarations: [
     HomePage,
     NotiModalComponent,
+    ChannelFilterComponent
   ],
   entryComponents: [
-    NotiModalComponent
+    NotiModalComponent,
+    ChannelFilterComponent
   ],
 })
 export class HomePageModule {}

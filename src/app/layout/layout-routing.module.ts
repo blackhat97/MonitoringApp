@@ -21,7 +21,6 @@ const routes: Routes = [
             { path: 'view-source', loadChildren: './view-source/view-source.module#ViewSourcePageModule' },
             { path: 'settings/:sensorId', loadChildren: './settings/settings.module#SettingsPageModule' },
             { path: 'question', loadChildren: './question/question.module#QuestionPageModule' },
-            { path: 'notification', loadChildren: './notification/notification.module#NotificationPageModule' },
             {
                 path: 'profile',
                 children: [

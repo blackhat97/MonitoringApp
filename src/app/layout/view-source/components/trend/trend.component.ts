@@ -59,11 +59,38 @@ export class TrendComponent implements OnInit {
     },
     dataZoom: [
       {
+        type: 'slider',
+        xAxisIndex: 0,
+        start: 40,
+        end: 60,
+        filterMode: 'empty'
+      },
+      {
+        type: 'slider',
+        yAxisIndex: 0,
+        filterMode: 'empty'
+      },
+
+      /*
+      {
+        type: 'inside',
+        xAxisIndex: 0,
+
+        filterMode: 'empty'
+      },
+      {
+        type: 'inside',
+        yAxisIndex: 0,
+        filterMode: 'empty'
+      },
+      {
           show: true,
           realtime: true,
           start: 30,
           end: 70,
       }
+      */
+      
     ],
     xAxis: [
       {

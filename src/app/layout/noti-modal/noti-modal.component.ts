@@ -46,14 +46,16 @@ export class NotiModalComponent implements AfterViewInit {
       this.storage.get(this.USER_ID).then(userId => {
         this.getapi.getNotification(companyId, userId).subscribe((res: any) => { 
           this.groups = res;
-          this.storage.get(this.ACTIONS).then((val) => {
-            if(!val) {
-              this.storage.set(this.ACTIONS, Array(res.length).fill(false));
-            } else {
-              //console.log(val);
-            }
-          });
         });
+        /*
+        this.storage.get(this.ACTIONS).then((val) => {
+          if(!val) {
+            this.storage.set(this.ACTIONS, Array(res.length).fill(false));
+          } else {
+            console.log(val);
+          }
+        });
+        */
       });
     });
   }
@@ -74,13 +76,6 @@ export class NotiModalComponent implements AfterViewInit {
     toast.present();
   }
 
-  loadData(event) {
-    setTimeout(() => {
-      console.log('Done');
-      event.target.complete();
-
-    }, 1000);
-  }
 
 
   updateList(ev) {
