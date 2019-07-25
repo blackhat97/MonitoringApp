@@ -8,11 +8,21 @@
 </ion-header>
 
 <ion-content padding>
-    <ion-card>
-        <ion-item>
+    <ion-card class="button-card">
+        <ion-item style="top: 10%;" lines="none">
           <ion-buttons slot="end">
-              <ion-button fill="outline" expand="block">알림<br />확인</ion-button>
-              <ion-button fill="outline" expand="block" routerLink="/home">메인<br />화면</ion-button>
+              <ion-button class="button__list" fill="outline" expand="block">
+                <div>
+                    <ion-icon style="zoom:1.5;" name="alarm"></ion-icon><br>
+                    <ion-label>알림<br />확인</ion-label>
+                </div>
+              </ion-button>
+              <ion-button class="button__list" fill="outline" expand="block" routerLink="/home">
+                <div>
+                    <ion-icon style="zoom:1.5;" name="home"></ion-icon><br>
+                    <ion-label>메인<br />화면</ion-label>
+                </div>
+              </ion-button>
           </ion-buttons>
         </ion-item>
     </ion-card>
@@ -80,7 +90,7 @@
                 </ion-col>
                 <ion-col>
                   <ion-item class="input-font" lines="none">
-                    <ion-input type="number"></ion-input>
+                    <ion-input type="number" value="365"></ion-input>
                     <span>일</span>
                 </ion-item>
                 </ion-col>

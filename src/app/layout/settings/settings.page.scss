@@ -12,3 +12,16 @@ ion-row {
 .input-font {
     font-size: 14px;
 }
+
+.button__list {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    vertical-align: middle;
+    --padding-start: 10px;
+    --padding-end: 10px;
+}
+
+.button-card {
+    height: 70px;
+}

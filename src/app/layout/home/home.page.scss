@@ -68,9 +68,8 @@ $categories: (
   }
 }
 
-
 .class-chart {
-  width: 60vw;
+  width: 45vw;
   height: 13vh;
 }
 
@@ -80,6 +79,19 @@ ion-content{
   //--ion-background-color: linear-gradient(to top, #30cfd0 0%, #330867 100%);
 
   --ion-background-color: linear-gradient(to bottom,#711B86 0%,#00057A 100%);
+}
+
+ion-label {
+  font-weight: bolder; 
+}
+
+.button__list {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  vertical-align: middle;
+  --padding-start: 10px;
+  --padding-end: 10px;
 }
 
 

@@ -192,7 +192,7 @@ export class TrendComponent implements OnInit {
         const total = this.value.reduce((a, b) => a + b);
         this.max = this.value.reduce((a, b)=>Math.max(a, b)); 
         this.min = this.value.reduce((a, b)=>Math.min(a, b)); 
-        this.avg = (total / this.value.length).toFixed(1);
+        this.avg = (total / this.value.length).toFixed(1) || '0';
 
       });
     });
@@ -233,7 +233,7 @@ export class TrendComponent implements OnInit {
         const total = this.value.reduce((a, b) => a + b);
         this.max = this.value.reduce((a, b)=>Math.max(a, b)); 
         this.min = this.value.reduce((a, b)=>Math.min(a, b)); 
-        this.avg = (total / this.value.length).toFixed(1);
+        this.avg = (total / this.value.length).toFixed(1) || '0';
 
         this.updateOption = {
           series: [{

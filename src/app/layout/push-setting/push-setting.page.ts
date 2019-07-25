@@ -46,7 +46,6 @@ export class PushSettingPage {
   }
 
   changeToggle(column, bool) {
-    console.log(column);
     const value = {column: column, bool: bool};
     
     this.storage.get(this.USER_ID).then(userId => {

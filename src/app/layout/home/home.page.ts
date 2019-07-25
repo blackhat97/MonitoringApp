@@ -170,33 +170,28 @@ export class HomePage {
   }
 
   changeMode(num, mode, id?: any) {
+
+
     if(mode === 2) {
 
       let range_min = this.sensors[num].range_min;
       let range_max = this.sensors[num].range_max;
       let range_avg = (range_min + range_max)/2;
-      
-
+  
       this.linearGauge.changes.subscribe((gauges: any) => {
-        console.log(gauges[1]);
-        /*
-        for(let i=0; i<gauges.length; i++) {
-          console.log(gauges[i]);
+        
+        gauges.some((gauge: any, index: number) => {   
+          if(num === index) {
+          gauge.update({
+            minValue: range_min,
+            maxValue: range_max,
+            majorTicks: `${range_min}, ${range_avg}, ${range_max}`
+          });
         }
-        */
-        gauges.forEach((gauge: any) => {
-            
-            //console.log(gauge);
-            /*
-            gauge.update({
-              minValue: range_min,
-              maxValue: range_max,
-              majorTicks: `${range_min}, ${range_avg}, ${range_max}`
-            });
-            */
         });
+        
+
       });
-      
 
     } else if(mode === 3) {
 
