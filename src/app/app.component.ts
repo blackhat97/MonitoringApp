@@ -109,18 +109,13 @@ export class AppComponent {
     */
 
     this.platform.backButton.subscribeWithPriority(0, () => {
-      this.routerOutlets.forEach((outlet: IonRouterOutlet) => {
-        if (this.router.url === '/home') {
-          navigator['app'].exitApp();
-        } else if (this.router.url === '/login') {
+        if (this.router.url === '/home' || this.router.url === '/login') {
           navigator['app'].exitApp();
         } else if (this.routerOutlet && this.routerOutlet.canGoBack()) {
-          //this.routerOutlet.pop();
-          outlet.pop();
+          this.routerOutlet.pop();
         } else {
           this.presentToast(this.router.url, 2000);
         }
-      });
     });
     
   }
