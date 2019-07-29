@@ -1,5 +1,6 @@
+import { GetApiService } from './../shared/services/get-api.service';
 import { FcmApiService } from './../shared/services/fcm-api.service';
-import { MenuController, AlertController } from '@ionic/angular';
+import { MenuController, AlertController, NavController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { FCM } from '@ionic-native/fcm/ngx';
@@ -15,16 +16,20 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 export class LayoutComponent {
   
   USERNAME = environment.username;
+  COMPANY_ID = environment.company_id;
   user: string;
+  company: string = "";
 
   constructor(
     public menu: MenuController,
     private storage: Storage,
     private fcm: FCM,
     private fcmapi: FcmApiService,
+    private getapi: GetApiService,
     public alertCtrl: AlertController,
     private socialSharing: SocialSharing,
     public inAppBrowser: InAppBrowser,
+    public navCtrl: NavController,
 
   ) {
    }
@@ -42,6 +47,13 @@ export class LayoutComponent {
           }
         });
       });
+
+      this.storage.get(this.COMPANY_ID).then(companyId => {
+        this.getapi.getCompany(companyId).subscribe((res: any) => { 
+          this.company = res[0].company;
+        });
+      });
+      
     });
   }
 
@@ -68,6 +80,10 @@ export class LayoutComponent {
       buttons: ['OK']
     });
     alert.then(alert => alert.present());
+  }
+
+  goToProfile() {
+    this.navCtrl.navigateForward('/profile');
   }
 
 }

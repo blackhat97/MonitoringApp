@@ -9,15 +9,6 @@ const routes: Routes = [
         children: [
             { path: '', redirectTo: 'home', pathMatch: 'prefix' },
             { path: 'home', loadChildren: './home/home.module#HomePageModule' },
-            { 
-                path: 'home', 
-                children: [
-                    {
-                      path: '',
-                      loadChildren: './home/home.module#HomePageModule' 
-                    },
-                  ]
-            },
             { path: 'view-source', loadChildren: './view-source/view-source.module#ViewSourcePageModule' },
             { path: 'settings/:sensorId', loadChildren: './settings/settings.module#SettingsPageModule' },
             { path: 'question', loadChildren: './question/question.module#QuestionPageModule' },

@@ -1,9 +1,11 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons>
-        <ion-back-button defaultHref="/home"></ion-back-button>
-        <ion-title>설정</ion-title>
+    <ion-buttons slot="start">
+      <ion-button size="small" shape="round" [routerLink]="'/home'" routerDirection="backward" color="tertiary">
+        <ion-icon slot="start" name="close"></ion-icon> 닫기
+      </ion-button>
     </ion-buttons>
+    <ion-title>설정</ion-title>
   </ion-toolbar>
 </ion-header>
 

@@ -1,46 +1,67 @@
-<ion-header>
-  <ion-toolbar color="light">
-    <ion-buttons slot="end">
-      <ion-button (click)="onSignup()">
-        <ion-icon ios="ios-person-add" md="md-person-add"></ion-icon>
-        계정만들기
-      </ion-button>      
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content padding>
-    <p *ngFor="let alert of alerts">
-        <ion-item *ngIf="showInstallBtn" lines="none">
-          <ion-buttons slot="end">
-            <ion-button color="dark" (click)="showInstallBanner()" color="primary">{{alert.message}}</ion-button>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <ion-icon name="close-circle" item-right (click)="closeAlert()"></ion-icon>
-          </ion-buttons>
+<ion-content padding class="animated fadeIn login auth-page">
+    <div class="theme-bg">
+        <p *ngFor="let alert of alerts">
+            <ion-item *ngIf="showInstallBtn" lines="none">
+              <ion-buttons slot="end">
+                <ion-button color="dark" (click)="showInstallBanner()" color="primary">{{alert.message}}</ion-button>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <ion-icon name="close-circle" item-right (click)="closeAlert()"></ion-icon>
+              </ion-buttons>
+            </ion-item>
+        </p>
+    </div>
+    <div class="auth-content">
+      
+      <!-- Logo -->
+      <div padding-horizontal text-center class="animated fadeInDown">
+        <div class="logo"></div>
+        <h4 no-margin>
+          <ion-text color="light" class="fw700">
+            수질모니터링
+          </ion-text>
+        </h4>
+      </div>
+  
+      <!-- Login form -->
+      <form [formGroup]="credentialsForm" class="list-form">
+        <ion-item no-padding class="animated fadeInUp">
+          <ion-label position="floating">
+            <ion-icon name="person" item-start></ion-icon>
+            아이디
+          </ion-label>
+          <ion-input color="secondary" type="text" formControlName="username"></ion-input>
         </ion-item>
-    </p>
-
-    <div class="login-logo">
-      <img src="assets/img/iot_logo.svg" alt="Ionic logo">
-    </div>   
-
-    <form [formGroup]="credentialsForm" (ngSubmit)="onLogin()">
-          <ion-item>
-            <ion-label position="floating">아이디</ion-label>
-            <ion-input type="text" formControlName="username"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label position="floating">패스워드</ion-label>
-            <ion-input type="password" formControlName="password" (keyup.enter)="onLogin()"></ion-input>
-          </ion-item>
-          <br /><br />
-            <ion-button shape="round" outline expand="full" type="submit" [disabled]="!credentialsForm.valid">로그인</ion-button>
-
-    </form>
-    <ion-item lines="none">
-        <ion-text style="width: 100%; text-align: center;" [routerLink]="['/forgot']" routerDirection="forward" clear>계정찾기</ion-text>
-    </ion-item>
+  
+        <ion-item no-padding class="animated fadeInUp">
+          <ion-label position="floating">
+            <ion-icon name="lock" item-start></ion-icon>
+            패스워드
+          </ion-label>
+          <ion-input color="secondary" type="password" formControlName="password"></ion-input>
+        </ion-item>
+      </form>
+  
+      <p text-right tappable [routerLink]="['/forgot']" routerDirection="forward" class="paz">
+        <ion-text color="light">
+          <strong>계정을 잊어버리셨나요?</strong>
+        </ion-text>
+      </p>
+  
+      <div>
+        <ion-button icon-left size="medium" expand="full" shape="round" color="dark" (click)="onLogin()" [disabled]="!credentialsForm.valid" tappable>
+          <ion-icon name="log-in"></ion-icon>
+          로그인
+        </ion-button>
+  
+      </div>
+  
+      <div text-center margin-top>
+        <span (click)="onSignup()" class="paz" tappable>
+          <ion-text color="light">
+            <strong>계정만들기</strong>
+          </ion-text>
+        </span>
+      </div>
+  
+    </div>
   </ion-content>
-  <ion-footer>
-    
-  </ion-footer>

@@ -73,8 +73,8 @@ export class AuthenticationService {
         this.storage.set(this.USER_ID, res['user_id']);
         
         this.authenticationState.next(true);
-        this.router.navigate(['/home']);
-        //this.navCtrl.navigateRoot('/home');
+        //this.router.navigate(['/home']);
+        this.navCtrl.navigateRoot('/home');
 
       }),
       catchError(e => {

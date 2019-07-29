@@ -20,7 +20,6 @@ export class AppComponent {
   @ViewChildren(IonRouterOutlet) routerOutlets: QueryList<IonRouterOutlet>;
   @ViewChild(IonRouterOutlet) routerOutlet: IonRouterOutlet;
 
-  lastBack: number;
   allowClose: boolean;
 
   constructor(
@@ -39,6 +38,8 @@ export class AppComponent {
 
     this.initTranslate();
     this.initializeApp();
+    this.backButtonEvent();
+
   }
 
   initializeApp() {
@@ -53,15 +54,6 @@ export class AppComponent {
           navigator['app'].exitApp();
         }, 2000);
       }
-
-      /*
-      this.disconnected = this.network.onDisconnect().subscribe(() => {
-        this.showAlert('네트워크 연결 확인 바랍니다.');
-        setInterval(() => {
-          navigator['app'].exitApp();
-        }, 2000);
-      });
-      */
     });
   }
 
@@ -74,7 +66,6 @@ export class AppComponent {
         this.translate.use(lang || 'ko'); // Establezca su idioma aquí
       }
       this.translate.get(['BACK_BUTTON_TEXT']).subscribe(values => {
-        this.backButtonEvent();
         this.config.set('backButtonText', values.BACK_BUTTON_TEXT);
       });
     });
@@ -85,51 +76,34 @@ export class AppComponent {
   }
 
   backButtonEvent() {
-    /*
-    const closeDelay = 2000;
-    const spamDelay = 500;
     this.platform.backButton.subscribe(async () => {
       this.routerOutlets.forEach((outlet: IonRouterOutlet) => {
-        //if (this.router.url === '/home' || this.router.url === '/login' || this.router.url === '/') {
-        if (this.router.isActive('/home', true) || this.router.isActive('/login', true) || this.router.isActive('/', true)) {
-          if (outlet && outlet.canGoBack()) {
-            outlet.pop();
-          } else if(Date.now() - this.lastBack > spamDelay && !this.allowClose) {
-            this.allowClose = true;
-            this.presentToast('뒤로버튼 한번 더 누르시면 종료됩니다.', closeDelay);
-            
-          } else if(Date.now() - this.lastBack < closeDelay && this.allowClose) {
+          //this.presentToast(this.router.url);
+          if (this.router.url === '/home' || this.router.url === '/login' ) {
             navigator['app'].exitApp();
-          }  
-          this.lastBack = Date.now();
-        }
-
+          } else if (outlet && outlet.canGoBack()) {
+            outlet.pop();
+          }
       });
     });
-    */
-
+    /*
     this.platform.backButton.subscribeWithPriority(0, () => {
         if (this.router.url === '/home' || this.router.url === '/login') {
           navigator['app'].exitApp();
         } else if (this.routerOutlet && this.routerOutlet.canGoBack()) {
           this.routerOutlet.pop();
-        } else {
-          this.presentToast(this.router.url, 2000);
         }
     });
-    
+    */
   }
 
-  async presentToast(msg, closeDelay) {
+  async presentToast(text) {
     const toast = await this.toastCtrl.create({
-        message: msg,
-        position: 'bottom',
-        duration: closeDelay
-    });
-    toast.onDidDismiss().then(() => {
-			this.allowClose = false;
-    });
-    toast.present();
+      message: text,
+      position: 'bottom',
+      duration: 2000
+  });
+  toast.present();
   }
 
   showAlert(msg) {

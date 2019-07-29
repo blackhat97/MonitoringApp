@@ -1,18 +1,18 @@
 {
   "items": [
      {
-      "name": "[교정방법] 온라인 3채널 멀티 수질분석 계측기",
-      "description": "간단한 파라메타 및 한글디스플레이 구조로 보다 쉽고 편리하게 사용 및 관리를 할 수 있으며, 설치방식이 간단하여 누구나 손쉽게 설치운영이 가능합니다.\n또한 4-20mA, RS-232, RS485통신 등 필수기능을 내장하였으며, High, Low 접점출력을 사용하여 공정제어에 용이 할 수 있도록 설계되었습니다.",
+      "name": "[교정방법]",
+      "description": "미정",
       "imageUrl": "assets/img/dwa-3000b.png"
     },
     {
-      "name": "[세척방법] Belfast, Northern Ireland",
-      "description": "With a growing array of open-air bars, arts venues, and restaurants, Belfast is quickly becoming an attractive destination for travelers. Stay at the design-forward Bullitt Hotel (inspired by the Steve McQueen film), which opened in October with casual, well-appointed rooms and complimentary grab-and-go breakfast granola. Check out arts organization Seedhead, which runs street-art tours and hosts pop-up cabarets around the city. The Michelin-starred OX and EIPIC lead the fine-dining pack, but also visit Permit Room, with its internationally inspired breakfast and locally roasted coffee. Noteworthy new nightlife spots include the Muddlers Club, a stylish restaurant and cocktail bar in the trendy Cathedral Quarter, and Vandal, a graffiti-adorned pizza place that turns into a late-night club, on the top floor of a 17th-century pub.—Nell McShane Wulfhart",
+      "name": "[세척방법]",
+      "description": "미정",
       "imageUrl": "https://cdn-image.travelandleisure.com/sites/default/files/styles/964x524/public/1480711606/belfast-city-hall-northern-ireland-WTG2017.jpg?itok=mCqumH31"
     },
     {
-      "name": "[주의사항] Belgrade, Serbia",
-      "description": "Since the end of the Yugoslav wars, Belgrade has attracted steady investment—its graffiti-covered neighborhoods are now full of restaurants and bars. You’ll find hearty platters of ćevapi—smoky sausages without casing—and stuffed somborka peppers at Sokače, paprika-laden kebabs at Tri Šešira, and pan-Latin tapas at Toro. But the biggest draw is the growing craft-beer scene (the city has 37 breweries). Don’t miss the Kabinet Supernova IPA at Prohibicija in the bar-filled Savamala district, as well as Kas’s full-bodied pale ales and Salto’s IPA at Bajloni, set in a 100-year-old brewery space in Cetinjska. —Govind Dhar",
+      "name": "[주의사항]",
+      "description": "미정",
       "imageUrl": "https://cdn-image.travelandleisure.com/sites/default/files/styles/964x524/public/1479487289/belgrade-serbia-fortress-WTG2017.jpg?itok=rw8c4Esh"
     }
   

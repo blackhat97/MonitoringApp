@@ -1,3 +1,14 @@
+:host {
+  ion-content {
+      --background: linear-gradient(135deg, var(--ion-color-dark), var(--ion-color-primary));
+  }
+}
+
+.paz {
+  position: relative;
+  z-index: 10;
+}
+
 .login-logo {
     padding: 20px 0;
     min-height: 200px;
@@ -11,8 +22,6 @@
 .list {
   margin-bottom: 0;
 }
-
-
 
 .rounded-btn {
   -webkit-border-radius: 50px;

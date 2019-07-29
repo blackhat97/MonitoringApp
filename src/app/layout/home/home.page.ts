@@ -2,7 +2,7 @@ import { ChannelFilterComponent } from './../channel-filter/channel-filter.compo
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { GetApiService } from './../../shared/services/get-api.service';
 import { environment } from './../../../environments/environment.prod';
-import { MenuController, ModalController, AlertController, IonSlides } from '@ionic/angular';
+import { MenuController, ModalController, AlertController, IonSlides, NavController } from '@ionic/angular';
 import { Component, ViewChild, OnInit, AfterViewInit, QueryList, ViewChildren } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { LinearGauge } from 'ng-canvas-gauges';
@@ -72,6 +72,7 @@ export class HomePage {
       
   
   constructor (
+    public navCtrl: NavController,
     private storage: Storage,
     private getapi: GetApiService,
     public menu: MenuController,
@@ -231,11 +232,12 @@ export class HomePage {
   }
 
   moveViewSource(url) {
-    this.router.navigateByUrl(`/view-source/trend/${url}`);
+    this.navCtrl.navigateForward(`/view-source/trend/${url}`);
+
   }
 
   moveSettings(url) {
-    this.router.navigateByUrl(`/settings/${url}`);
+    this.navCtrl.navigateForward(`/settings/${url}`);
   }
 
 
