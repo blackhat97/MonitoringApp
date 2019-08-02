@@ -14,39 +14,29 @@
         <!-- Register form -->
         <form [formGroup]="registerForm" class="list-form">
         <ion-item no-padding class="animated fadeInUp">
-            <ion-label position="floating">
-            <ion-icon name="person" item-start></ion-icon>
-            아이디
-            </ion-label>
-            <ion-input color="secondary" type="text" formControlName="username"></ion-input>
+            <ion-icon name="person" color="light" item-start></ion-icon>
+            &nbsp;&nbsp;
+            <ion-input color="secondary" type="text" placeholder="아이디" formControlName="username"></ion-input>
         </ion-item>
         <ion-item no-padding class="animated fadeInUp">
-            <ion-label position="floating">
-            <ion-icon name="mail" item-start></ion-icon>
-            이메일
-            </ion-label>
-            <ion-input color="secondary" type="email" formControlName="email"></ion-input>
+            <ion-icon name="mail" color="light" item-start></ion-icon>
+            &nbsp;&nbsp;
+            <ion-input color="secondary" type="email" placeholder="이메일" formControlName="email"></ion-input>
         </ion-item>
         <ion-item no-padding class="animated fadeInUp">
-            <ion-label position="floating">
-            <ion-icon name="lock" item-start></ion-icon>
-            비밀번호
-            </ion-label>
-            <ion-input color="secondary" type="password" formControlName="password"></ion-input>
+            <ion-icon name="lock" color="light" item-start></ion-icon>
+            &nbsp;&nbsp;
+            <ion-input color="secondary" type="password" placeholder="비밀번호 - 6~20자" formControlName="password"></ion-input>
         </ion-item>
         <ion-item no-padding class="animated fadeInUp">
-            <ion-label position="floating">
-            <ion-icon name="lock" item-start></ion-icon>
-            비밀번호 재입력
-            </ion-label>
-            <ion-input color="secondary" type="password" formControlName="passchk"></ion-input>
+            <ion-icon name="lock" color="light" item-start></ion-icon>
+            &nbsp;&nbsp;
+            <ion-input color="secondary" type="password" placeholder="비밀번호 확인" formControlName="passchk"></ion-input>
         </ion-item>
         <ion-item no-padding class="animated fadeInUp">
-            <ion-label position="floating">
-            <ion-icon name="home" item-start></ion-icon>
-            소속기관/회사
-            </ion-label>
-            <ion-input color="secondary" type="text" formControlName="company"></ion-input>
+            <ion-icon name="home" color="light" item-start></ion-icon>
+            &nbsp;&nbsp;
+            <ion-input color="secondary" type="text" placeholder="소속기관/회사" formControlName="company"></ion-input>
         </ion-item>
         </form>
     

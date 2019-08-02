@@ -1,3 +1,9 @@
+@font-face {
+  font-family: KoPubDotumBold;
+  src: url(assets/fonts/KoPubDotumBold.ttf) format("ttf");
+  }
+
+
 :host {
   ion-content {
       --background: linear-gradient(135deg, var(--ion-color-dark), var(--ion-color-primary));
@@ -47,13 +53,13 @@
 
 
 $categories: (
-  '00': #d8d8d8,
-  '02': rgba(210, 142, 142, 0.9),
-  '03': #f2d882,
-  '04': #f2d882,
-  '05': #f2d882,
-  '06': #f2d882,
-  '07': #f2d882
+  '00': #559dde,
+  '02': #f36522,
+  '03': #ffde00,
+  '04': #ffde00,
+  '05': #ffde00,
+  '06': #ffde00,
+  '07': #ffde00
 );
 
 @each $track, $value in map-remove($categories) {
@@ -76,8 +82,10 @@ ion-content{
 }
 */
 
-ion-label {
+.card__text {
   font-weight: bolder; 
+  font-family: KoPubDotumBold !important;
+  color: black;
 }
 
 .button__list {

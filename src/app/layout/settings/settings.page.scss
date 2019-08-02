@@ -1,3 +1,11 @@
+
+:host {
+    ion-content {
+        --background: linear-gradient(135deg, var(--ion-color-dark), var(--ion-color-primary));
+    }
+}
+
+
 ion-col {
     align-self: center;
 }
@@ -7,6 +15,10 @@ ion-row {
     //margin:0px !important; 
     margin-top: -20px;
 
+}
+
+ion-card {
+    background-color: white;
 }
 
 .input-font {

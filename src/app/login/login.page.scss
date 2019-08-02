@@ -4,6 +4,10 @@
   }
 }
 
+ion-item {
+  min-height: 4rem; /* <- this can be whatever you need */
+}
+
 .paz {
   position: relative;
   z-index: 10;

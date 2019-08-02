@@ -1,6 +1,6 @@
 import { AuthenticationService } from './../shared/services/authentication.service';
 import { NavController, AlertController } from '@ionic/angular';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -15,6 +15,9 @@ export class LoginPage implements OnInit {
   deferredPrompt: any;
   showInstallBtn: boolean = true;
   alerts: Array<any> = [];
+  
+  passwordShown: boolean = false;
+  passwordType: string = 'password';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -34,6 +37,17 @@ export class LoginPage implements OnInit {
       message: '홈화면 추가',
     });
 
+  }
+
+
+  togglePassword() {
+    if(this.passwordShown) {
+      this.passwordShown = false;
+      this.passwordType = 'password';
+    } else {
+      this.passwordShown = true;
+      this.passwordType = 'text';
+    }
   }
 
 

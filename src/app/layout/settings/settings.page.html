@@ -1,8 +1,15 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button size="small" shape="round" [routerLink]="'/home'" routerDirection="backward" color="tertiary">
-        <ion-icon slot="start" name="close"></ion-icon> 닫기
+      <ion-button size="small" fill="clear" [routerLink]="'/home'" routerDirection="backward">
+        <ion-icon slot="start" name="close"></ion-icon> 
+        닫기
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button size="small" fill="clear" (click)="onEditCloseItems()">
+        <ion-icon slot="start" name="{{isEditItems ? 'create' : 'close-circle'}}"></ion-icon> 
+        {{isEditItems ? '수정' : '수정취소'}}
       </ion-button>
     </ion-buttons>
     <ion-title>설정</ion-title>
@@ -28,8 +35,162 @@
           </ion-buttons>
         </ion-item>
     </ion-card>
-    <ion-card>
 
+    <ion-card *ngIf="isEditItems">
+        <div padding class="form-group" *ngFor="let info of infos">
+            <ion-grid>
+              <ion-row>
+                <ion-col size="4">
+                  채널명
+                </ion-col>
+                <ion-col size="8">
+                  <ion-input [value]="info.ch_name" readonly></ion-input>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="4">
+                  측정명
+                </ion-col>
+                <ion-col size="8">
+                  <ion-input [value]="info.name_tag" readonly></ion-input>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="4">
+                  측정단위
+                </ion-col>
+                <ion-col size="8">
+                  <ion-input [value]="info.unit" readonly></ion-input>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  온도표시
+                </ion-col>
+                <ion-col>
+                  <ion-select value="1" placeholder="선택" ok-text="선택" cancel-text="취소">
+                    <ion-select-option value="1">사용함</ion-select-option>
+                    <ion-select-option value="0">사용안함</ion-select-option>
+                  </ion-select>
+                </ion-col>
+                <ion-col>
+                  온도단위
+                </ion-col>
+                <ion-col>
+                  <ion-select value="c" placeholder="선택" ok-text="선택" cancel-text="취소">
+                    <ion-select-option value="c">°C</ion-select-option>
+                    <ion-select-option value="f">°F</ion-select-option>
+                  </ion-select>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  저장주기
+                </ion-col>
+                <ion-col>
+                  <ion-item class="input-font" lines="none">
+                      <ion-label>5 분</ion-label>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  저장기간
+                </ion-col>
+                <ion-col>
+                  <ion-item class="input-font" lines="none">
+                    <ion-label>365 일</ion-label>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="3">
+                  <span>최대알람</span>
+                </ion-col>
+                <ion-col size="5">
+                    <ion-item class="input-font" lines="none">
+                        <ion-input type="number" [value]="limit.value_max" readonly></ion-input>
+                        <span>{{info.unit}}</span>
+                    </ion-item>
+                </ion-col>
+                <ion-col size="4" text-right>
+                  <ion-select value="{{ limit?.bool_max }}" placeholder="선택" ok-text="선택" cancel-text="취소">
+                    <ion-select-option value="1">사용함</ion-select-option>
+                    <ion-select-option value="0">사용안함</ion-select-option>
+                  </ion-select>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="3">
+                  <span>최소알람</span>
+                </ion-col>
+                <ion-col size="5">
+                    <ion-item class="input-font" lines="none">
+                        <ion-input type="number" [value]="limit.value_min" readonly></ion-input>
+                        <span>{{info.unit}}</span>
+                    </ion-item>
+                </ion-col>
+                <ion-col size="4" text-right>
+                  <ion-select value="{{ limit?.bool_min }}" placeholder="선택" ok-text="선택" cancel-text="취소">
+                    <ion-select-option value="1">사용함</ion-select-option>
+                    <ion-select-option value="0">사용안함</ion-select-option>
+                  </ion-select>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="4">
+                  <span>센서교체주기</span>
+                </ion-col>
+                <ion-col size="4">
+                    <ion-item class="input-font" lines="none">
+                      <ion-input type="number" [value]="schedule.rep_term" readonly></ion-input>
+                      <span>개월</span>
+                    </ion-item>
+                </ion-col>
+                <ion-col size="4" text-right>
+                  <ion-select value="1" placeholder="선택" ok-text="선택" cancel-text="취소">
+                    <ion-select-option value="1">사용함</ion-select-option>
+                    <ion-select-option value="0">사용안함</ion-select-option>
+                  </ion-select>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="4">
+                  <span>센서교정주기</span>
+                </ion-col>
+                <ion-col size="4">
+                  <ion-item class="input-font" lines="none">
+                    <ion-input type="number" [value]="schedule.cor_term" readonly></ion-input>
+                    <span>개월</span>
+                  </ion-item>
+                </ion-col>
+                <ion-col size="4" text-right>
+                  <ion-select value="1" placeholder="선택" ok-text="선택" cancel-text="취소">
+                    <ion-select-option value="1">사용함</ion-select-option>
+                    <ion-select-option value="0">사용안함</ion-select-option>
+                  </ion-select>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="4">
+                  <span>센서점검주기</span>
+                </ion-col>
+                <ion-col size="4">
+                    <ion-input type="number" readonly></ion-input>
+                </ion-col>
+                <ion-col size="4" text-right>
+                  <ion-select value="1" placeholder="선택" ok-text="선택" cancel-text="취소">
+                    <ion-select-option value="1">사용함</ion-select-option>
+                    <ion-select-option value="0">사용안함</ion-select-option>
+                  </ion-select>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+        </div>
+    </ion-card>
+
+    
+    <ion-card *ngIf="!isEditItems">
         <div padding class="form-group" *ngFor="let info of infos">
             <ion-grid>
               <ion-row>
@@ -98,9 +259,6 @@
                 </ion-col>
               </ion-row>
               <ion-row>
-                <!--
-                <ion-col size="4" align-self-center>
-                  -->
                 <ion-col size="3">
                   <span>최대알람</span>
                 </ion-col>

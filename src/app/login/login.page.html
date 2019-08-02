@@ -21,40 +21,34 @@
           </ion-text>
         </h4>
       </div>
-  
+      <br />
       <!-- Login form -->
       <form [formGroup]="credentialsForm" class="list-form">
         <ion-item no-padding class="animated fadeInUp">
-          <ion-label position="floating">
-            <ion-icon name="person" item-start></ion-icon>
-            아이디
-          </ion-label>
-          <ion-input color="secondary" type="text" formControlName="username"></ion-input>
+          <ion-icon name="person" color="light" item-start></ion-icon>
+          &nbsp;&nbsp;
+          <ion-input placeholder="아이디" color="secondary" type="text" formControlName="username"></ion-input>
         </ion-item>
   
         <ion-item no-padding class="animated fadeInUp">
-          <ion-label position="floating">
-            <ion-icon name="lock" item-start></ion-icon>
-            패스워드
-          </ion-label>
-          <ion-input color="secondary" type="password" formControlName="password"></ion-input>
+          <ion-icon name="lock" color="light" item-start></ion-icon>
+          &nbsp;&nbsp;
+          <ion-input placeholder="패스워드" color="secondary" [type]="passwordType" formControlName="password"></ion-input>
+          <ion-icon name="eye" [color]="passwordShown === true ? 'danger' : 'light'" item-end (click)="togglePassword()"></ion-icon>
         </ion-item>
       </form>
-  
+      <br />
       <p text-right tappable [routerLink]="['/forgot']" routerDirection="forward" class="paz">
         <ion-text color="light">
           <strong>계정을 잊어버리셨나요?</strong>
         </ion-text>
       </p>
-  
       <div>
         <ion-button icon-left size="medium" expand="full" shape="round" color="dark" (click)="onLogin()" [disabled]="!credentialsForm.valid" tappable>
           <ion-icon name="log-in"></ion-icon>
           로그인
         </ion-button>
-  
       </div>
-  
       <div text-center margin-top>
         <span (click)="onSignup()" class="paz" tappable>
           <ion-text color="light">

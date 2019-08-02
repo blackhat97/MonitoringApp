@@ -19,3 +19,7 @@
     margin-left:auto; 
     margin-right: auto; 
 }
+
+ion-item {
+    min-height: 4rem; /* <- this can be whatever you need */
+}
