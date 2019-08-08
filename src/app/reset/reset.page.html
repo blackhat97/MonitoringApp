@@ -9,7 +9,7 @@
       <!-- LOGIN FORM -->
     <form [formGroup]="resetForm" (ngSubmit)="onSubmit()">
       <ion-item>
-          <ion-label position="floating">새로운 패스워드</ion-label>
+          <ion-label position="floating">새로운 패스워드(6자 이상)</ion-label>
           <ion-input type="password" formControlName="newpass"></ion-input>
         </ion-item>
         <ion-item>

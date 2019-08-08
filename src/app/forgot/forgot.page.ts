@@ -1,5 +1,5 @@
 import { AuthenticationService } from './../shared/services/authentication.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Component } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 
@@ -19,7 +19,10 @@ export class ForgotPage {
     private authSerivce: AuthenticationService,
   ) {
     this.forgotForm = this.formBuilder.group({
-      email: ['', [Validators.required]]
+      email: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
+      ])),
     });
   }
 

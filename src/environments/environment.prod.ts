@@ -10,12 +10,14 @@ export const environment = {
   channel_toggles: 'channel_toggles',
   actions: 'actions',
 
-  msg_ok: '정상 측정 중입니다.',
+  msg_ok: '정상 측정 중',
   msg_network_error: '통신불량입니다.',
   msg_correction: '교정 중입니다.',
   msg_replace: '교체 중입니다.',
-  msg_trouble: '센서/계측기에 문제가 생겼습니다.',
+  msg_trouble: '센서/계측기 문제 발생',
   msg_clean: '세척 중입니다.',
 
   msg_range_off: '접점 발생',
+
+  locker: '1234',
 };

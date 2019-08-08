@@ -31,6 +31,7 @@ export class HomePage {
   limits: any[] = [];
 
   modes = [];
+  getError: Boolean = false;
 
   USER_NAME = environment.username;
   COMPANY_ID = environment.company_id;
@@ -120,8 +121,19 @@ export class HomePage {
 
     const { data } = await modal.onWillDismiss();
     if(data) {
-      //this.updateChannel(data);
+      this.updateChannel(data);
     } 
+  }
+
+  updateChannel(channel_ids) {
+    this.storage.get(this.COMPANY_ID).then(companyId => {
+      this.getapi.getSelectedChannel(companyId, channel_ids).subscribe((res: any) => {  
+        this.channels = res;
+      });
+      this.getapi.getSelectedRealtime(companyId, channel_ids).subscribe((res: any) => {
+        this.sensors = res;
+      });
+    });
   }
 
   getTitle(){
@@ -147,18 +159,19 @@ export class HomePage {
 
     this.storage.get(this.COMPANY_ID).then(companyId => {
 
-        this.getapi.getRealtime(companyId).subscribe((res: any) => {
-          
+        this.getapi.getRealtime(companyId)
+        .subscribe(
+          (res: any) => {
           this.sensors = res;
           this.modes = Array(res.length).fill(0);
-        
           
           this.storage.get(this.USER_ID).then(userId => {
             this.getapi.getAllLimits(userId).subscribe((limit: any) => { 
               this.limits = limit;
             });
           });
-        });
+          }  
+        );
     });
 
   }

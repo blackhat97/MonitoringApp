@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
-import { Platform, AlertController, IonRouterOutlet, ToastController, Config } from '@ionic/angular';
+import { Platform, AlertController, IonRouterOutlet, ToastController, Config, ModalController } from '@ionic/angular';
 import { AuthenticationService } from './shared/services/authentication.service';
 import { TranslateService } from '@ngx-translate/core';
 import { StorageService } from './shared/storage/storage.service';
@@ -33,7 +33,9 @@ export class AppComponent {
     private translate: TranslateService,
     private config: Config,
     private storage: StorageService,
-    private networkService: NetworkService 
+    private networkService: NetworkService,
+    public modalCtrl: ModalController,
+
   ) {
 
     this.initTranslate();
@@ -77,24 +79,41 @@ export class AppComponent {
 
   backButtonEvent() {
     this.platform.backButton.subscribe(async () => {
+
+      try {
+        const element = await this.modalCtrl.getTop();
+        if (element) {
+          element.dismiss();
+          return;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+
       this.routerOutlets.forEach((outlet: IonRouterOutlet) => {
-          //this.presentToast(this.router.url);
-          if (this.router.url === '/home' || this.router.url === '/login' ) {
-            navigator['app'].exitApp();
-          } else if (outlet && outlet.canGoBack()) {
-            outlet.pop();
+        if (outlet && outlet.canGoBack()) {
+          outlet.pop();
+        } else if (this.router.url === '/home' || this.router.url === '/login' ) {
+            let alert = this.alertCtrl.create({
+              header: '종료창',
+              message: '앱을 종료하시겠습니까?',
+              buttons: [
+                {
+                  text: '취소',
+                  role: 'cancel'
+                },
+                {
+                  text: '종료',
+                  handler: () => {
+                    navigator['app'].exitApp();
+                  }
+                }
+              ]
+            });
+            alert.then(alert => alert.present());
           }
       });
     });
-    /*
-    this.platform.backButton.subscribeWithPriority(0, () => {
-        if (this.router.url === '/home' || this.router.url === '/login') {
-          navigator['app'].exitApp();
-        } else if (this.routerOutlet && this.routerOutlet.canGoBack()) {
-          this.routerOutlet.pop();
-        }
-    });
-    */
   }
 
   async presentToast(text) {

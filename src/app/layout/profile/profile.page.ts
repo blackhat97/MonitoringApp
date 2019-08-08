@@ -3,8 +3,10 @@ import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
 import { AuthenticationService } from './../../shared/services/authentication.service';
 import { Component } from '@angular/core';
-import { ToastController, AlertController, NavController } from '@ionic/angular';
+import { ToastController, AlertController, NavController, Platform } from '@ionic/angular';
 import { environment } from '../../../environments/environment.prod';
+import { AppVersion } from '@ionic-native/app-version/ngx';
+import { AppUpdate } from '@ionic-native/app-update/ngx';
 
 
 @Component({
@@ -19,6 +21,8 @@ export class ProfilePage {
   USERID = environment.user_id;
   profiles : any;
 
+  VersionNumber:string;
+
   constructor(
     private authService: AuthenticationService, 
     private toastController: ToastController,
@@ -26,10 +30,27 @@ export class ProfilePage {
     public getapi: GetApiService,
     private storage: Storage,
     public router: Router,
-    public navCtrl: NavController
+    public navCtrl: NavController,
+    private appVersion: AppVersion,
+    public plt: Platform,
+    private appUpdate: AppUpdate
     ) { 
       this.getProfile();
+
+      if(this.plt.is('android')) {
+        this.appVersion.getVersionNumber().then(value => {
+          this.VersionNumber = `v${value}`;
+        }).catch(err => {
+          console.log(err);
+        });
+      }
+      
     }
+
+  updateApp() {
+    const updateUrl = 'http://download.dymeter.com/download/update.xml';
+    this.appUpdate.checkAppUpdate(updateUrl).then(() => { console.log('Update available') });
+  }
 
   onLoggedout() {
     this.authService.logout();

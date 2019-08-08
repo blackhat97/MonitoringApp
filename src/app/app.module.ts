@@ -27,6 +27,12 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { StorageService } from './shared/storage/storage.service';
 import { Network } from '@ionic-native/network/ngx';
 
+import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
+import { SQLite } from '@ionic-native/sqlite/ngx';
+
+import { AppVersion } from '@ionic-native/app-version/ngx';
+import { AppUpdate } from '@ionic-native/app-update/ngx';
+
 registerLocaleData(localeKO);
 
 
@@ -73,6 +79,10 @@ export function createTranslateLoader(http: HttpClient) {
     LocalNotifications,
     FCM,
     Network,
+    SQLite,
+    SQLitePorter,
+    AppVersion,
+    AppUpdate,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: LOCALE_ID, useValue: 'ko-KR' }
   ],

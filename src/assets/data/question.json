@@ -2,17 +2,17 @@
   "items": [
      {
       "name": "[교정방법]",
-      "description": "미정",
+      "description": "",
       "imageUrl": "assets/img/dwa-3000b.png"
     },
     {
       "name": "[세척방법]",
-      "description": "미정",
+      "description": "",
       "imageUrl": "https://cdn-image.travelandleisure.com/sites/default/files/styles/964x524/public/1480711606/belfast-city-hall-northern-ireland-WTG2017.jpg?itok=mCqumH31"
     },
     {
       "name": "[주의사항]",
-      "description": "미정",
+      "description": "",
       "imageUrl": "https://cdn-image.travelandleisure.com/sites/default/files/styles/964x524/public/1479487289/belgrade-serbia-fortress-WTG2017.jpg?itok=rw8c4Esh"
     }
   

@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS settings(sensorId INTEGER NOT NULL UNIQUE, tempSign BOOLEAN, tempUnit TEXT, storeInt INTEGER, storeTerm INTEGER);

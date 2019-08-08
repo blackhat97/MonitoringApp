@@ -25,7 +25,7 @@
         </ion-item>
         <ion-row responsive-sm>
           <ion-col>
-              <ion-button type="submit" icon-left size="medium" expand="full" shape="round" color="dark" tappable>
+              <ion-button type="submit" icon-left size="medium" expand="full" shape="round" color="dark" [disabled]="!forgotForm.valid" tappable>
                   완료
               </ion-button>
           </ion-col>

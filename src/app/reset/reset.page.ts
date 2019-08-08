@@ -24,7 +24,7 @@ export class ResetPage implements OnInit {
 
   ngOnInit() {
     this.resetForm = this.formBuilder.group({
-      newpass: ['', [Validators.required]],
+      newpass: ['', [Validators.required, Validators.minLength(6)]],
       passchk: ['', [Validators.required]]
     });
   }

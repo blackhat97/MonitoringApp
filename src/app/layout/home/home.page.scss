@@ -10,11 +10,14 @@
   }
 }
 
+ion-slide >:first-child {
+  width: 100%;
+}
+
 .sensor-value {
   font-size: 40px;
   font-weight:bolder;
 }
-
 
 .gauge-card {
   margin-top: 0px  !important;

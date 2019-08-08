@@ -1,28 +1,39 @@
+import { Observable } from 'rxjs';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Storage } from '@ionic/storage';
-import { ActivatedRoute } from '@angular/router';
-import { LoadingController, AlertController } from '@ionic/angular';
+import { ActivatedRoute, Router } from '@angular/router';
+import { LoadingController, AlertController, ToastController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { GetApiService } from '../../shared/services/get-api.service';
 import { environment } from '../../../environments/environment.prod';
+import { PostApiService } from '../../shared/services/post-api.service';
+import { DatabaseService } from '../../shared/services/database.service';
 
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.page.html',
   styleUrls: ['./settings.page.scss'],
 })
-export class SettingsPage {
+export class SettingsPage implements OnInit {
+
+  validations_form: FormGroup;
 
   USER_ID = environment.user_id;
+  COMPANY_ID = environment.company_id;
 
+  LOCKER = environment.locker;
   sensorId: string;
   infos: any;
-  limit: any;
-  schedule: any;
+
+  limits: any;
+  schedules: any;
 
   stIntervals: Array<number> = [1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60];
   selectNums: Array<number> = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   isEditItems: boolean = true;
+  
+  localdb: Observable<any[]>;
 
   constructor(
     private getapi: GetApiService,
@@ -30,39 +41,129 @@ export class SettingsPage {
     public loadingController: LoadingController,
     public alertCtrl: AlertController,
     private activatedRoute: ActivatedRoute,
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private postapi: PostApiService,
+    private toastController: ToastController,
+    private db: DatabaseService
 
   ) { 
     this.sensorId = this.activatedRoute.snapshot.paramMap.get('sensorId');
 
   }
 
-  ionViewWillEnter(){
+  ionViewDidEnter(){
+
 
     this.storage.ready().then(() => {
+
+      this.storage.get(this.COMPANY_ID).then(companyId => {
+        this.postapi.initSchedules(this.sensorId, companyId).subscribe();
+      });
+
       this.storage.get(this.USER_ID).then(userId => {
-        this.getapi.getInfoBasic(this.sensorId, userId).subscribe((res: any) => {
-          this.infos = res;
-        });
-        this.getapi.getInfoLimits(this.sensorId, userId).subscribe((res: any) => {
-          this.limit = res[0];
+        
+        this.postapi.initLimits(userId, this.sensorId).subscribe();
+
+        this.getapi.getInfoBasic(this.sensorId, userId).subscribe((res1: any) => {
+          this.infos = res1;
+          this.getapi.getInfoLimits(this.sensorId, userId).subscribe((res2: any) => {
+            this.limits = res2;
+            this.getapi.getInfoSchedule(this.sensorId).subscribe((res3: any) => {
+              this.schedules = res3;
+              this.validations_form = this.formBuilder.group({
+                ch_id: new FormControl(res1[0].channel_id),
+                ch_name: new FormControl(res1[0].ch_name),
+                name_tag: new FormControl(res1[0].name_tag),
+
+                value_max: new FormControl(res2[0].value_max),
+                value_min: new FormControl(res2[0].value_min),
+
+                rep_term: new FormControl(res3[0].rep_term, Validators.required),
+                cor_term: new FormControl(res3[0].cor_term, Validators.required),
+                check_term: new FormControl(res3[0].check_term, Validators.required)
+                
+              });
+              
+            });
+          });
+
+          /*
+          let formList : any = {
+            'ff': res1[0].ch_name,
+            'ee': res1[0].name_tag,
+          };
+          */
+
         });
       });
     });
+  }
 
-    this.getapi.getInfoSchedule(this.sensorId).subscribe((res: any) => {
-      this.schedule = res[0];
-
+  ngOnInit() {
+    this.db.getDatabaseState().subscribe(rdy => {
+      if (rdy) {
+        this.localdb = this.db.getSettings();
+      }
     });
   }
 
+  onSubmit(value){
+    let data = {
+      ch_id: value.ch_id,
+      ch_name: value.ch_name,
+      name_tag: value.name_tag,
+      value_max: value.value_max,
+      value_min: value.value_min,
+      rep_term: value.rep_term,
+      cor_term: value.cor_term,
+      check_term: value.check_term
+    }
+    this.storage.get(this.USER_ID).then(userId => {
+      this.postapi.updateSettings(userId, this.sensorId, data)
+      .subscribe(
+        res => {
+          this.presentToast('변경되었습니다.');
+          this.router.navigate(["/home"]);
+        }
+      );
+    }); 
+  }
 
+  maxChanged(evt) {
+    this.storage.get(this.USER_ID).then(userId => {
+      let value = {sensor_id: this.sensorId, position: "max", user_id: userId, bool: evt.target.value};
+      this.postapi.booleanLimits(value).subscribe(res => {
+        this.presentToast('최대알림이 변경되었습니다.');
+      });
+    });
+  }
 
+  minChanged(evt) {
+    this.storage.get(this.USER_ID).then(userId => {
+      let value = {sensor_id: this.sensorId, user_id: userId, position: "min", bool: evt.target.value};
+      this.postapi.booleanLimits(value).subscribe(res => {
+        this.presentToast('최소알림이 변경되었습니다.');
+      });
+    });
+
+  }
+  
+
+  async presentToast(msg) {
+    const toast = await this.toastController.create({
+        message: msg,
+        position: 'bottom',
+        duration: 2500
+    });
+    toast.present();
+  }
 
 
   verifyPass(num) {
     let alert = this.alertCtrl.create({
-      header: '암호를 입력하세요!',
-      message: '암호 입력',
+      header: '암호 입력',
+      //message: '암호 입력',
       inputs: [
         {
           type: 'password',
@@ -77,17 +178,19 @@ export class SettingsPage {
           text: '확인',
           role: 'submit',
           handler: (data) => {
-            if(data.pass != '1234') {
-              this.wrongAlert('비밀번호가 일치하지 않습니다.');
+            
+            if(data.pass != this.LOCKER) {
+              this.wrongAlert('암호가 일치하지 않습니다.');
             } else {
               switch (num) {
                 case 0:
-                  console.log('h');
+                  this.onSubmit(this.validations_form.value);
                   break;
                 case 1:
+                  this.wrongAlert('개발중입니다.');
                   break;
                 case 2:
-
+                  this.wrongAlert('개발중입니다.');
                   break;
               }
             }
@@ -111,5 +214,6 @@ export class SettingsPage {
   onEditCloseItems() {
     this.isEditItems = !this.isEditItems;
   }
+
 
 }

@@ -1,6 +1,6 @@
 import { AlertController } from '@ionic/angular';
 import { AuthenticationService } from './../shared/services/authentication.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -28,9 +28,9 @@ export class SignupPage implements OnInit {
 
     this.registerForm = this.formBuilder.group({
       username: ['', [Validators.required]],
-      password: ['', [Validators.required, , Validators.minLength(6)]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
       passchk: ['', [Validators.required]],
-      email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')]],
       company: ['', Validators.required],
     });
     

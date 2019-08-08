@@ -26,8 +26,11 @@
     </ion-refresher>
 
         <ion-slides #slider>
+            <!--
+            <ion-text [hidden]="!getError" class="channel__text">서버 or 통신 에러</ion-text>
+            -->
             <ion-slide *ngFor="let channel of channels">
-            <ion-grid>
+            <ion-grid>                
                 <ion-row>
                     <ion-text class="channel__text">{{channel.ch_name}}</ion-text>
                 </ion-row>

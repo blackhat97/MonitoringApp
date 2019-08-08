@@ -135,6 +135,44 @@ export class PostApiService {
     )
   }
 
+  updateSettings(userId, sensorId, value) {
+    return this.http.put(`${this.url}/settings/${userId}/${sensorId}`, value, { headers: this.headers })
+    .pipe(
+      tap(res => {
+        return res;
+      }),
+      catchError(e => {
+        this.showAlert("오류가 생겼습니다.");
+        throw new Error(e);
+      })
+    )
+  }
+
+  initLimits(userId, sensorId) {
+    return this.http.post(`${this.url}/init-limits/${userId}/${sensorId}`, { headers: this.headers })
+    .pipe(
+      tap(res => {
+        return res;
+      }),
+      catchError(e => {
+        this.showAlert("오류가 생겼습니다.");
+        throw new Error(e);
+      })
+    )
+  }
+
+  initSchedules(sensorId, companyId) {
+    return this.http.post(`${this.url}/init-schedules/${sensorId}/${companyId}`, { headers: this.headers })
+    .pipe(
+      tap(res => {
+        return res;
+      }),
+      catchError(e => {
+        this.showAlert("오류가 생겼습니다.");
+        throw new Error(e);
+      })
+    )
+  }
 
   showAlert(msg) {
     let alert = this.alertController.create({

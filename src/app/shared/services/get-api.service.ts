@@ -1,3 +1,4 @@
+import { AlertController } from '@ionic/angular';
 import { AuthenticationService } from './authentication.service';
 import { map, catchError } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
@@ -18,7 +19,9 @@ export class GetApiService {
   constructor(
     private http: HttpClient,
     private auth: AuthenticationService,
-    private storage: Storage
+    private storage: Storage,
+    private alertController: AlertController,
+
   ) {
 
     this.storage.get(this.TOKEN_NAME).then(token => {
@@ -70,6 +73,7 @@ export class GetApiService {
     return this.http.get(`${this.url}/realtime/` + company_id, { headers: this.headers }).pipe(
       map((res: any) => {
         return res;
+
       }),
       catchError(e => {
         throw new Error(e);
