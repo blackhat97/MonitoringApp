@@ -20,7 +20,7 @@ export class ProfilePage {
   USERNAME = environment.username;
   USERID = environment.user_id;
   profiles : any;
-
+  updateState: string;
   VersionNumber:string;
 
   constructor(
@@ -43,13 +43,25 @@ export class ProfilePage {
         }).catch(err => {
           console.log(err);
         });
+
+        const updateUrl = 'http://download.dymeter.com/download/update.xml';
+        this.appUpdate.checkAppUpdate(updateUrl).then(update => {
+          this.updateState = update.msg;
+        }).catch(error=>{
+          console.log("Error: "+error.msg);
+        });
       }
       
     }
 
   updateApp() {
     const updateUrl = 'http://download.dymeter.com/download/update.xml';
-    this.appUpdate.checkAppUpdate(updateUrl).then(() => { console.log('Update available') });
+    this.appUpdate.checkAppUpdate(updateUrl).then(update => {
+      //alert("Update Status:  "+update.msg);
+    }).catch(error=>{
+      console.log("Error: "+error.msg);
+    });
+
   }
 
   onLoggedout() {

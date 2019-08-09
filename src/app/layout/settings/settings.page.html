@@ -381,7 +381,7 @@
                   채널수량
               </ion-col>
               <ion-col>
-                <ion-select placeholder="선택" ok-text="선택" cancel-text="취소">
+                <ion-select [disabled]="true" placeholder="선택" ok-text="선택" cancel-text="취소">
                   <ion-select-option *ngFor="let num of selectNums">CH{{num}}</ion-select-option>
                 </ion-select>
               </ion-col>
@@ -404,7 +404,7 @@
               </ion-col>
             </ion-row>
             <p align="right">
-              <ion-button class="button button-block button-calm ink" (click)="verifyPass(1)" fill="outline" type="submit">등록</ion-button> 
+              <ion-button class="button button-block button-calm ink" (click)="wrongAlert('개발중입니다.')" fill="outline" type="submit">등록</ion-button> 
             </p> 
           </ion-grid>
         </div>
@@ -419,7 +419,7 @@
                   스테이지수량
               </ion-col>
               <ion-col>
-                <ion-select placeholder="선택" ok-text="선택" cancel-text="취소">
+                <ion-select [disabled]="true" placeholder="선택" ok-text="선택" cancel-text="취소">
                   <ion-select-option *ngFor="let num of selectNums">{{num}}</ion-select-option>
                 </ion-select>
               </ion-col>
@@ -442,7 +442,7 @@
               </ion-col>
             </ion-row>
               <p align="right">
-                <ion-button class="button button-block button-calm ink" (click)="verifyPass(2)" fill="outline" type="submit">등록</ion-button>           
+                <ion-button class="button button-block button-calm ink" (click)="wrongAlert('개발중입니다.')" fill="outline" type="submit">등록</ion-button>           
               </p>
           </ion-grid>
         </div>

@@ -81,9 +81,9 @@ export class DatabaseService {
     });
   }
 
-  addSettings(name) {
-    let data = [name];
-    return this.database.executeSql('INSERT INTO settings (sensorId) VALUES (?)', data).then(data => {
+  addSettings(sensorId, userId) {
+    let data = [sensorId, userId];
+    return this.database.executeSql('INSERT INTO settings (sensorId, userId) VALUES (?, ?)', data).then(data => {
       this.loadSettings();
     });
   }

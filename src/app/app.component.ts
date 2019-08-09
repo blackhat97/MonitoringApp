@@ -20,7 +20,8 @@ export class AppComponent {
   @ViewChildren(IonRouterOutlet) routerOutlets: QueryList<IonRouterOutlet>;
   @ViewChild(IonRouterOutlet) routerOutlet: IonRouterOutlet;
 
-  allowClose: boolean;
+  lastTimeBackPress = 0;
+  timePeriodToExit = 2000;
 
   constructor(
     private platform: Platform,
@@ -54,7 +55,7 @@ export class AppComponent {
         this.showAlert('네트워크 연결 확인 바랍니다.');
         setInterval(() => {
           navigator['app'].exitApp();
-        }, 2000);
+        }, 3000);
       }
     });
   }
@@ -93,7 +94,24 @@ export class AppComponent {
       this.routerOutlets.forEach((outlet: IonRouterOutlet) => {
         if (outlet && outlet.canGoBack()) {
           outlet.pop();
-        } else if (this.router.url === '/home' || this.router.url === '/login' ) {
+        }
+        if (this.router.url === '/home' || this.router.url === '/login' ) {
+
+          if (new Date().getTime() - this.lastTimeBackPress < this.timePeriodToExit) {
+            navigator['app'].exitApp();
+
+          } else {
+
+            let toast = this.toastCtrl.create({
+              message: '뒤로 버튼을 한번 더 누르시면 앱이 종료됩니다.',
+              duration: 2000,
+              position: 'bottom'
+            });
+            toast.then(toast => toast.present());
+            
+            this.lastTimeBackPress = new Date().getTime();
+          }
+            /*
             let alert = this.alertCtrl.create({
               header: '종료창',
               message: '앱을 종료하시겠습니까?',
@@ -111,7 +129,8 @@ export class AppComponent {
               ]
             });
             alert.then(alert => alert.present());
-          }
+            */
+        }
       });
     });
   }
@@ -129,7 +148,7 @@ export class AppComponent {
     let alert = this.alertCtrl.create({
       message: msg,
       header: '알림',
-      buttons: ['OK']
+      buttons: ['확인']
     });
     alert.then(alert => alert.present());
   }

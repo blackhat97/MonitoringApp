@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.dys.iotapp" version="1.2.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.dys.iotapp" version="1.2.5" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>수질모니터링</name>
     <description>dys monitoring app</description>
     <author email="dysclouds@gmail.com" href="http://iot.dymeter.com/">대윤계기산업(주)</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://192.168.1.19:8102" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -88,6 +88,7 @@
     <plugin name="uk.co.workingedge.cordova.plugin.sqliteporter" spec="1.1.0" />
     <plugin name="cordova-plugin-app-version" spec="0.1.9" />
     <plugin name="cordova-plugin-app-update" spec="2.0.2" />
+    <allow-navigation href="http://192.168.1.19:8102" sessionid="689084da" />
     <engine name="ios" spec="4.5.5" />
     <engine name="android" spec="7.0.0" />
     <engine name="browser" spec="5.0.4" />

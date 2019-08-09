@@ -39,10 +39,14 @@
           </ion-label>
         </ion-item>
       </ion-list>
-      <ion-item *ngIf="plt.is('android')" (click)="updateApp()">
+
+      <ion-item *ngIf="plt.is('android')">
         <ion-icon slot="start" name="cloud-upload"></ion-icon>
-        <ion-label>업데이트</ion-label>
+        <ion-text>
+          업데이트 {{updateState}}
+        </ion-text>
       </ion-item>
+
       <p align="center">
         {{VersionNumber}}
       </p>

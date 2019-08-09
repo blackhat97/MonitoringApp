@@ -33,7 +33,7 @@ export class SettingsPage implements OnInit {
 
   isEditItems: boolean = true;
   
-  localdb: Observable<any[]>;
+  tableSets: Observable<any[]>;
 
   constructor(
     private getapi: GetApiService,
@@ -53,7 +53,6 @@ export class SettingsPage implements OnInit {
   }
 
   ionViewDidEnter(){
-
 
     this.storage.ready().then(() => {
 
@@ -101,10 +100,20 @@ export class SettingsPage implements OnInit {
   }
 
   ngOnInit() {
+    /*
+    this.storage.get(this.USER_ID).then(userId => {
+      this.db.addSettings(this.sensorId, userId).then(res => {
+        alert(res);
+      });
+    });
+    */
+
     this.db.getDatabaseState().subscribe(rdy => {
       if (rdy) {
-        this.localdb = this.db.getSettings();
+        this.tableSets = this.db.getSettings();
+        console.log(this.tableSets);
       }
+
     });
   }
 
