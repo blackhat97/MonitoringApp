@@ -101,7 +101,7 @@ export class HomePage {
           this.badgeNumber = res[0].count;
         });
         */
-       this.badgeNumber = 1;
+       this.badgeNumber = 0;
       });
     });
   }

@@ -12,6 +12,8 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { ToastController, AlertController, LoadingController, ActionSheetController, Platform } from '@ionic/angular';
 import * as papa from 'papaparse';
 
+import * as moment from 'moment';
+
 @Component({
   selector: 'app-view-text',
   templateUrl: './view-text.component.html',
@@ -30,6 +32,9 @@ export class ViewTextComponent implements OnInit {
   ch_name: string;
   title: string;
   
+  today : string;
+  yesterday : string;
+
   loggerForm: FormGroup;
   intervals = [5, 10, 15, 20, 30, 60];
   table_messages = {
@@ -73,6 +78,15 @@ export class ViewTextComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
   ) {
     this.sensorId = this.activatedRoute.snapshot.paramMap.get('sensorId');
+
+    this.today = moment().format("YYYY-MM-DD");
+    this.yesterday = moment().subtract(1, 'days').format("YYYY-MM-DD");
+    
+
+    this.loggerForm =  this.formBuilder.group({
+      start: [this.yesterday, [Validators.required]],
+      end: [this.today, [Validators.required]]
+    });
    }
 
   ngOnInit() {
@@ -85,10 +99,6 @@ export class ViewTextComponent implements OnInit {
       });
     });
 
-    this.loggerForm =  this.formBuilder.group({
-      start: ['', [Validators.required]],
-      end: ['', [Validators.required]]
-    });
   }
 
   onSubmit() {

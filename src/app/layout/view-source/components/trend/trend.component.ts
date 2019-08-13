@@ -4,14 +4,13 @@ import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { environment } from './../../../../../environments/environment.prod';
 import { Component, OnInit } from '@angular/core';
-
+import { Storage } from '@ionic/storage';
 
 /** echarts extensions: */
 import 'echarts/theme/macarons.js';
 import 'echarts/dist/extension/bmap.min.js';
 
 import * as moment from 'moment';
-import { Storage } from '@ionic/storage';
 
 
 @Component({

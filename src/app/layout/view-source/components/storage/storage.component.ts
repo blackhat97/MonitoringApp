@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { environment } from '../../../../../environments/environment.prod';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-storage',
@@ -23,6 +24,9 @@ export class StorageComponent implements OnInit {
   sensorId : string;
   ch_name: string;
   title: string;
+
+  today : string;
+  yesterday : string;
 
   USER_ID = environment.user_id;
   COMPANY_ID = environment.company_id;
@@ -52,6 +56,14 @@ export class StorageComponent implements OnInit {
 
   ) { 
     this.sensorId = this.activatedRoute.snapshot.paramMap.get('sensorId');
+    
+    this.today = moment().format("YYYY-MM-DD");
+    this.yesterday = moment().subtract(1, 'days').format("YYYY-MM-DD");
+    
+    this.eventForm =  this.formBuilder.group({
+      start: [this.yesterday, [Validators.required]],
+      end: [this.today, [Validators.required]]
+    });
 
   }
 
@@ -64,11 +76,6 @@ export class StorageComponent implements OnInit {
           this.title = info[0].name_tag;
         });
       });
-    });
-
-    this.eventForm =  this.formBuilder.group({
-      start: ['', [Validators.required]],
-      end: ['', [Validators.required]]
     });
   }
 

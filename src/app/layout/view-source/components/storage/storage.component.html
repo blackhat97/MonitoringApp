@@ -3,13 +3,35 @@
       <ion-label>{{ch_name}}</ion-label>
       <form role="form" [formGroup]="eventForm" (ngSubmit)="onSubmit()">
         <ion-item lines="none">
-          <ion-buttons slot="start">
-              <ion-button fill="outline" expand="block" routerLink="/view-source/trend/{{sensorId}}">트랜드<br />보기</ion-button>
-              <ion-button fill="outline" expand="block" routerLink="/view-source/view-text/{{sensorId}}">텍스트<br />보기</ion-button>
-              <ion-button fill="outline" expand="block" routerLink="/view-source/storage/{{sensorId}}">스토리지</ion-button>
-              <ion-button fill="outline" expand="block" type="submit" [disabled]="!eventForm.valid">자료<br />호출</ion-button>
-              <ion-button fill="outline" expand="block" routerLink="/home">메인<br />화면</ion-button>       
-          </ion-buttons>
+
+          <ion-buttons>
+            <ion-button class="button__list" fill="outline" expand="block" routerLink="/view-source/trend/{{sensorId}}">
+                <div>
+                    <ion-label>트랜드<br />보기</ion-label>
+                </div>
+            </ion-button>
+            <ion-button class="button__list" fill="outline" expand="block" routerLink="/view-source/view-text/{{sensorId}}">
+                <div>
+                    <ion-label>텍스트<br />보기</ion-label>
+                </div>
+            </ion-button>
+            <ion-button class="button__list" fill="outline" expand="block" routerLink="/view-source/storage/{{sensorId}}">
+                <div>
+                    <ion-label>스토리지</ion-label>
+                </div>
+            </ion-button>
+            <ion-button class="button__list" fill="outline" expand="block" type="submit" [disabled]="!eventForm.valid">
+                <div>
+                    <ion-label>자료<br />호출</ion-label>
+                </div>
+            </ion-button>
+            <ion-button class="button__list" fill="outline" expand="block" routerLink="/home">
+                <div>
+                    <ion-label>메인<br />화면</ion-label>
+                </div>
+            </ion-button>
+        </ion-buttons>
+
         </ion-item>
 
         <div class="form-group">

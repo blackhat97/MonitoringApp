@@ -115,8 +115,8 @@
                         </ion-card>
                         
                         <ion-card *ngIf="(sensor.channel_id == channel.id) && (modes[i] == 1)" class="button-card">
-                            <div style="top: 50%;">
-                                <br /><br />
+                            <div style="height: 32px; visibility: hidden;"></div>
+                            <div>
                                 <ion-buttons>
                                     <ion-button class="button__list" fill="outline" expand="block" (click)="changeMode(i, 2)">       
                                         <div>
@@ -148,9 +148,8 @@
                                             <ion-label>메인<br />화면</ion-label>
                                         </div>
                                     </ion-button>
-                                </ion-buttons>
-                            </div>    
-                                
+                                </ion-buttons> 
+                            </div>
                         </ion-card>
                         
                         <ion-card *ngIf="((sensor.channel_id == channel.id) && (modes[i] == 2))" class="button-card" (click)="changeMode(i, 1)">
