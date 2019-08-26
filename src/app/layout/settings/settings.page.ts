@@ -52,7 +52,7 @@ export class SettingsPage implements OnInit {
 
   }
 
-  ionViewDidEnter(){
+  ionViewWillEnter(){
 
     this.storage.ready().then(() => {
 
@@ -108,6 +108,8 @@ export class SettingsPage implements OnInit {
     });
     */
 
+   this.presentLoading();
+
     this.db.getDatabaseState().subscribe(rdy => {
       if (rdy) {
         this.tableSets = this.db.getSettings();
@@ -156,6 +158,24 @@ export class SettingsPage implements OnInit {
       });
     });
 
+  }
+
+  tempBoolChanged(evt) {
+    this.storage.get(this.USER_ID).then(userId => {
+      let value = {sensor_id: this.sensorId, user_id: userId, type: "bool", value: evt.target.value};
+      this.postapi.tempLimits(value).subscribe(res => {
+        this.presentToast('온도표시가 변경되었습니다.');
+      });
+    });
+  }
+
+  tempUnitChanged(evt) {
+    this.storage.get(this.USER_ID).then(userId => {
+      let value = {sensor_id: this.sensorId, user_id: userId, type: "unit", value: evt.target.value};
+      this.postapi.tempLimits(value).subscribe(res => {
+        this.presentToast('온도단위가 변경되었습니다.');
+      });
+    });
   }
   
 
@@ -224,5 +244,14 @@ export class SettingsPage implements OnInit {
     this.isEditItems = !this.isEditItems;
   }
 
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      duration: 1000,
+      spinner: 'bubbles',
+      translucent: true,
+      cssClass: 'custom-class custom-loading'
+    });
+    return await loading.present();
+  }
 
 }

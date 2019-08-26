@@ -67,6 +67,17 @@ export class StorageComponent implements OnInit {
 
   }
 
+  ionViewWillEnter(){
+    this.storage.get(this.COMPANY_ID).then(companyId => {
+      this.storage.get(this.USER_ID).then(userId => {
+        this.getapi.getViewSourceStorage(this.sensorId, companyId, userId, this.yesterday, this.today)
+        .subscribe((res: any) => {
+          this.rows = res;
+        });
+      });
+    });
+  }
+
   ngOnInit() {
     
     this.storage.ready().then(() => {
@@ -98,7 +109,7 @@ export class StorageComponent implements OnInit {
     this.presentLoading();
     const startDate = this.eventForm.controls['start'].value;
     const endDate = this.eventForm.controls['end'].value;
-    
+
     if (startDate > endDate) {
       this.showAlert("날짜설정이 잘못되었습니다.");
       return;

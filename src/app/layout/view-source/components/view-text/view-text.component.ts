@@ -87,7 +87,17 @@ export class ViewTextComponent implements OnInit {
       start: [this.yesterday, [Validators.required]],
       end: [this.today, [Validators.required]]
     });
+
    }
+
+  ionViewWillEnter() {
+    this.storage.get(this.USER_ID).then(userId => {
+      this.getapi.getViewText(this.sensorId, userId, this.yesterday, this.today)
+      .subscribe((res: any) => {
+        this.rows = res;
+      });
+    });
+  }
 
   ngOnInit() {
     this.storage.ready().then(() => {
@@ -178,7 +188,6 @@ export class ViewTextComponent implements OnInit {
     setTimeout(() => { this.csvComponent.onDownload(); }, 0);
   }
   
-
   async download() {
     const fileTransfer: FileTransferObject = this.transfer.create();
     let path = null;
@@ -202,7 +211,6 @@ export class ViewTextComponent implements OnInit {
     }, (error) => {
       this.showAlert(JSON.stringify(error));
     });
-    
   }
 
   async resolveLocalFile() {
@@ -211,7 +219,8 @@ export class ViewTextComponent implements OnInit {
       fields: this.csvHeaders,
       data: this.rows
     });
-    return this.file.writeFile(this.file.dataDirectory, "data.csv", csv, options);
+    const csvname = `${this.ch_name}_${this.title}_data.csv`;
+    return this.file.writeFile(this.file.dataDirectory, csvname, csv, options);
     //return this.file.copyFile(`${this.file.applicationDirectory}www/assets/img/`, 'arrow.png', this.file.cacheDirectory, `arrow.png`);
   }
 

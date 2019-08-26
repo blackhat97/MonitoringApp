@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import {JwtHelperService} from "@auth0/angular-jwt";
 import { BehaviorSubject } from 'rxjs';
 import { environment } from '../../../environments/environment.prod';
+import { PostApiService } from './post-api.service';
 
 
 @Injectable({
@@ -31,6 +32,7 @@ export class AuthenticationService {
     private alertController: AlertController,
     private router: Router,
     private navCtrl: NavController,
+    private postapi: PostApiService,
 
     ) { }
 
@@ -71,11 +73,8 @@ export class AuthenticationService {
         this.authSuccess(res['token']);
         this.storage.set(this.COMPANY_ID, res['company_id']);
         this.storage.set(this.USER_ID, res['user_id']);
-        
         this.authenticationState.next(true);
-        //this.router.navigate(['/home']);
         this.navCtrl.navigateRoot('/home');
-
       }),
       catchError(e => {
         this.showAlert(e.error.message);

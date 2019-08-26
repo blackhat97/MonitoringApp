@@ -38,13 +38,52 @@
                     <ion-col no-padding size="12" size-md="6" *ngFor="let sensor of sensors; let i = index">  
 
                         <ion-card class="gauge-card" *ngIf="(sensor.channel_id == channel.id) && (modes[i] == 0)" (click)="changeMode(i, 1)">
-                               
                             <ion-list [attr.track]="sensor.state">
                             <ion-item lines="full">
                                 <ion-label class="card__text" position="stacked" item-start text-left>{{ sensor.name_tag }}</ion-label>
-                                <ion-label class="card__text" item-end text-right>{{sensor.temp}}°C</ion-label>
+                                
+                                <div *ngIf="!existLimit[i]">
+                                    <ion-label class="card__text" item-end text-right>{{sensor.temp}} °C</ion-label>
+                                </div>
+                                <div *ngFor="let limit of limits">
+                                    <div *ngIf="sensor.id == limit.sensor_id">
+                                        <ng-container *ngIf="limit.temp_bool == '0'; else second">
+                                            <ion-label></ion-label>
+                                        </ng-container>
+                                        <ng-template #second>
+                                            <ng-container *ngIf="limit.temp_unit == 'c'; else third">
+                                                <ion-label class="card__text" item-end text-right>{{sensor.temp}} °C</ion-label>                                            
+                                            </ng-container>
+                                        </ng-template>
+                                        <ng-template #third>
+                                            <ion-label class="card__text" item-end text-right>{{sensor.temp}} °F</ion-label>
+                                        </ng-template>
+                                    </div>
+                                </div>
+
                             </ion-item>
                             <ion-item lines="none">
+
+                                <!--
+                                <ion-icon style="zoom:2.0; color: brown;" name="warning"></ion-icon>
+                                -->
+                                <div *ngFor="let limit of limits">
+                                    <div *ngIf="sensor.id == limit.sensor_id">
+                                        <ng-container *ngIf="limit.bool_max && sensor.value > limit.value_max; else second">
+                                            <ion-label style="font-size: 14px;color: rgb(96, 58, 32);">
+                                                {{MSG_MAX}}/
+                                            </ion-label>
+                                        </ng-container>
+                                        <ng-template #second>
+                                            <ng-container *ngIf="limit.bool_min && limit.value_min > sensor.value;">
+                                                <ion-label style="font-size: 14px;color: rgb(96, 58, 32);;">
+                                                    {{MSG_MIN}}/
+                                                </ion-label>
+                                            </ng-container>
+                                        </ng-template>
+                                    </div>
+                                </div>
+                                
                                 <ng-container [ngSwitch]="sensor.state">
                                     <div *ngSwitchCase="00">
                                         <ion-label color="dark" style="font-size: 14px;">{{MSG_OK}}</ion-label>
@@ -70,6 +109,8 @@
                                 </ng-container>
                                 <ion-label text-right color="dark" class="sensor-value">{{ sensor.value }}</ion-label>
                                 &nbsp;{{ sensor.unit }}
+                  
+                            
                             </ion-item>
                             </ion-list>
 

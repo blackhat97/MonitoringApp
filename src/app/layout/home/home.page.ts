@@ -10,6 +10,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NotiModalComponent } from '../noti-modal/noti-modal.component';
 
 import * as moment from 'moment';
+import { PostApiService } from '../../shared/services/post-api.service';
 
 @Component({
   selector: 'app-home',
@@ -29,9 +30,10 @@ export class HomePage {
   channels: any;
   sensors: any[] = [];
   limits: any[] = [];
+  existLimit: boolean[] = [];
 
   modes = [];
-  getError: Boolean = false;
+  getError: boolean = false;
 
   USER_NAME = environment.username;
   COMPANY_ID = environment.company_id;
@@ -44,6 +46,9 @@ export class HomePage {
   MSG_REPLACE = environment.msg_replace;
   MSG_TROUBLE = environment.msg_trouble;
   MSG_CLEAN = environment.msg_clean;
+
+  MSG_MAX = environment.msg_max;
+  MSG_MIN = environment.msg_min;
 
 
   updateOption: any[] = [];
@@ -81,6 +86,8 @@ export class HomePage {
     public alertCtrl: AlertController,
     public activateroute: ActivatedRoute,
     public router: Router,
+    private postapi: PostApiService,
+
   ) {
   }
 
@@ -158,24 +165,34 @@ export class HomePage {
   getRealtime(){
 
     this.storage.get(this.COMPANY_ID).then(companyId => {
-
         this.getapi.getRealtime(companyId)
         .subscribe(
           (res: any) => {
           this.sensors = res;
+          //console.log(res);
+          this.existLimit =  Array(res.length).fill(false);
           this.modes = Array(res.length).fill(0);
           
           this.storage.get(this.USER_ID).then(userId => {
             this.getapi.getAllLimits(userId).subscribe((limit: any) => { 
               this.limits = limit;
+              res.forEach((element1, index) => {
+                limit.forEach(element2 => {
+                  if (element1.id == element2.sensor_id) {
+                    this.existLimit[index] = true;
+                  }
+                });
+                
+              });
+
             });
           });
-          }  
+          }
         );
     });
-
   }
 
+  
   doRefresh(event) {
     this.getRealtime();
     setTimeout(() => {

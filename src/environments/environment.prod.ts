@@ -18,6 +18,8 @@ export const environment = {
   msg_clean: '세척 중입니다.',
 
   msg_range_off: '접점 발생',
+  msg_max: '상한설정값 초과',
+  msg_min: '하한설정값 초과',
 
   locker: '1234',
 };

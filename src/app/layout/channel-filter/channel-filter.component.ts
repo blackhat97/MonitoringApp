@@ -90,7 +90,7 @@ export class ChannelFilterComponent {
   async emptyAlert() {
     const alert = await this.alertController.create({
       header: '알림',
-      message: '최소 1개 이상 채널 선택.',
+      message: '최소 1개 이상 채널 선택',
       buttons: ['확인']
     });
 

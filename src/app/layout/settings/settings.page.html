@@ -26,6 +26,7 @@
                     <ion-label>알림<br />확인</ion-label>
                 </div>
               </ion-button>
+              &nbsp;
               <ion-button class="button__list" fill="outline" expand="block" routerLink="/home">
                 <div>
                     <ion-icon style="zoom:1.5;" name="home"></ion-icon><br>
@@ -63,26 +64,28 @@
                       <ion-input [value]="info.unit" readonly></ion-input>
                     </ion-col>
                   </ion-row>
+                  <div *ngFor="let limit of limits">
                   <ion-row>
                     <ion-col>
                       온도표시
                     </ion-col>
                     <ion-col>
-                      <ion-select value="1" placeholder="선택" ok-text="선택" cancel-text="취소">
-                        <ion-select-option value="1">사용함</ion-select-option>
-                        <ion-select-option value="0">사용안함</ion-select-option>
+                      <ion-select [value]="limit.temp_bool" placeholder="선택" ok-text="선택" cancel-text="취소" (ionChange)="tempBoolChanged($event)">
+                        <ion-select-option [value]="1">사용함</ion-select-option>
+                        <ion-select-option [value]="0">사용안함</ion-select-option>
                       </ion-select>
                     </ion-col>
                     <ion-col>
                       온도단위
                     </ion-col>
                     <ion-col>
-                      <ion-select value="c" placeholder="선택" ok-text="선택" cancel-text="취소">
+                      <ion-select [value]="limit.temp_unit" placeholder="선택" ok-text="선택" cancel-text="취소" (ionChange)="tempUnitChanged($event)">
                         <ion-select-option value="c">°C</ion-select-option>
                         <ion-select-option value="f">°F</ion-select-option>
                       </ion-select>
                     </ion-col>
                   </ion-row>
+                  </div>
                   <ion-row>
                     <ion-col>
                       저장주기
@@ -104,41 +107,40 @@
                     </ion-col>
                   </ion-row>
                   <div *ngFor="let limit of limits">
-
-                  <ion-row>
-                    <ion-col size="3">
-                      <span>최대알람</span>
-                    </ion-col>
-                    <ion-col size="4">
-                        <ion-item class="input-font" lines="none">
-                            <ion-input type="number" [value]="limit.value_max" readonly></ion-input>
-                            <span>{{info.unit}}</span>
-                        </ion-item>
-                    </ion-col>
-                    <ion-col size="5" text-right>
-                      <ion-select value="{{ limit?.bool_max }}" placeholder="선택" ok-text="선택" cancel-text="취소" (ionChange)="maxChanged($event)">
-                        <ion-select-option value="1">사용함</ion-select-option>
-                        <ion-select-option value="0">사용안함</ion-select-option>
-                      </ion-select>
-                    </ion-col>
-                  </ion-row>
-                  <ion-row>
-                    <ion-col size="3">
-                      <span>최소알람</span>
-                    </ion-col>
-                    <ion-col size="4">
-                        <ion-item class="input-font" lines="none">
-                            <ion-input type="number" [value]="limit.value_min" readonly></ion-input>
-                            <span>{{info.unit}}</span>
-                        </ion-item>
-                    </ion-col>
-                    <ion-col size="5" text-right>
-                      <ion-select value="{{ limit?.bool_min }}" placeholder="선택" ok-text="선택" cancel-text="취소" (ionChange)="minChanged($event)">
-                        <ion-select-option value="1">사용함</ion-select-option>
-                        <ion-select-option value="0">사용안함</ion-select-option>
-                      </ion-select>
-                    </ion-col>
-                  </ion-row>
+                    <ion-row>
+                      <ion-col size="3">
+                        <span>최대알람</span>
+                      </ion-col>
+                      <ion-col size="4">
+                          <ion-item class="input-font" lines="none">
+                              <ion-input type="number" [value]="limit.value_max" readonly></ion-input>
+                              <span>{{info.unit}}</span>
+                          </ion-item>
+                      </ion-col>
+                      <ion-col size="5" text-right>
+                        <ion-select value="{{ limit?.bool_max }}" placeholder="선택" ok-text="선택" cancel-text="취소" (ionChange)="maxChanged($event)">
+                          <ion-select-option value="1">사용함</ion-select-option>
+                          <ion-select-option value="0">사용안함</ion-select-option>
+                        </ion-select>
+                      </ion-col>
+                    </ion-row>
+                    <ion-row>
+                      <ion-col size="3">
+                        <span>최소알람</span>
+                      </ion-col>
+                      <ion-col size="4">
+                          <ion-item class="input-font" lines="none">
+                              <ion-input type="number" [value]="limit.value_min" readonly></ion-input>
+                              <span>{{info.unit}}</span>
+                          </ion-item>
+                      </ion-col>
+                      <ion-col size="5" text-right>
+                        <ion-select value="{{ limit?.bool_min }}" placeholder="선택" ok-text="선택" cancel-text="취소" (ionChange)="minChanged($event)">
+                          <ion-select-option value="1">사용함</ion-select-option>
+                          <ion-select-option value="0">사용안함</ion-select-option>
+                        </ion-select>
+                      </ion-col>
+                    </ion-row>
                   </div>
             </div>
             <div *ngFor="let schedule of schedules">
@@ -205,52 +207,52 @@
 
         <div padding class="form-group">
             <div *ngFor="let info of infos">
-
-                <ion-row>
-                    <ion-col size="4">
-                      채널명
-                    </ion-col>
-                    <ion-col size="8">
-                      <ion-input type="text" formControlName="ch_name"></ion-input>
-                    </ion-col>
-                  </ion-row>
-                  <ion-row>
-                    <ion-col size="4">
-                      측정명
-                    </ion-col>
-                    <ion-col size="8">
-                      <ion-input formControlName="name_tag"></ion-input>
-                    </ion-col>
-                  </ion-row>
-                  <ion-row>
-                    <ion-col size="4">
-                      측정단위
-                    </ion-col>
-                    <ion-col size="8">
-                      <ion-input [value]="info.unit" readonly></ion-input>
-                    </ion-col>
-                  </ion-row>
-
               <ion-row>
-                <ion-col>
-                  온도표시
+                <ion-col size="4">
+                  채널명
                 </ion-col>
-                <ion-col>
-                  <ion-select value="1" placeholder="선택" ok-text="선택" cancel-text="취소">
-                    <ion-select-option value="1">사용함</ion-select-option>
-                    <ion-select-option value="0">사용안함</ion-select-option>
-                  </ion-select>
-                </ion-col>
-                <ion-col>
-                  온도단위
-                </ion-col>
-                <ion-col>
-                  <ion-select value="c" placeholder="선택" ok-text="선택" cancel-text="취소">
-                    <ion-select-option value="c">°C</ion-select-option>
-                    <ion-select-option value="f">°F</ion-select-option>
-                  </ion-select>
+                <ion-col size="8">
+                  <ion-input type="text" formControlName="ch_name"></ion-input>
                 </ion-col>
               </ion-row>
+              <ion-row>
+                <ion-col size="4">
+                  측정명
+                </ion-col>
+                <ion-col size="8">
+                  <ion-input formControlName="name_tag"></ion-input>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="4">
+                  측정단위
+                </ion-col>
+                <ion-col size="8">
+                  <ion-input [value]="info.unit" readonly></ion-input>
+                </ion-col>
+              </ion-row>
+              <div *ngFor="let limit of limits">
+                <ion-row>
+                  <ion-col>
+                    온도표시
+                  </ion-col>
+                  <ion-col>
+                    <ion-select [value]="limit.temp_bool" placeholder="선택" ok-text="선택" cancel-text="취소" (ionChange)="tempBoolChanged($event)">
+                      <ion-select-option [value]="1">사용함</ion-select-option>
+                      <ion-select-option [value]="0">사용안함</ion-select-option>
+                    </ion-select>
+                  </ion-col>
+                  <ion-col>
+                    온도단위
+                  </ion-col>
+                  <ion-col>
+                    <ion-select [value]="limit.temp_unit" placeholder="선택" ok-text="선택" cancel-text="취소" (ionChange)="tempUnitChanged($event)">
+                      <ion-select-option value="c">°C</ion-select-option>
+                      <ion-select-option value="f">°F</ion-select-option>
+                    </ion-select>
+                  </ion-col>
+                </ion-row>
+              </div>
               <ion-row>
                 <ion-col>
                   저장주기

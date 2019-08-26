@@ -1,39 +1,39 @@
-<ion-card class="gauge-card">
-    <ion-card-content>
+<form role="form" [formGroup]="chartForm" (ngSubmit)="onSubmit()">
+    <ion-item lines="none">
         <ion-label>{{ch_name}}</ion-label>
-        <form role="form" [formGroup]="chartForm" (ngSubmit)="onSubmit()">
-            <ion-item lines="none">
-                <ion-buttons>
-                    <ion-button class="button__list" fill="outline" expand="block" routerLink="/view-source/trend/{{sensorId}}">
-                        <div>
-                            <ion-label>트랜드<br />보기</ion-label>
-                        </div>
-                    </ion-button>
-                    <ion-button class="button__list" fill="outline" expand="block" routerLink="/view-source/view-text/{{sensorId}}">
-                        <div>
-                            <ion-label>텍스트<br />보기</ion-label>
-                        </div>
-                    </ion-button>
-                    <ion-button class="button__list" fill="outline" expand="block" routerLink="/view-source/storage/{{sensorId}}">
-                        <div>
-                            <ion-label>스토리지</ion-label>
-                        </div>
-                    </ion-button>
-                    <ion-button class="button__list" fill="outline" expand="block" type="submit" [disabled]="!chartForm.valid">
-                        <div>
-                            <ion-label>자료<br />호출</ion-label>
-                        </div>
-                    </ion-button>
-                    <ion-button class="button__list" fill="outline" expand="block" routerLink="/home">
-                        <div>
-                            <ion-label>메인<br />화면</ion-label>
-                        </div>
-                    </ion-button>
-                </ion-buttons>
-            </ion-item>
+    </ion-item>
+    <ion-item lines="none">
+            <ion-button color="dark" class="button__list" fill="outline" expand="block" routerLink="/view-source/trend/{{sensorId}}">
+                <div>
+                    <ion-label>트랜드<br />보기</ion-label>
+                </div>
+            </ion-button>
+            <ion-button color="dark" class="button__list" fill="outline" expand="block" (click)="presentLoading()" routerLink="/view-source/view-text/{{sensorId}}">
+                <div>
+                    <ion-label>텍스트<br />보기</ion-label>
+                </div>
+            </ion-button>
+            <ion-button color="dark" class="button__list" fill="outline" expand="block" (click)="presentLoading()" routerLink="/view-source/storage/{{sensorId}}">
+                <div>
+                    <ion-label>스토리지</ion-label>
+                </div>
+            </ion-button>
+            <ion-button color="dark" class="button__list" fill="outline" expand="block" type="submit" [disabled]="!chartForm.valid">
+                <div>
+                    <ion-label>자료<br />호출</ion-label>
+                </div>
+            </ion-button>
+            <ion-button color="dark" class="button__list" fill="outline" expand="block" routerLink="/home">
+                <div>
+                    <ion-label>메인<br />화면</ion-label>
+                </div>
+            </ion-button>
+    </ion-item>
+    <ion-card class="gauge-card">
+        <ion-card-content>
             <div class="form-group">
+                <ion-card-subtitle>{{title}}</ion-card-subtitle>
                 <ion-list>
-                    <ion-label>{{title}}</ion-label>
                     <ion-item>
                         <ion-label>시작일</ion-label>
                         <ion-datetime display-format="MMM DD, YYYY"
@@ -54,9 +54,11 @@
                     </ion-item>
                 </ion-list>
             </div>
-        </form>
-    </ion-card-content>
-</ion-card>
+        </ion-card-content>
+    </ion-card>
+</form>
+
+
 <div *ngIf="value.length != 0" echarts [options]="optionValue" class="sensor-chart" [merge]="updateOption"></div>
 <div [hidden]="value.length != 0" echarts [options]="optionValue" class="sensor-chart" [merge]="updateOption"></div>
 <ion-list>

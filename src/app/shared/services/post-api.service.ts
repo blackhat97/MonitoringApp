@@ -109,6 +109,19 @@ export class PostApiService {
     )
   }
 
+  tempLimits(value) {
+    return this.http.post(`${this.url}/limits/temp`, value, { headers: this.headers })
+    .pipe(
+      tap(res => {
+        return res;
+      }),
+      catchError(e => {
+        this.showAlert("오류가 생겼습니다.");
+        throw new Error(e);
+      })
+    )
+  }
+
   updateSchedule(id, value) {
     return this.http.put(`${this.url}/schedule/`+id, value, { headers: this.headers })
     .pipe(
