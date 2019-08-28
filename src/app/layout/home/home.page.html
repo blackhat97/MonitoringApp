@@ -41,7 +41,6 @@
                             <ion-list [attr.track]="sensor.state">
                             <ion-item lines="full">
                                 <ion-label class="card__text" position="stacked" item-start text-left>{{ sensor.name_tag }}</ion-label>
-                                
                                 <div *ngIf="!existLimit[i]">
                                     <ion-label class="card__text" item-end text-right>{{sensor.temp}} °C</ion-label>
                                 </div>
@@ -71,13 +70,13 @@
                                     <div *ngIf="sensor.id == limit.sensor_id">
                                         <ng-container *ngIf="limit.bool_max && sensor.value > limit.value_max; else second">
                                             <ion-label style="font-size: 14px;color: rgb(96, 58, 32);">
-                                                {{MSG_MAX}}/
+                                                <b>{{MSG_MAX}}/</b>
                                             </ion-label>
                                         </ng-container>
                                         <ng-template #second>
                                             <ng-container *ngIf="limit.bool_min && limit.value_min > sensor.value;">
                                                 <ion-label style="font-size: 14px;color: rgb(96, 58, 32);;">
-                                                    {{MSG_MIN}}/
+                                                    <b>{{MSG_MIN}}/</b>
                                                 </ion-label>
                                             </ng-container>
                                         </ng-template>

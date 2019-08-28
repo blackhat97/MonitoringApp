@@ -163,6 +163,7 @@ export class ViewTextComponent implements OnInit {
     return await loading.present();
   }
 
+  
   async shareCsv() {
     let file = await this.resolveLocalFile();
 

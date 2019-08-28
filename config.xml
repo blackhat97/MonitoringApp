@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.dys.iotapp" version="1.2.6" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.dys.iotapp" version="1.2.7" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>수질모니터링</name>
     <description>dys monitoring app</description>
     <author email="dysclouds@gmail.com" href="http://iot.dymeter.com/">대윤계기산업(주)</author>

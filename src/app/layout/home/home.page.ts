@@ -2,7 +2,7 @@ import { ChannelFilterComponent } from './../channel-filter/channel-filter.compo
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { GetApiService } from './../../shared/services/get-api.service';
 import { environment } from './../../../environments/environment.prod';
-import { MenuController, ModalController, AlertController, IonSlides, NavController } from '@ionic/angular';
+import { MenuController, ModalController, AlertController, IonSlides, NavController, LoadingController } from '@ionic/angular';
 import { Component, ViewChild, OnInit, AfterViewInit, QueryList, ViewChildren } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { LinearGauge } from 'ng-canvas-gauges';
@@ -10,7 +10,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NotiModalComponent } from '../noti-modal/noti-modal.component';
 
 import * as moment from 'moment';
-import { PostApiService } from '../../shared/services/post-api.service';
 
 @Component({
   selector: 'app-home',
@@ -74,8 +73,6 @@ export class HomePage {
       }
     ],
   };
-
-      
   
   constructor (
     public navCtrl: NavController,
@@ -86,8 +83,6 @@ export class HomePage {
     public alertCtrl: AlertController,
     public activateroute: ActivatedRoute,
     public router: Router,
-    private postapi: PostApiService,
-
   ) {
   }
 
@@ -165,31 +160,27 @@ export class HomePage {
   getRealtime(){
 
     this.storage.get(this.COMPANY_ID).then(companyId => {
-        this.getapi.getRealtime(companyId)
-        .subscribe(
-          (res: any) => {
-          this.sensors = res;
-          //console.log(res);
-          this.existLimit =  Array(res.length).fill(false);
-          this.modes = Array(res.length).fill(0);
-          
-          this.storage.get(this.USER_ID).then(userId => {
-            this.getapi.getAllLimits(userId).subscribe((limit: any) => { 
-              this.limits = limit;
-              res.forEach((element1, index) => {
-                limit.forEach(element2 => {
-                  if (element1.id == element2.sensor_id) {
-                    this.existLimit[index] = true;
-                  }
-                });
-                
+      this.getapi.getRealtime(companyId).subscribe((res: any) => {
+        this.sensors = res;
+        //console.log(res);
+        this.existLimit =  Array(res.length).fill(false);
+        this.modes = Array(res.length).fill(0);
+        
+        this.storage.get(this.USER_ID).then(userId => {
+          this.getapi.getAllLimits(userId).subscribe((limit: any) => { 
+            this.limits = limit;
+            res.forEach((element1, index) => {
+              limit.forEach(element2 => {
+                if (element1.id == element2.sensor_id) {
+                  this.existLimit[index] = true;
+                }
               });
-
             });
           });
-          }
-        );
+        });
+      });
     });
+    
   }
 
   

@@ -11,7 +11,7 @@ export const environment = {
   actions: 'actions',
 
   msg_ok: '정상 측정 중',
-  msg_network_error: '통신불량입니다.',
+  msg_network_error: '통신불량',
   msg_correction: '교정 중입니다.',
   msg_replace: '교체 중입니다.',
   msg_trouble: '센서/계측기 문제 발생',
