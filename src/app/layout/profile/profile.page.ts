@@ -6,7 +6,6 @@ import { Component } from '@angular/core';
 import { ToastController, AlertController, NavController, Platform } from '@ionic/angular';
 import { environment } from '../../../environments/environment.prod';
 import { AppVersion } from '@ionic-native/app-version/ngx';
-import { AppUpdate } from '@ionic-native/app-update/ngx';
 
 
 @Component({
@@ -20,7 +19,6 @@ export class ProfilePage {
   USERNAME = environment.username;
   USERID = environment.user_id;
   profiles : any;
-  updateState: string;
   VersionNumber:string;
 
   constructor(
@@ -33,7 +31,6 @@ export class ProfilePage {
     public navCtrl: NavController,
     private appVersion: AppVersion,
     public plt: Platform,
-    private appUpdate: AppUpdate
     ) { 
       this.getProfile();
 
@@ -43,25 +40,7 @@ export class ProfilePage {
         }).catch(err => {
           console.log(err);
         });
-
-        const updateUrl = 'http://download.dymeter.com/download/update.xml';
-        this.appUpdate.checkAppUpdate(updateUrl).then(update => {
-          this.updateState = update.msg;
-        }).catch(error=>{
-          console.log("Error: "+error.msg);
-        });
-      }
-      
-    }
-
-  updateApp() {
-    const updateUrl = 'http://download.dymeter.com/download/update.xml';
-    this.appUpdate.checkAppUpdate(updateUrl).then(update => {
-      //alert("Update Status:  "+update.msg);
-    }).catch(error=>{
-      console.log("Error: "+error.msg);
-    });
-
+      }    
   }
 
   onLoggedout() {

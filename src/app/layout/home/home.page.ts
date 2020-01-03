@@ -53,6 +53,12 @@ export class HomePage {
   updateOption: any[] = [];
 
   optionValue = {
+    grid: {
+      top:    5,
+      bottom: 20,
+      left:   '10%',
+      right:  '10%',
+    },
     color: ['#80ccff'],
     title: [{
       left: 'center',
@@ -222,10 +228,10 @@ export class HomePage {
 
       this.getapi.getHomeChart(id).subscribe((data: any) => {
         
-        for(let i=0; i<data.length; i++) {
-          let dateString = moment.unix(data[i].timestamp).format("HH:mm");
+        for(let i = data.length; i > 0; i--) {
+          let dateString = moment.unix(data[i-1].timestamp).format("HH:mm");
           timestamp.push(dateString);
-          value.push(data[i].value);
+          value.push(data[i-1].value);
         }
 
         this.updateOption[num] = {     
@@ -242,7 +248,14 @@ export class HomePage {
             {
               data: timestamp
             }
-          ]
+          ],
+          yAxis: [
+            {
+              min: ((value[0]+value[1]+value[2]+value[3]+value[4]+value[5])/6-0.1),
+              max: ((value[0]+value[1]+value[2]+value[3]+value[4]+value[5])/6+0.1),
+              //interval: 3
+            }
+          ],
         }
 
       

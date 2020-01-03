@@ -58,7 +58,6 @@ export class LayoutComponent {
   }
 
   openEmail() {
-    
     this.socialSharing.shareViaEmail('문의사항을 기재해주세요.', '문의사항', ['daeyoon@dymeter.com']).then(() => {
       console.log("write email");
     }).catch((e) => {

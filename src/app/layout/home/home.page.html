@@ -195,79 +195,133 @@
                         <ion-card *ngIf="((sensor.channel_id == channel.id) && (modes[i] == 2))" class="button-card" (click)="changeMode(i, 1)">
 
                             <ion-card-content>
-                                    <ion-row>
-                                        <ion-col align-self-end>
-                                            <ion-row>
-                                                <linear-gauge #linear_gauge
-                                                width="150"
-                                                height="50"
-                                                minor-ticks="4"
-                                                stroke-ticks="true"
-                                                color-plate="#fff"
-                                                border-shadow-width="0"
-                                                font-numbers-size="40"
-                                                borders="false"
-                                                bar-begin-circle="false"
-                                                tick-side="left"
-                                                number-side="left"
-                                                needle-side="left"
-                                                needle-type="line"
-                                                ticks-width="50"
-                                                ticks-width-minor="15"
-                                                needle-width="10"
-                                                color-needle="#888888"
-                                                color-needle-end="#888888"
-                                                bar-width="20"
-                                                value="{{sensor.value}}"
-                                                >
-                                                </linear-gauge>
-                                            </ion-row>
-                                            <ion-row>
-                                                <ng-container [ngSwitch]="sensor.state">
-                                                    <div *ngSwitchCase="00">
-                                                        <ion-label color="dark" style="font-size: 14px;">{{MSG_OK}}</ion-label>
-                                                    </div>
-                                                    <div *ngSwitchCase="02">
-                                                        <ion-label color="dark" style="font-size: 14px;">{{MSG_NETWORK_ERROR}}</ion-label>
-                                                    </div>
-                                                    <div *ngSwitchCase="03">
-                                                        <ion-label color="dark" style="font-size: 14px;">{{MSG_CORRECTION}}</ion-label>
-                                                    </div>
-                                                    <div *ngSwitchCase="04">
-                                                        <ion-label color="dark" style="font-size: 14px;">{{MSG_REPLACE}}</ion-label>
-                                                    </div>
-                                                    <div *ngSwitchCase="06">
-                                                        <ion-label color="dark" style="font-size: 14px;">{{MSG_TROUBLE}}</ion-label>
-                                                    </div>
-                                                    <div *ngSwitchCase="07">
-                                                        <ion-label color="dark" style="font-size: 14px;">{{MSG_CLEAN}}</ion-label>
-                                                    </div>
-                                                    <div *ngSwitchDefault>
-                                                        <ion-label></ion-label>
-                                                    </div>
-                                                </ng-container>
-                                            </ion-row>
-                                        </ion-col>
-                                        <ion-col>
-                                            <ion-label text-right color="dark" class="sensor-value">{{ sensor.value }}</ion-label>
-                                            &nbsp;{{ sensor.unit }}
-                                        </ion-col>
-                                    </ion-row>
-                            </ion-card-content>     
-                        </ion-card>
-
-                        <ion-card *ngIf="(sensor.channel_id == channel.id) && (modes[i] == 3)" class="button-card" (click)="changeMode(i, 1)">
+                                <ion-row>
+                                    <ion-col size="9">
+                                        <linear-gauge #linear_gauge
+                                        width="180"
+                                        height="80"
+                                        minor-ticks="4"
+                                        stroke-ticks="true"
+                                        border-shadow-width="0"
+                                        font-numbers-size="40"
+                                        borders="false"
+                                        bar-begin-circle="false"
+                                        tick-side="left"
+                                        number-side="left"
+                                        needle-side="left"
+                                        needle-type="arrow"
+                                        ticks-width="50"
+                                        ticks-width-minor="15"
+                                        needle-width="20"
+                                        needle-height="10"
+                                        bar-width="20"
+                                        color-needle="#4c4c4c"
+                                        color-needle-end="#4c4c4c"
+                                        color-title="#000"
+                                        color-units="#000"
+                                        color-numbers="#000"
+                                        color-bar-progress="#9E9E9E"
+                                        color-bar="#f5f5f5"
+                                        title="아날로그 표시창"
+                                        value="{{sensor.value}}"
+                                        >
+                                        </linear-gauge>
+                                    </ion-col>
+                                    <ion-col size="3">
+                                        <ion-label text-right color="dark">{{ sensor.value }}</ion-label>
+                                        &nbsp;{{ sensor.unit }}
+                                    </ion-col>
+                                </ion-row>
                             
-                            <ion-card-content>
+                                <!--
                                 <ion-row>
                                     <ion-col align-self-end>
-                                        <div echarts class="class-chart" [options]="optionValue" [merge]="updateOption[i]"></div>
+                                        <ion-row>
+                                            <linear-gauge #linear_gauge
+                                            width="150"
+                                            height="50"
+                                            minor-ticks="4"
+                                            stroke-ticks="true"
+                                            color-plate="#fff"
+                                            border-shadow-width="0"
+                                            font-numbers-size="40"
+                                            borders="false"
+                                            bar-begin-circle="false"
+                                            tick-side="left"
+                                            number-side="left"
+                                            needle-side="left"
+                                            needle-type="line"
+                                            ticks-width="50"
+                                            ticks-width-minor="15"
+                                            needle-width="10"
+                                            color-needle="#888888"
+                                            color-needle-end="#888888"
+                                            bar-width="20"
+                                            value="{{sensor.value}}"
+                                            >
+                                            </linear-gauge>
+                                        </ion-row>
+                                        <ion-row>
+                                            <ng-container [ngSwitch]="sensor.state">
+                                                <div *ngSwitchCase="00">
+                                                    <ion-label color="dark" style="font-size: 14px;">{{MSG_OK}}</ion-label>
+                                                </div>
+                                                <div *ngSwitchCase="02">
+                                                    <ion-label color="dark" style="font-size: 14px;">{{MSG_NETWORK_ERROR}}</ion-label>
+                                                </div>
+                                                <div *ngSwitchCase="03">
+                                                    <ion-label color="dark" style="font-size: 14px;">{{MSG_CORRECTION}}</ion-label>
+                                                </div>
+                                                <div *ngSwitchCase="04">
+                                                    <ion-label color="dark" style="font-size: 14px;">{{MSG_REPLACE}}</ion-label>
+                                                </div>
+                                                <div *ngSwitchCase="06">
+                                                    <ion-label color="dark" style="font-size: 14px;">{{MSG_TROUBLE}}</ion-label>
+                                                </div>
+                                                <div *ngSwitchCase="07">
+                                                    <ion-label color="dark" style="font-size: 14px;">{{MSG_CLEAN}}</ion-label>
+                                                </div>
+                                                <div *ngSwitchDefault>
+                                                    <ion-label></ion-label>
+                                                </div>
+                                            </ng-container>
+                                        </ion-row>
                                     </ion-col>
                                     <ion-col>
                                         <ion-label text-right color="dark" class="sensor-value">{{ sensor.value }}</ion-label>
                                         &nbsp;{{ sensor.unit }}
                                     </ion-col>
                                 </ion-row>
+                                -->
+                            </ion-card-content>     
+                        </ion-card>
+
+                        <ion-card *ngIf="(sensor.channel_id == channel.id) && (modes[i] == 3)" class="button-card" (click)="changeMode(i, 1)">
+                            
+                            <ion-card-content>
+
+                                <ion-row>
+                                    <ion-col size="10">
+                                        <div echarts class="class-chart" [options]="optionValue" [merge]="updateOption[i]"></div>
+                                    </ion-col>
+                                    <ion-col size="2">
+                                        <ion-label text-right color="dark">{{ sensor.value }}</ion-label>
+                                        &nbsp;{{ sensor.unit }}
+                                    </ion-col>
+                                </ion-row>
+
+                                <!--
+                                <ion-row>
+                                    <ion-col align-self-end size="9">
+                                        <div echarts class="class-chart" [options]="optionValue" [merge]="updateOption[i]"></div>
+                                    </ion-col>
+                                    <ion-col size="3">
+                                        <ion-label text-right color="dark">{{ sensor.value }}</ion-label>
+                                        &nbsp;{{ sensor.unit }}
+                                    </ion-col>
+                                </ion-row>
+                                -->
+
                             </ion-card-content>
                         </ion-card>
                     </ion-col>

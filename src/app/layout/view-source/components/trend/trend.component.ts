@@ -43,6 +43,13 @@ export class TrendComponent implements OnInit {
   chartForm: FormGroup;
   
   optionValue = {
+    grid: {
+      top:    35,
+      bottom: 20,
+      left:   '10%',
+      right:  '10%',
+      //right:  '15%',
+    },
     color: ['#80ccff'],
     title: [{
       left: 'center',
@@ -64,11 +71,13 @@ export class TrendComponent implements OnInit {
         end: 60,
         filterMode: 'empty'
       },
+      /*
       {
         type: 'slider',
         yAxisIndex: 0,
         filterMode: 'empty'
       },
+      */
 
       /*
       {
@@ -104,7 +113,7 @@ export class TrendComponent implements OnInit {
         type: 'value',
         splitArea: {
           show: true
-        },
+        },     
       }
     ],
     series: [
@@ -138,14 +147,18 @@ export class TrendComponent implements OnInit {
   }
 
   ionViewDidEnter(){
-    this.getChart(this.sensorId , this.today, this.yesterday);   
+    //this.getChart(this.sensorId , this.today, this.yesterday);   
   }
 
   ngOnInit() {
+    //this.getInfoBasic();
+    this.getInit();
+  }
 
+  getInit() {
     this.storage.ready().then(() => {
       this.storage.get(this.USER_ID).then(userId => {
-        
+          
         this.getapi.getInfoBasic(this.sensorId, userId).subscribe((info: any) => {
           this.ch_name = info[0].ch_name;
           this.title = info[0].name_tag;
@@ -158,10 +171,67 @@ export class TrendComponent implements OnInit {
             if(limits[0].bool_min) {
               rArray.push({name: '최소', type:'min', yAxis: limits[0].value_min, itemStyle:{normal:{color:'#8B4513'}}});
             }
+
+            this.getapi.getChart(this.sensorId, userId, this.today, this.yesterday).subscribe((data: any) => {
+        
+              for(let i=0; i<data.length; i++) {
+                let dateString = moment.unix(data[i].timestamp).format("MM/DD HH:mm");
+                this.timestamp.push(dateString);
+                this.value.push(data[i].value);
+              }
+              const total = this.value.reduce((a, b) => a + b);
+              this.max = this.value.reduce((a, b)=>Math.max(a, b)); 
+              this.min = this.value.reduce((a, b)=>Math.min(a, b)); 
+              this.avg = (total / this.value.length).toFixed(1) || '0';
+      
+      
+              this.updateOption = {
+                yAxis: [{
+                    name: info[0].unit,
+                    min: this.min,
+                    max: this.max,
+                }],
+                series: [{
+                  name: info[0].type,
+                  markLine: {
+                    symbol: ['none'],
+                    data: rArray,
+                  }
+                }]
+              };
+
+
+            });
             
+          });
+        });
+
+      });
+    });
+  }
+
+  /*
+  getInfoBasic() {
+    this.storage.ready().then(() => {
+      this.storage.get(this.USER_ID).then(userId => {
+          
+        this.getapi.getInfoBasic(this.sensorId, userId).subscribe((info: any) => {
+          this.ch_name = info[0].ch_name;
+          this.title = info[0].name_tag;
+          this.unit = info[0].unit;
+          this.getapi.getInfoLimits(this.sensorId, userId).subscribe((limits: any) => {
+            let rArray = [];
+            if(limits[0].bool_max) {
+              rArray.push({name: '최대', type:'max', yAxis: limits[0].value_max, itemStyle:{normal:{color:'#8B4513'}}});
+            }
+            if(limits[0].bool_min) {
+              rArray.push({name: '최소', type:'min', yAxis: limits[0].value_min, itemStyle:{normal:{color:'#8B4513'}}});
+            }
             this.updateOption = {
               yAxis: [{
-                  name: info[0].unit
+                  name: info[0].unit,
+                  min: this.min,
+                  max: this.max,
               }],
               series: [{
                 name: info[0].type,
@@ -193,10 +263,12 @@ export class TrendComponent implements OnInit {
         this.min = this.value.reduce((a, b)=>Math.min(a, b)); 
         this.avg = (total / this.value.length).toFixed(1) || '0';
 
+
       });
     });
 
   }
+  */
 
   onSubmit() {
 
@@ -241,7 +313,12 @@ export class TrendComponent implements OnInit {
           xAxis: [
           {
             data: this.timestamp
-          }]
+          }],
+          yAxis: [{
+            min: this.min,
+            max: this.max,
+            //interval: 3
+          }],
         };
 
       }
