@@ -1,5 +1,3 @@
-import { ChannelFilterComponent } from './../channel-filter/channel-filter.component';
-import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { GetApiService } from './../../shared/services/get-api.service';
 import { environment } from './../../../environments/environment.prod';
 import { MenuController, ModalController, AlertController, IonSlides, NavController, LoadingController } from '@ionic/angular';
@@ -7,9 +5,11 @@ import { Component, ViewChild, OnInit, AfterViewInit, QueryList, ViewChildren } 
 import { Storage } from '@ionic/storage';
 import { LinearGauge } from 'ng-canvas-gauges';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NotiModalComponent } from '../noti-modal/noti-modal.component';
 
 import * as moment from 'moment';
+import { SendEmailComponent } from '../components/send-email/send-email.component';
+import { NotiModalComponent } from '../components/noti-modal/noti-modal.component';
+import { ChannelFilterComponent } from '../components/channel-filter/channel-filter.component';
 
 @Component({
   selector: 'app-home',
@@ -56,8 +56,8 @@ export class HomePage {
     grid: {
       top:    5,
       bottom: 20,
-      left:   '10%',
-      right:  '10%',
+      left:   '20%',
+      right:  '5%',
     },
     color: ['#80ccff'],
     title: [{
@@ -131,6 +131,13 @@ export class HomePage {
     if(data) {
       this.updateChannel(data);
     } 
+  }
+
+  async presentEmail() {
+    const modal = await this.modalCtrl.create({
+      component: SendEmailComponent,
+    });
+    await modal.present();
   }
 
   updateChannel(channel_ids) {
@@ -251,8 +258,11 @@ export class HomePage {
           ],
           yAxis: [
             {
-              min: ((value[0]+value[1]+value[2]+value[3]+value[4]+value[5])/6-0.1),
-              max: ((value[0]+value[1]+value[2]+value[3]+value[4]+value[5])/6+0.1),
+              min: value.reduce((a, b)=>Math.min(a, b)),
+              max: value.reduce((a, b)=>Math.max(a, b)),
+              
+              //min: ((value[0]+value[1]+value[2]+value[3]+value[4]+value[5])/6-0.1),
+              //max: ((value[0]+value[1]+value[2]+value[3]+value[4]+value[5])/6+0.1),
               //interval: 3
             }
           ],

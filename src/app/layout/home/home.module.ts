@@ -1,14 +1,15 @@
 import { NgxEchartsModule } from 'ngx-echarts';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import {GaugesModule} from 'ng-canvas-gauges';
 import { HomePage } from './home.page';
-import { NotiModalComponent } from '../noti-modal/noti-modal.component';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
-import { ChannelFilterComponent } from '../channel-filter/channel-filter.component';
+import { SendEmailComponent } from '../components/send-email/send-email.component';
+import { NotiModalComponent } from '../components/noti-modal/noti-modal.component';
+import { ChannelFilterComponent } from '../components/channel-filter/channel-filter.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { ChannelFilterComponent } from '../channel-filter/channel-filter.compone
     FormsModule,
     IonicModule,
     GaugesModule,
+    ReactiveFormsModule,
     SharedPipesModule,
     NgxEchartsModule,
     RouterModule.forChild([
@@ -28,11 +30,13 @@ import { ChannelFilterComponent } from '../channel-filter/channel-filter.compone
   declarations: [
     HomePage,
     NotiModalComponent,
-    ChannelFilterComponent
+    ChannelFilterComponent,
+    SendEmailComponent
   ],
   entryComponents: [
     NotiModalComponent,
-    ChannelFilterComponent
+    ChannelFilterComponent,
+    SendEmailComponent
   ],
 })
 export class HomePageModule {}

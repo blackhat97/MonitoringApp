@@ -32,6 +32,7 @@ import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
 import { SQLite } from '@ionic-native/sqlite/ngx';
 
 import { AppVersion } from '@ionic-native/app-version/ngx';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 
 registerLocaleData(localeKO);
 
@@ -83,6 +84,7 @@ export function createTranslateLoader(http: HttpClient) {
     SQLite,
     SQLitePorter,
     AppVersion,
+    ScreenOrientation,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: LOCALE_ID, useValue: 'ko-KR' }
   ],

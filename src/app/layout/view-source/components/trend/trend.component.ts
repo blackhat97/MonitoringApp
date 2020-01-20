@@ -47,7 +47,7 @@ export class TrendComponent implements OnInit {
       top:    35,
       bottom: 20,
       left:   '10%',
-      right:  '10%',
+      right:  '5%',
       //right:  '15%',
     },
     color: ['#80ccff'],
@@ -65,32 +65,30 @@ export class TrendComponent implements OnInit {
     },
     dataZoom: [
       {
-        type: 'slider',
+        show: true,
+        start: 30,
+        end: 70,
+        height: 80,
         xAxisIndex: 0,
-        start: 40,
-        end: 60,
-        filterMode: 'empty'
+        minValueSpan: 120,
+        //filterMode: 'filter'
       },
+      {
+        type: 'inside',
+        xAxisIndex: [0],
+        start: 30,
+        end: 70
+      },
+
       /*
       {
         type: 'slider',
         yAxisIndex: 0,
-        filterMode: 'empty'
+        minValueSpan: 4,
+        filterMode: 'filter'
       },
       */
-
       /*
-      {
-        type: 'inside',
-        xAxisIndex: 0,
-
-        filterMode: 'empty'
-      },
-      {
-        type: 'inside',
-        yAxisIndex: 0,
-        filterMode: 'empty'
-      },
       {
           show: true,
           realtime: true,
@@ -306,10 +304,17 @@ export class TrendComponent implements OnInit {
         this.min = this.value.reduce((a, b)=>Math.min(a, b)); 
         this.avg = (total / this.value.length).toFixed(1) || '0';
 
+        
         this.updateOption = {
           series: [{
             data: this.value
           }],
+          dataZoom: [
+            {
+              minValueSpan: this.value.length/4,
+              filterMode: 'filter'
+            },
+          ],
           xAxis: [
           {
             data: this.timestamp

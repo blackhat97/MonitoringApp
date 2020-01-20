@@ -1,61 +1,54 @@
 <form role="form" [formGroup]="chartForm" (ngSubmit)="onSubmit()">
-    <ion-item lines="none">
-        <ion-label>{{ch_name}}</ion-label>
-    </ion-item>
-    <ion-item lines="none">
-            <ion-button color="dark" class="button__list" fill="outline" expand="block" routerLink="/view-source/trend/{{sensorId}}">
-                <div>
-                    <ion-label>트랜드<br />보기</ion-label>
-                </div>
+    <ion-card class="gauge-card"> 
+        <ion-list>
+            <ion-item lines="none">
+                <ion-label>{{ch_name}} - {{title}}</ion-label>
+            </ion-item>
+            <ion-item lines="none">
+                    <ion-button color="dark" class="button__list" fill="outline" expand="block" routerLink="/view-source/trend/{{sensorId}}">
+                        <div>
+                            <ion-label>트랜드<br />보기</ion-label>
+                        </div>
+                    </ion-button>
+                    <ion-button color="dark" class="button__list" fill="outline" expand="block" (click)="presentLoading()" routerLink="/view-source/view-text/{{sensorId}}">
+                        <div>
+                            <ion-label>텍스트<br />보기</ion-label>
+                        </div>
+                    </ion-button>
+                    <ion-button color="dark" class="button__list" fill="outline" expand="block" (click)="presentLoading()" routerLink="/view-source/storage/{{sensorId}}">
+                        <div>
+                            <ion-label>이벤트</ion-label>
+                        </div>
+                    </ion-button>
+                    <ion-button color="dark" class="button__list" fill="outline" expand="block" routerLink="/home">
+                        <div>
+                            <ion-label>메인<br />화면</ion-label>
+                        </div>
+                    </ion-button>
+            </ion-item>
+            <ion-item>
+                <ion-label>시작일</ion-label>
+                <ion-datetime display-format="MMM DD, YYYY"
+                    monthShortNames="1월, 2월, 3월, 4월, 5월, 6월, 7월, 8월, 9월, 10월, 11월, 12월"
+                    formControlName="start"
+                    [value]="yesterday"
+                    placeholder="월/일/년" done-text="선택" cancel-text="취소"
+                ></ion-datetime>
+            </ion-item>
+            <ion-item>
+                <ion-label>끝일</ion-label>
+                <ion-datetime display-format="MMM DD, YYYY"
+                    monthShortNames="1월, 2월, 3월, 4월, 5월, 6월, 7월, 8월, 9월, 10월, 11월, 12월"  
+                    formControlName="end"
+                    [value]="today"
+                    placeholder="월/일/년" done-text="선택" cancel-text="취소"
+                ></ion-datetime>
+            </ion-item>
+            <ion-button size="medium" expand="full" type="submit" [disabled]="!chartForm.valid">
+                업데이트/갱신
             </ion-button>
-            <ion-button color="dark" class="button__list" fill="outline" expand="block" (click)="presentLoading()" routerLink="/view-source/view-text/{{sensorId}}">
-                <div>
-                    <ion-label>텍스트<br />보기</ion-label>
-                </div>
-            </ion-button>
-            <ion-button color="dark" class="button__list" fill="outline" expand="block" (click)="presentLoading()" routerLink="/view-source/storage/{{sensorId}}">
-                <div>
-                    <ion-label>스토리지</ion-label>
-                </div>
-            </ion-button>
-            <ion-button color="dark" class="button__list" fill="outline" expand="block" type="submit" [disabled]="!chartForm.valid">
-                <div>
-                    <ion-label>자료<br />호출</ion-label>
-                </div>
-            </ion-button>
-            <ion-button color="dark" class="button__list" fill="outline" expand="block" routerLink="/home">
-                <div>
-                    <ion-label>메인<br />화면</ion-label>
-                </div>
-            </ion-button>
-    </ion-item>
-    <ion-card class="gauge-card">
-        <ion-card-content>
-            <div class="form-group">
-                <ion-card-subtitle>{{title}}</ion-card-subtitle>
-                <ion-list>
-                    <ion-item>
-                        <ion-label>시작일</ion-label>
-                        <ion-datetime display-format="MMM DD, YYYY"
-                            monthShortNames="1월, 2월, 3월, 4월, 5월, 6월, 7월, 8월, 9월, 10월, 11월, 12월"
-                            formControlName="start"
-                            [value]="yesterday"
-                            placeholder="월/일/년" done-text="선택" cancel-text="취소"
-                        ></ion-datetime>
-                    </ion-item>
-                    <ion-item>
-                        <ion-label>끝일</ion-label>
-                        <ion-datetime display-format="MMM DD, YYYY"
-                            monthShortNames="1월, 2월, 3월, 4월, 5월, 6월, 7월, 8월, 9월, 10월, 11월, 12월"  
-                            formControlName="end"
-                            [value]="today"
-                            placeholder="월/일/년" done-text="선택" cancel-text="취소"
-                        ></ion-datetime>
-                    </ion-item>
-                </ion-list>
-            </div>
-        </ion-card-content>
-    </ion-card>
+        </ion-list>
+    </ion-card>        
 </form>
 
 

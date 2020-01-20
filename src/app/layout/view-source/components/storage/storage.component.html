@@ -1,109 +1,114 @@
-<form role="form" [formGroup]="eventForm" (ngSubmit)="onSubmit()">
-    <ion-item lines="none">
-        <ion-label>{{ch_name}}</ion-label>
-    </ion-item>
-    <ion-item lines="none">
-        <ion-button color="dark" class="button__list" fill="outline" expand="block" (click)="presentLoading()" routerLink="/view-source/trend/{{sensorId}}">
-            <div>
-                <ion-label>트랜드<br />보기</ion-label>
-            </div>
-        </ion-button>
-        <ion-button color="dark" class="button__list" fill="outline" expand="block" (click)="presentLoading()" routerLink="/view-source/view-text/{{sensorId}}">
-            <div>
-                <ion-label>텍스트<br />보기</ion-label>
-            </div>
-        </ion-button>
-        <ion-button color="dark" class="button__list" fill="outline" expand="block" routerLink="/view-source/storage/{{sensorId}}">
-            <div>
-                <ion-label>스토리지</ion-label>
-            </div>
-        </ion-button>
-        <ion-button color="dark" class="button__list" fill="outline" expand="block" type="submit" [disabled]="!eventForm.valid">
-            <div>
-                <ion-label>자료<br />호출</ion-label>
-            </div>
-        </ion-button>
-        <ion-button color="dark" class="button__list" fill="outline" expand="block" routerLink="/home">
-            <div>
-                <ion-label>메인<br />화면</ion-label>
-            </div>
-        </ion-button>
-    </ion-item>
-    <ion-card class="gauge-card">
-    <ion-card-content>
-            <div class="form-group">
-                <ion-card-subtitle>{{title}}</ion-card-subtitle>
-                <ion-list>
-                    <ion-item>
-                        <ion-label>시작일</ion-label>
-                        <ion-datetime display-format="MMM DD, YYYY"
-                            monthShortNames="1월, 2월, 3월, 4월, 5월, 6월, 7월, 8월, 9월, 10월, 11월, 12월"
-                            formControlName="start"
-                            placeholder="월/일/년" done-text="선택" cancel-text="취소"
-                        ></ion-datetime>
-                    </ion-item>
-                    <ion-item>
-                        <ion-label>끝일</ion-label>
-                        <ion-datetime display-format="MMM DD, YYYY"
-                            monthShortNames="1월, 2월, 3월, 4월, 5월, 6월, 7월, 8월, 9월, 10월, 11월, 12월"  
-                            formControlName="end"
-                            placeholder="월/일/년" done-text="선택" cancel-text="취소"
-                        ></ion-datetime>
-                    </ion-item>
-                </ion-list>
-            </div>      
-    </ion-card-content>
-    </ion-card>
-</form>
+<ion-content>
 
-<ngx-datatable
-  [messages]="table_messages"
-  class="bootstrap table-striped"
-  style="height: 400px;"
-  [columnMode]="'standard'"
-  [rows]="rows"
-  [scrollbarV]="true"
-  [scrollbarH]="true">
-  <ngx-datatable-column name="날짜시간" prop="timestamp" width="150">
-      <ng-template ngx-datatable-cell-template let-value="value">            
-        {{value}}
-      </ng-template>
-  </ngx-datatable-column>
-  <ngx-datatable-column width="150">
-    <ng-template ngx-datatable-header-template>
-      <span>알림내용</span>
-    </ng-template>
-    <ng-template let-row="row" ngx-datatable-cell-template>
-      <ng-container [ngSwitch]="row.state" *ngIf="row.state">
-          <div *ngSwitchCase="00">
-              {{MSG_OK}}
-          </div>
-          <div *ngSwitchCase="02">
-              {{MSG_NETWORK_ERROR}}
-          </div>
-          <div *ngSwitchCase="03">
-              {{MSG_CORRECTION}}
-          </div>
-          <div *ngSwitchCase="04">
-              {{MSG_REPLACE}}
-          </div>
-          <div *ngSwitchCase="06">
-              {{MSG_TROUBLE}}
-          </div>
-          <div *ngSwitchCase="07">
-              {{MSG_CLEAN}}
-          </div>
-      </ng-container>
-      <ng-container *ngIf="row.value">
-        <div>
-          {{MSG_RANGE_OFF}} (측정값: {{row.value}}{{row.unit}})
-        </div>
-      </ng-container>
-    </ng-template>
-  </ngx-datatable-column>
-  <ngx-datatable-column name="조치" width="50">
-    <ng-template ngx-datatable-cell-template let-value="value">
-      
-    </ng-template>
-  </ngx-datatable-column>
-</ngx-datatable>
+    <form role="form" [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+        <ion-card class="gauge-card">
+            <ion-list>
+                <ion-item lines="none">
+                    <ion-label>{{ch_name}} - {{title}}</ion-label>
+                </ion-item>
+                <ion-item lines="none">
+                    <ion-button color="dark" class="button__list" fill="outline" expand="block" (click)="presentLoading()" routerLink="/view-source/trend/{{sensorId}}">
+                        <div>
+                            <ion-label>트랜드<br />보기</ion-label>
+                        </div>
+                    </ion-button>
+                    <ion-button color="dark" class="button__list" fill="outline" expand="block" (click)="presentLoading()" routerLink="/view-source/view-text/{{sensorId}}">
+                        <div>
+                            <ion-label>텍스트<br />보기</ion-label>
+                        </div>
+                    </ion-button>
+                    <ion-button color="dark" class="button__list" fill="outline" expand="block" routerLink="/view-source/storage/{{sensorId}}">
+                        <div>
+                            <ion-label>이벤트</ion-label>
+                        </div>
+                    </ion-button>
+                    <ion-button color="dark" class="button__list" fill="outline" expand="block" routerLink="/home">
+                        <div>
+                            <ion-label>메인<br />화면</ion-label>
+                        </div>
+                    </ion-button>
+                </ion-item>
+                <ion-item>
+                    <ion-label>시작일</ion-label>
+                    <ion-datetime display-format="MMM DD, YYYY"
+                        monthShortNames="1월, 2월, 3월, 4월, 5월, 6월, 7월, 8월, 9월, 10월, 11월, 12월"
+                        formControlName="start"
+                        placeholder="월/일/년" done-text="선택" cancel-text="취소"
+                    ></ion-datetime>
+                </ion-item>
+                <ion-item>
+                    <ion-label>끝일</ion-label>
+                    <ion-datetime display-format="MMM DD, YYYY"
+                        monthShortNames="1월, 2월, 3월, 4월, 5월, 6월, 7월, 8월, 9월, 10월, 11월, 12월"  
+                        formControlName="end"
+                        placeholder="월/일/년" done-text="선택" cancel-text="취소"
+                    ></ion-datetime>
+                </ion-item>
+                <ion-button size="medium" expand="full" type="submit" [disabled]="!eventForm.valid">
+                    업데이트/갱신
+                </ion-button>
+            </ion-list>
+        </ion-card>
+    </form>
+
+    <ngx-datatable
+    [messages]="table_messages"
+    class="bootstrap table-striped"
+    style="height: 400px;"
+    [columnMode]="'standard'"
+    [rows]="rows"
+    [scrollbarV]="true"
+    [scrollbarH]="true">
+    <ngx-datatable-column name="날짜시간" prop="timestamp" width="150">
+        <ng-template ngx-datatable-cell-template let-value="value">            
+            {{value}}
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="알림내용" prop="state" width="150">
+        <!--
+        <ng-template ngx-datatable-header-template>
+        <span>알림내용</span>
+        </ng-template>
+        -->
+        <ng-template let-row="row" ngx-datatable-cell-template>
+        <ng-container [ngSwitch]="row.state" *ngIf="row.state">
+            <div *ngSwitchCase="00">
+                {{MSG_OK}}
+            </div>
+            <div *ngSwitchCase="02">
+                {{MSG_NETWORK_ERROR}}
+            </div>
+            <div *ngSwitchCase="03">
+                {{MSG_CORRECTION}}
+            </div>
+            <div *ngSwitchCase="04">
+                {{MSG_REPLACE}}
+            </div>
+            <div *ngSwitchCase="06">
+                {{MSG_TROUBLE}}
+            </div>
+            <div *ngSwitchCase="07">
+                {{MSG_CLEAN}}
+            </div>
+        </ng-container>
+        <ng-container *ngIf="row.value">
+            <div>
+            {{MSG_RANGE_OFF}} (측정값: {{row.value}}{{row.unit}})
+            </div>
+        </ng-container>
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="조치" prop="action" width="50">
+        <ng-template ngx-datatable-cell-template let-value="value">
+        
+        </ng-template>
+    </ngx-datatable-column>
+    </ngx-datatable>
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button (click)="shareEmail()">
+          <ion-icon name="mail"></ion-icon>
+        </ion-fab-button>  
+    </ion-fab>
+
+</ion-content>

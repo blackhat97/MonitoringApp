@@ -1,9 +1,9 @@
 import { Component, AfterViewInit } from '@angular/core';
-import { GetApiService } from './../../shared/services/get-api.service';
 import { AlertController, ToastController, LoadingController, ModalController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { _ } from 'underscore';
-import { environment } from '../../../environments/environment.prod';
+import { environment } from '../../../../environments/environment.prod';
+import { GetApiService } from '../../../shared/services/get-api.service';
 
 @Component({
   selector: 'app-noti-modal',

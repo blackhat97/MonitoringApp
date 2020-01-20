@@ -299,17 +299,15 @@
                         <ion-card *ngIf="(sensor.channel_id == channel.id) && (modes[i] == 3)" class="button-card" (click)="changeMode(i, 1)">
                             
                             <ion-card-content>
-
                                 <ion-row>
-                                    <ion-col size="10">
+                                    <ion-col size="9">
                                         <div echarts class="class-chart" [options]="optionValue" [merge]="updateOption[i]"></div>
                                     </ion-col>
-                                    <ion-col size="2">
+                                    <ion-col size="3">
                                         <ion-label text-right color="dark">{{ sensor.value }}</ion-label>
                                         &nbsp;{{ sensor.unit }}
                                     </ion-col>
                                 </ion-row>
-
                                 <!--
                                 <ion-row>
                                     <ion-col align-self-end size="9">
@@ -331,4 +329,10 @@
             </ion-slide>
         </ion-slides>
     
+        <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+            <ion-fab-button color="light" (click)="presentEmail()">
+                <ion-icon name="mail"></ion-icon>
+            </ion-fab-button>
+        </ion-fab>
+
 </ion-content>

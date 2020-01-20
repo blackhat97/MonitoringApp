@@ -1,0 +1,70 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-button (click)="dismiss()">취소</ion-button>
+      </ion-buttons>
+      <ion-title>
+        자료 추출
+      </ion-title>
+      <!--
+      <ion-buttons slot="end">
+        <ion-button (click)="presentActionSheet()">
+          <ion-icon name="more"></ion-icon>
+        </ion-button>
+      </ion-buttons>  
+      -->
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content [scrollEvents]="true">
+    <form role="form" [formGroup]="form">
+    <ion-card>
+      <ion-card-content>
+        <ion-list>
+          <ion-list-header>
+            <ion-label>날짜</ion-label>
+          </ion-list-header>
+          <ion-item>
+            <ion-label>시작일</ion-label>
+            <ion-datetime display-format="MMM DD, YYYY"
+                monthShortNames="1월, 2월, 3월, 4월, 5월, 6월, 7월, 8월, 9월, 10월, 11월, 12월"
+                formControlName="start"
+                placeholder="월/일/년" done-text="선택" cancel-text="취소"
+            ></ion-datetime>
+          </ion-item>
+          <ion-item>
+              <ion-label>끝일</ion-label>
+              <ion-datetime display-format="MMM DD, YYYY"
+                  monthShortNames="1월, 2월, 3월, 4월, 5월, 6월, 7월, 8월, 9월, 10월, 11월, 12월"  
+                  formControlName="end"
+                  placeholder="월/일/년" done-text="선택" cancel-text="취소"
+              ></ion-datetime>
+          </ion-item>
+        </ion-list>
+
+        <ion-list>
+          <ion-list-header>
+            <ion-label>리스트</ion-label>
+          </ion-list-header>
+          <ion-item *ngFor="let sensor of sensors">
+            <ion-checkbox slot="start" (ionChange)="checkEvent($event)" [value]="sensor.id"></ion-checkbox>
+            <ion-label>{{ sensor.name_tag }}</ion-label>
+          </ion-item>
+        </ion-list>
+        <br />
+        <ion-button expand="full" (click)="inquery(1)">
+            자료 메일 발송
+        </ion-button>
+        <br />
+        <ion-button expand="full" (click)="inquery(2)">
+          이벤트 메일 발송
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+    </form>
+
+  </ion-content>
+
+  <ion-footer>
+
+  </ion-footer>

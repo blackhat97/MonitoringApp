@@ -1,9 +1,9 @@
-import { GetApiService } from './../../shared/services/get-api.service';
-import { environment } from './../../../environments/environment.prod';
 import { Storage } from '@ionic/storage';
 import { ModalController, NavParams, LoadingController } from '@ionic/angular';
 import { Component, AfterViewInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { GetApiService } from '../../../shared/services/get-api.service';
+import { environment } from '../../../../environments/environment.prod';
 
 @Component({
   selector: 'app-channel-filter',
@@ -25,7 +25,7 @@ export class ChannelFilterComponent {
     public alertController: AlertController
   ) {
     
-   }
+  }
 
   ionViewDidEnter() {
     this.storage.get(this.COMPANY_ID).then(companyId => {

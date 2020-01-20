@@ -8,6 +8,7 @@ import { AuthenticationService } from './shared/services/authentication.service'
 import { TranslateService } from '@ngx-translate/core';
 import { StorageService } from './shared/storage/storage.service';
 import { NetworkService, ConnectionStatus } from './shared/services/network.service';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 
 @Component({
   selector: 'app-root',
@@ -36,7 +37,7 @@ export class AppComponent {
     private storage: StorageService,
     private networkService: NetworkService,
     public modalCtrl: ModalController,
-
+    private screenOrientation: ScreenOrientation
   ) {
 
     this.initTranslate();
@@ -50,6 +51,7 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
       this.checkToken();
+      this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
 
       if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
         this.showAlert('네트워크 연결 확인 바랍니다.');

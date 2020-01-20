@@ -3,16 +3,17 @@ import { GetApiService } from './../../../../shared/services/get-api.service';
 import { environment } from './../../../../../environments/environment.prod';
 import { File, IWriteOptions } from '@ionic-native/file/ngx';
 import { Angular2CsvComponent } from 'angular2-csv';
-import { TableColumn } from '@swimlane/ngx-datatable';
+import { TableColumn, DatatableComponent } from '@swimlane/ngx-datatable';
 import { FileTransferObject, FileTransfer } from '@ionic-native/file-transfer/ngx';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
-import { ToastController, AlertController, LoadingController, ActionSheetController, Platform } from '@ionic/angular';
+import { AlertController, LoadingController, ActionSheetController, Platform, IonContent } from '@ionic/angular';
 import * as papa from 'papaparse';
 
 import * as moment from 'moment';
+import { SupportService } from '../../../../shared/services/support-service';
 
 @Component({
   selector: 'app-view-text',
@@ -22,9 +23,13 @@ import * as moment from 'moment';
 export class ViewTextComponent implements OnInit {
 
   @ViewChild(Angular2CsvComponent) csvComponent: Angular2CsvComponent;
+  @ViewChild(DatatableComponent) table: DatatableComponent;
+
+  @ViewChild(IonContent) content: IonContent;
 
   COMPANY_ID = environment.company_id;
   USER_ID = environment.user_id;
+  USERNAME = environment.username;
 
   rows = [];
   sensors: any;
@@ -34,6 +39,7 @@ export class ViewTextComponent implements OnInit {
   
   today : string;
   yesterday : string;
+  email : string = "";
 
   loggerForm: FormGroup;
   intervals = [5, 10, 15, 20, 30, 60];
@@ -76,6 +82,8 @@ export class ViewTextComponent implements OnInit {
     private platform: Platform,
     public loadingController: LoadingController,
     private activatedRoute: ActivatedRoute,
+    private support: SupportService,
+
   ) {
     this.sensorId = this.activatedRoute.snapshot.paramMap.get('sensorId');
 
@@ -95,6 +103,11 @@ export class ViewTextComponent implements OnInit {
       this.getapi.getViewText(this.sensorId, userId, this.yesterday, this.today)
       .subscribe((res: any) => {
         this.rows = res;
+      });
+    });
+    this.storage.get(this.USERNAME).then(username => {
+      this.getapi.getProfile(username).subscribe((res) => {
+        this.email = res[0].email;
       });
     });
   }
@@ -163,28 +176,6 @@ export class ViewTextComponent implements OnInit {
     return await loading.present();
   }
 
-  
-  async shareCsv() {
-    let file = await this.resolveLocalFile();
-
-    this.socialSharing.share("Share message", "Share subject", file.nativeURL, "A URL to share").then(() => {
-      this.removeTempFile(file.name);
-      console.log("shareSheetShare: Success");
-    }).catch(() => {
-      console.error("shareSheetShare: failed");
-    });
-  }
-
-  async shareEmail() {
-    let file = await this.resolveLocalFile();
-
-    this.socialSharing.shareViaEmail(null, '수질계측자료', null, null, null, file.nativeURL).then(() => {
-      this.removeTempFile(file.name);
-    }).catch((e) => {
-      // Error!
-    });
-  }
-
   downloadCsv() {
     setTimeout(() => { this.csvComponent.onDownload(); }, 0);
   }
@@ -214,15 +205,40 @@ export class ViewTextComponent implements OnInit {
     });
   }
 
+  async shareCsv() {
+    let file = await this.resolveLocalFile();
+
+    this.socialSharing.share("Share message", "Share subject", file.nativeURL, "A URL to share").then(() => {
+      this.removeTempFile(file.name);
+      console.log("shareSheetShare: Success");
+    }).catch(() => {
+      console.error("shareSheetShare: failed");
+    });
+  }
+
+  async shareEmail() {
+    let file = await this.resolveLocalFile();
+    
+    this.socialSharing.shareViaEmail(null, '수질계측자료', [this.email], null, null, file.nativeURL).then(() => {
+      this.support.presentToast("메일이 발송되었습니다.");
+      this.removeTempFile(file.name);
+    }).catch((e) => {
+      // Error!
+    });
+  }
+
   async resolveLocalFile() {
+
     let options: IWriteOptions = { replace: true };
     let csv = papa.unparse({
       fields: this.csvHeaders,
-      data: this.rows
+      data: this.rows,
     });
     const csvname = `${this.ch_name}_${this.title}_data.csv`;
+
     return this.file.writeFile(this.file.dataDirectory, csvname, csv, options);
     //return this.file.copyFile(`${this.file.applicationDirectory}www/assets/img/`, 'arrow.png', this.file.cacheDirectory, `arrow.png`);
+
   }
 
   removeTempFile(name) {
@@ -257,6 +273,11 @@ export class ViewTextComponent implements OnInit {
       }]
     });
     await actionSheet.present();
+  }
+
+  scrollTop() {
+    this.table.element.querySelector('.datatable-body').scrollTop = 0;
+    this.content.scrollToTop(1500);
   }
 
 }

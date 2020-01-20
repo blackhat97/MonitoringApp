@@ -118,6 +118,37 @@ export class GetApiService {
     );
   }
 
+  getDataList(company_id, sensor_ids, start, end) {
+    const params = new HttpParams()
+    .set('sensor_ids[]', sensor_ids)
+    .set('start', start)
+    .set('end', end);
+    return this.http.get(`${this.url}/datalist/` + company_id, { headers: this.headers, params: params }).pipe(
+      map((res: any) => {
+        return res;
+      }),
+      catchError(e => {
+        throw new Error(e);
+      })
+    );
+  }
+
+  getEventList(company_id, user_id, sensor_ids, start, end) {
+    const params = new HttpParams()
+    .set('sensor_ids[]', sensor_ids)
+    .set('user_id', user_id)
+    .set('start', start)
+    .set('end', end);
+    return this.http.get(`${this.url}/eventlist/` + company_id, { headers: this.headers, params: params }).pipe(
+      map((res: any) => {
+        return res;
+      }),
+      catchError(e => {
+        throw new Error(e);
+      })
+    );
+  }
+
   getProfile(username) {
     const params = new HttpParams().set('username', username);
     return this.http.get(`${this.url}/profile`, { headers: this.headers, params: params }).pipe(
