@@ -144,6 +144,10 @@ export class SendEmailComponent implements OnInit {
       this.support.showAlert("날짜설정이 잘못되었습니다.");
       return;
     }
+    if(this.sensor_ids.length == 0) {
+      this.support.showAlert("측정항목이 설정되지 않았습니다.");
+      return;
+    }
 
     let start = startDate.split("T", 1)[0];
     let end = endDate.split("T", 1)[0];
@@ -190,7 +194,7 @@ export class SendEmailComponent implements OnInit {
             });
 
             this.rows = res;
-            this.csvHeaders = ['timestamp', 'sensor_id', 'event', 'action'];
+            this.csvHeaders = ['timestamp', 'name_tag', 'event', 'action'];
             this.showAutoHideLoader();
 
             console.log(res);
@@ -232,8 +236,12 @@ export class SendEmailComponent implements OnInit {
     },{
       header: true,
     });
-    const csvname = `data_${this.today}.csv`;
-
+    let csvname = "";
+    if(this.csvHeaders.length == 4) {
+      csvname = `event_${this.today}.csv`;
+    } else if (this.csvHeaders.length > 4) {
+      csvname = `data_${this.today}.csv`;
+    }
 
     return this.file.writeFile(this.file.dataDirectory, csvname, csv, options);
   }

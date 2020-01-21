@@ -52,13 +52,18 @@
           </ion-item>
         </ion-list>
         <br />
-        <ion-button expand="full" (click)="inquery(1)">
-            자료 메일 발송
-        </ion-button>
-        <br />
-        <ion-button expand="full" (click)="inquery(2)">
-          이벤트 메일 발송
-        </ion-button>
+        <ion-row>
+          <ion-col>
+            <ion-button expand="full" color="primary" (click)="inquery(1)">
+              자료 메일 발송
+            </ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button expand="full" color="medium" (click)="inquery(2)">
+              이벤트 메일 발송
+            </ion-button>
+          </ion-col>
+        </ion-row>
       </ion-card-content>
     </ion-card>
     </form>
