@@ -28,7 +28,7 @@ export class SettingsPage implements OnInit {
   limits: any;
   schedules: any;
 
-  stIntervals: Array<number> = [1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60];
+  stIntervals: Array<number> = [5, 10, 15, 20, 30, 60];
   selectNums: Array<number> = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   isEditItems: boolean = true;
@@ -174,6 +174,15 @@ export class SettingsPage implements OnInit {
       let value = {sensor_id: this.sensorId, user_id: userId, type: "unit", value: evt.target.value};
       this.postapi.tempLimits(value).subscribe(res => {
         this.presentToast('온도단위가 변경되었습니다.');
+      });
+    });
+  }
+
+  intervalChanged(evt) {
+    this.storage.get(this.USER_ID).then(userId => {
+      let value = {sensor_id: this.sensorId, user_id: userId, value: evt.target.value};
+      this.postapi.intervalLimits(value).subscribe(res => {
+        this.presentToast('시간간격이 변경되었습니다.');
       });
     });
   }

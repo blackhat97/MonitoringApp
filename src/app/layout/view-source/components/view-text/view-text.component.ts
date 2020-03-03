@@ -100,10 +100,15 @@ export class ViewTextComponent implements OnInit {
 
   ionViewWillEnter() {
     this.storage.get(this.USER_ID).then(userId => {
-      this.getapi.getViewText(this.sensorId, userId, this.yesterday, this.today)
-      .subscribe((res: any) => {
-        this.rows = res;
+      
+      this.getapi.getInfoLimits(this.sensorId, userId).subscribe((limit: any) => {
+        let interval = limit[0].store_interval;
+        this.getapi.getViewText(this.sensorId, userId, this.yesterday, this.today, interval)
+        .subscribe((res: any) => {
+          this.rows = res;
+        });   
       });
+
     });
     this.storage.get(this.USERNAME).then(username => {
       this.getapi.getProfile(username).subscribe((res) => {
@@ -143,10 +148,14 @@ export class ViewTextComponent implements OnInit {
     let end = endDate.split("T", 1)[0];
 
     this.storage.get(this.USER_ID).then(userId => {
-      this.getapi.getViewText(this.sensorId, userId, start, end)
-      .subscribe((res: any) => {
-        this.rows = res;
+      this.getapi.getInfoLimits(this.sensorId, userId).subscribe((limit: any) => {
+        let interval = limit[0].store_interval;
+        this.getapi.getViewText(this.sensorId, userId, start, end, interval)
+        .subscribe((res: any) => {
+          this.rows = res;
+        });
       });
+
     });
     
   }

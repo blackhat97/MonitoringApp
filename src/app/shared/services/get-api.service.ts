@@ -305,11 +305,12 @@ export class GetApiService {
   }
 
 
-  getViewText(sensorId, userId, start, end) {
+  getViewText(sensorId, userId, start, end, interval) {
     const params = new HttpParams()
                   .set('user_id', userId)
                   .set('start', start)
-                  .set('end', end);
+                  .set('end', end)
+                  .set('interval', interval);
     return this.http.get(`${this.url}/view-text/${sensorId}`, { headers: this.headers, params: params }).pipe(
       map((res: any) => {
         return res;

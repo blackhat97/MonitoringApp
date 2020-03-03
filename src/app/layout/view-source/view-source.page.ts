@@ -10,6 +10,7 @@ export class ViewSourcePage implements OnInit {
 
   constructor(
   ) { 
+    console.log("view-source");
   }
 
   ngOnInit() {

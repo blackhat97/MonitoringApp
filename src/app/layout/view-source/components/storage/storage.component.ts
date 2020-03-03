@@ -24,7 +24,6 @@ export class StorageComponent implements OnInit {
     { name: '날짜시간', prop: 'timestamp'},
     { name: '알림내용', prop: 'event'},
     { name: '조치', prop: 'action'},
-    
   ];
   csvHeaders = 
   this.columns.map((column: TableColumn) => column.prop)

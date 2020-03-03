@@ -11,6 +11,7 @@ import 'echarts/theme/macarons.js';
 import 'echarts/dist/extension/bmap.min.js';
 
 import * as moment from 'moment';
+import { SupportService } from '../../../../shared/services/support-service';
 
 
 @Component({
@@ -131,6 +132,7 @@ export class TrendComponent implements OnInit {
     private alertController: AlertController,
     private storage: Storage,
     public loadingController: LoadingController,
+    private support: SupportService,
 
   ) { 
     this.sensorId = this.activatedRoute.snapshot.paramMap.get('sensorId');
@@ -145,7 +147,8 @@ export class TrendComponent implements OnInit {
   }
 
   ionViewDidEnter(){
-    //this.getChart(this.sensorId , this.today, this.yesterday);   
+    //this.getChart(this.sensorId , this.today, this.yesterday); 
+
   }
 
   ngOnInit() {
@@ -161,45 +164,52 @@ export class TrendComponent implements OnInit {
           this.ch_name = info[0].ch_name;
           this.title = info[0].name_tag;
           this.unit = info[0].unit;
+          
           this.getapi.getInfoLimits(this.sensorId, userId).subscribe((limits: any) => {
-            let rArray = [];
-            if(limits[0].bool_max) {
-              rArray.push({name: '최대', type:'max', yAxis: limits[0].value_max, itemStyle:{normal:{color:'#8B4513'}}});
-            }
-            if(limits[0].bool_min) {
-              rArray.push({name: '최소', type:'min', yAxis: limits[0].value_min, itemStyle:{normal:{color:'#8B4513'}}});
-            }
+            if(!limits.length) {
+              this.support.showAlert("초기설정 확인바랍니다.");
+              
 
-            this.getapi.getChart(this.sensorId, userId, this.today, this.yesterday).subscribe((data: any) => {
-        
-              for(let i=0; i<data.length; i++) {
-                let dateString = moment.unix(data[i].timestamp).format("MM/DD HH:mm");
-                this.timestamp.push(dateString);
-                this.value.push(data[i].value);
+            } else {
+              let rArray = [];
+              if(limits[0].bool_max) {
+                rArray.push({name: '최대', type:'max', yAxis: limits[0].value_max, itemStyle:{normal:{color:'#8B4513'}}});
               }
-              const total = this.value.reduce((a, b) => a + b);
-              this.max = this.value.reduce((a, b)=>Math.max(a, b)); 
-              this.min = this.value.reduce((a, b)=>Math.min(a, b)); 
-              this.avg = (total / this.value.length).toFixed(1) || '0';
-      
-      
-              this.updateOption = {
-                yAxis: [{
-                    name: info[0].unit,
-                    min: this.min,
-                    max: this.max,
-                }],
-                series: [{
-                  name: info[0].type,
-                  markLine: {
-                    symbol: ['none'],
-                    data: rArray,
-                  }
-                }]
-              };
+              if(limits[0].bool_min) {
+                rArray.push({name: '최소', type:'min', yAxis: limits[0].value_min, itemStyle:{normal:{color:'#8B4513'}}});
+              }
+  
+              this.getapi.getChart(this.sensorId, userId, this.today, this.yesterday).subscribe((data: any) => {
+          
+                for(let i=0; i<data.length; i++) {
+                  let dateString = moment.unix(data[i].timestamp).format("MM/DD HH:mm");
+                  this.timestamp.push(dateString);
+                  this.value.push(data[i].value);
+                }
+                const total = this.value.reduce((a, b) => a + b);
+                this.max = this.value.reduce((a, b)=>Math.max(a, b)); 
+                this.min = this.value.reduce((a, b)=>Math.min(a, b)); 
+                this.avg = (total / this.value.length).toFixed(1) || '0';
+        
+        
+                this.updateOption = {
+                  yAxis: [{
+                      name: info[0].unit,
+                      min: this.min,
+                      max: this.max,
+                  }],
+                  series: [{
+                    name: info[0].type,
+                    markLine: {
+                      symbol: ['none'],
+                      data: rArray,
+                    }
+                  }]
+                };
+              });
 
+            }
 
-            });
             
           });
         });
