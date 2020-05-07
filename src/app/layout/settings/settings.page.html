@@ -90,11 +90,17 @@
                         저장주기
                       </ion-col>
                       <ion-col>
+                        <!--
                         <ion-item class="input-font" lines="none">
                             <ion-label>{{limit.store_interval}} 분</ion-label>
                         </ion-item>
+                        -->
+                        <ion-select [value]="limit.store_interval" placeholder="선택" ok-text="선택" cancel-text="취소" (ionChange)="intervalChanged($event)">
+                          <ion-select-option *ngFor="let minute of stIntervals" [value]="minute">{{minute}}분</ion-select-option>
+                        </ion-select>
                       </ion-col>
                     </ion-row>
+
                   </div>
 
                   <ion-row>

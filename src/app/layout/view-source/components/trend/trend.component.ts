@@ -168,8 +168,6 @@ export class TrendComponent implements OnInit {
           this.getapi.getInfoLimits(this.sensorId, userId).subscribe((limits: any) => {
             if(!limits.length) {
               this.support.showAlert("초기설정 확인바랍니다.");
-              
-
             } else {
               let rArray = [];
               if(limits[0].bool_max) {
