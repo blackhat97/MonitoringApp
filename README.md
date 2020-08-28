@@ -1,4 +1,4 @@
-# Application
+# Monitoring App
 
 **대윤계기산업(주) 모바일 수질 모니터링 앱**
 
@@ -26,15 +26,7 @@ _Note: See [How to Prevent Permissions Errors](https://docs.npmjs.com/getting-st
 
 ## App Preview
 
-앱 스크린 샷
-
-- [Chart Page](https://gitlab.com/dymeter/application/blob/master/src/app/layout/detail/components/chart/chart.component.html)
-  <img src="resources/screenshots/ChartPage.png" alt="Schedule">
-
-
-- [TimeSeries Page](https://gitlab.com/dymeter/application/blob/master/src/app/layout/timeseries/timeseries.page.html)
-  <img src="resources/screenshots/TimeSeriesPage.png" alt="Schedule">
-
+- [플레이스토어 링크](https://play.google.com/store/apps/details?id=com.dys.iotapp)
 
 - To see more images of the app, check out the [screenshots directory](https://gitlab.com/dymeter/application/tree/master/resources/screenshots)!
 
@@ -54,3 +46,9 @@ _Note: See [How to Prevent Permissions Errors](https://docs.npmjs.com/getting-st
 ### iOS
 
 1. Run `ionic cordova run ios --prod`
+
+### Build
+1. ionic cordova build android --prod --release --versionCode={number}
+2. jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore dys.keystore app-release-unsigned.apk dys
+3. zipalign -v 4 app-release-unsigned.apk signed.apk
+
