@@ -109,7 +109,6 @@
                                 <ion-label text-right color="dark" class="sensor-value">{{ sensor.value }}</ion-label>
                                 &nbsp;{{ sensor.unit }}
                   
-                            
                             </ion-item>
                             </ion-list>
 
@@ -228,7 +227,7 @@
                                         </linear-gauge>
                                     </ion-col>
                                     <ion-col size="3">
-                                        <ion-label text-right color="dark">{{ sensor.value }}</ion-label>
+                                        <ion-label text-right color="dark" class="sensor-value">{{ sensor.value }}</ion-label>
                                         &nbsp;{{ sensor.unit }}
                                     </ion-col>
                                 </ion-row>
@@ -304,7 +303,7 @@
                                         <div echarts class="class-chart" [options]="optionValue" [merge]="updateOption[i]"></div>
                                     </ion-col>
                                     <ion-col size="3">
-                                        <ion-label text-right color="dark">{{ sensor.value }}</ion-label>
+                                        <ion-label text-right color="dark" class="sensor-value">{{ sensor.value }}</ion-label>
                                         &nbsp;{{ sensor.unit }}
                                     </ion-col>
                                 </ion-row>
